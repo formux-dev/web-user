@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import * as firebase from "firebase/app";
 import "firebase/firestore";
+import { useEffect, useState } from "react";
 
-export default function Form({ id }) {
+export default function Form({ formID }) {
   return (
     <Wrapper>
       <Content>
@@ -15,9 +16,26 @@ export default function Form({ id }) {
         </Navbar>
         <Main>
           <p>Loading data...</p>
+          <FormFields formID={formID}></FormFields>
         </Main>
       </Content>
     </Wrapper>
+  );
+}
+
+function FormFields({ formID }) {
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    fetch("http://us-central1-formux-8d67b.cloudfunctions.net/form?" + formID)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  }, []);
+
+  return (
+    <form>
+      <input type="text" value="" placeholder="Skriv något" />
+    </form>
   );
 }
 

@@ -1,0 +1,84 @@
+// formux.web.app/fxh72kd
+// -> server med kod "fxh72kd"
+// server hittar formuläret -> jsonformulär + designjson
+// client -> rendera fomulär
+
+{
+  "meta": {
+    "title": "Ett formulär om kött",
+    "description": "blah"
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "data": {
+        "text": "Tack för att du tar dig tid att fylla i detta fromulär. Vi uppskattar alla svar!"
+      }
+    },
+    {
+      "type": "shortinput",
+      "key": "Namn",
+      "data": {
+        "question": "Skriv ditt namn",
+        "minChars": 0,
+        "maxChars": 40,
+        "validation": "text"
+      }
+    },
+    {
+      "type": "shortinput",
+      "key": "Ålder",
+      "data": {
+        "question": "Hur gamal är du",
+        "validation": "number",
+        "min": 1,
+        "max": 130
+      }
+    },
+    {
+      "type": "paragrapthinput",
+      "key": "Beskrivning",
+      "data": {
+        "question": "Beskriv dig själv",
+        "minChars": 0,
+        "maxChars": 120,
+        "validation": "text"
+      }
+    },
+    {
+      "type": "multiplechoice",
+      "key": "Gillar mest",
+      "data": {
+        "question": "Vad gillar du mest",
+        "options": ["Ved", "Kött", "Grönsaker"],
+        "includeOther": true
+      }
+    },
+    {
+      "type": "rangeinput",
+      "key": "Kött hur ofta",
+      "data": {
+        "question": "Hur ofta äter du kött?",
+        "options": ["Aldrig", "Ibland", "Ofta", "Alltid"]
+      }
+    },
+    {
+      "type": "checkboxeinput",
+      "key": "Gillar all",
+      "data": {
+        "question": "Vad gillar du? Klicka alla som du gillar",
+        "options": ["Godis", "Kött", "Grönsaker", "Ved"]
+      }
+    }
+  ]
+}[
+  // response
+  ({
+    "key": "Namn",
+    "value": "Filip ström"
+  },
+  {
+    "key": "Ålder",
+    "value": "18"
+  })
+]

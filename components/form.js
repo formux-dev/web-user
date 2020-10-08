@@ -9,7 +9,7 @@ export default function Form({ formID }) {
         <Navbar>
           <div>
             <img src="/favicon-192x192.png"></img>
-            <h1>Formux</h1>
+            <h1>Formux Survey</h1>
           </div>
           <Tag>Alpha</Tag>
         </Navbar>
@@ -176,7 +176,7 @@ const Navbar = styled.nav`
 
   & > div > img {
     width: 48px;
-    margin-right: 32px;
+    margin-right: 16px;
   }
 
   @media (max-width: 500px) {

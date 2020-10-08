@@ -27,7 +27,7 @@ function FormFields({ formID }) {
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    fetch("http://us-central1-formux-8d67b.cloudfunctions.net/form?" + formID)
+    fetch("https://us-central1-formux-8d67b.cloudfunctions.net/form?" + formID)
       .then((response) => response.json())
       .then((data) => console.log(data));
   }, []);

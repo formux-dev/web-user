@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import * as firebase from "firebase/app";
-import "firebase/firestore";
 import { useEffect, useState } from "react";
 
 export default function Form({ formID }) {

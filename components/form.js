@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
+import beautify from "json-beautify";
 
 export default function Form({ formID }) {
   return (
@@ -10,7 +11,7 @@ export default function Form({ formID }) {
             <img src="/favicon-192x192.png"></img>
             <h1>Formux</h1>
           </div>
-          <Tag>Beta</Tag>
+          <Tag>Alpha</Tag>
         </Navbar>
         <Main>
           <FormFields formID={formID}></FormFields>
@@ -22,6 +23,8 @@ export default function Form({ formID }) {
 
 function FormFields({ formID }) {
   const [formData, setFormData] = useState({});
+  const [userData, setUserData] = useState([]);
+  const [globalDebug, setGlobalDebug] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -39,10 +42,27 @@ function FormFields({ formID }) {
 
   return (
     <form>
+      <Tag style={{ marginBottom: "32px" }}>
+        <input
+          type="checkbox"
+          id={"debug"}
+          value={globalDebug}
+          onChange={(e) => setGlobalDebug(e.target.checked)}
+        />
+        <label for={"debug"}> Debug mode</label>
+      </Tag>
+
+      <h2>{formData.meta && formData.meta.title}</h2>
+
       {formData.blocks ? (
         formData.blocks &&
         formData.blocks.map((block, index) => (
-          <Block block={block} key={index} index={index} />
+          <Block
+            block={block}
+            key={index}
+            index={index}
+            globalDebug={globalDebug}
+          />
         ))
       ) : (
         <p>Loading form...</p>
@@ -57,29 +77,32 @@ function Switch({ children, test }) {
   return correctChild ?? <p>Not implemented</p>;
 }
 
-function Block({ block, index }) {
-  const [dataShown, setDataShown] = useState(false);
+function Block({ block, index, globalDebug }) {
+  const [debug, setDebug] = useState(false);
 
   return (
-    <FormField>
-      {true && (
-        <div>
-          <Tag>TYPE: {block.type}</Tag>
-          <input
-            type="checkbox"
-            id={"debug" + index}
-            value={dataShown}
-            onChange={(e) => setDataShown(e.target.checked)}
-          />
-          <label for={"debug" + index}>Show data</label>
-          {dataShown && <Tag>{JSON.stringify(block, null, "\t")}</Tag>}
-        </div>
-      )}
+    <FormField isSeparated={globalDebug}>
       <Switch test={block.type}>
         <Description value="description" block={block} />
         <ShortInput value="shortinput" block={block} />
         <CheckboxInput value="checkboxinput" block={block} />
       </Switch>
+
+      {globalDebug && (
+        <p id="data">
+          <div>
+            <input
+              type="checkbox"
+              id={"debug" + index}
+              value={debug}
+              onChange={(e) => setDebug(e.target.checked)}
+            />
+            <label for={"debug" + index}> Show data</label>
+          </div>
+
+          {debug && <code>{beautify(block, null, 2, 80)}</code>}
+        </p>
+      )}
     </FormField>
   );
 }
@@ -95,7 +118,8 @@ function Description({ block }) {
 function ShortInput({ block }) {
   return (
     <div>
-      <input placeholder={block.data.question} />
+      <p>{block.data.question}</p>
+      <input />
     </div>
   );
 }
@@ -112,7 +136,7 @@ function CheckboxInput({ block }) {
             name="vehicle1"
             value={text}
           />
-          <label for={block.key + index}>{text}</label>
+          <label for={block.key + index}> {text}</label>
         </div>
       ))}
     </div>
@@ -175,8 +199,39 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  & > form {
+    width: 100%;
+  }
+
+  & > form > h2 {
+    font-size: 2.5em;
+    margin-bottom: 16px;
+  }
 `;
 
 const FormField = styled.div`
-  margin: 32px 0;
+  margin-bottom: 32px;
+
+  ${(props) =>
+    props.isSeparated &&
+    css`
+      display: block;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      padding: 16px 12px;
+      margin-bottom: 8px;
+
+      &:nth-last-child() {
+        border: none;
+      }
+
+      & > p#data {
+        padding-top: 8px;
+        border-top: 1px solid grey;
+        margin-top: 8px;
+        width: 100%;
+        white-space: pre-wrap;
+      }
+    `};
 `;

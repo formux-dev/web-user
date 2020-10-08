@@ -4,7 +4,7 @@ import "firebase/firestore";
 import Form from "../components/form";
 import GlobalStyle from "./globalStyles";
 
-export default function Home({ id, title, description }) {
+export default function Home({ formID, title, description }) {
   return (
     <div>
       <GlobalStyle />
@@ -16,7 +16,10 @@ export default function Home({ id, title, description }) {
         <meta property="og:site_name" content="Formux"></meta>
         <meta property="og:description" content={description}></meta>
         <meta property="og:image" content="/social.jpg"></meta>
-        <meta property="og:url" content={"https://formux.web.app/" + id}></meta>
+        <meta
+          property="og:url"
+          content={"https://formux.web.app/" + formID}
+        ></meta>
         <meta name="twitter:card" content="summary"></meta>
 
         <meta
@@ -57,7 +60,7 @@ export default function Home({ id, title, description }) {
         <meta name="theme-color" content="#3281fb"></meta>
       </Head>
 
-      <Form id={id} />
+      <Form formID={formID} />
     </div>
   );
 }
@@ -74,16 +77,15 @@ export const connectFirebase = () => {
   return firebase;
 };
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params: { formID } }) {
   const firebase = await connectFirebase();
 
-  const snapshot = await firebase.firestore().collection("forms").get();
-  const currentDoc = snapshot.docs.find((doc) => doc.id === params.id).data();
+  const form = await firebase.firestore().collection("forms").doc(formID).get();
 
   return {
     props: {
-      id: params.id,
-      ...currentDoc.meta,
+      formID,
+      ...form.data().meta,
     },
   };
 }
@@ -91,12 +93,12 @@ export async function getStaticProps({ params }) {
 export async function getStaticPaths() {
   const firebase = await connectFirebase();
 
-  const snapshot = await firebase.firestore().collection("forms").get();
+  const forms = await firebase.firestore().collection("forms").get();
 
   return {
-    paths: snapshot.docs.map((doc) => ({
+    paths: forms.docs.map((doc) => ({
       params: {
-        id: doc.id,
+        formID: doc.id,
       },
     })),
     fallback: false,

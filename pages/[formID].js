@@ -1,7 +1,7 @@
 import Head from "next/head";
 import * as firebase from "firebase/app";
 import "firebase/firestore";
-import Form from "../components/form";
+import Form from "../components/Form";
 import GlobalStyle from "./globalStyles";
 
 export default function Home({ formID, title, description }) {

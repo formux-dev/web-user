@@ -1,7 +1,15 @@
 import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import beautify from "json-beautify";
-import TextareaAutosize from 'react-autosize-textarea';
+
+import CheckboxInput from "./blocks/CheckboxInput";
+import Description from "./blocks/Description";
+import MultipleChoiceInput from "./blocks/MultipleChoiceInput";
+import ParagraphInput from "./blocks/ParagraphInput";
+import ShortInput from "./blocks/ShortInput";
+
+import Switch from "./Switch";
+import Tag from "./Tag";
 
 export default function Form({ formID }) {
   return (
@@ -33,7 +41,7 @@ function FormFields({ formID }) {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("Got data from function", data);
 
         setTimeout(() => {
           // Inital values
@@ -98,11 +106,7 @@ function FormFields({ formID }) {
   );
 }
 
-function Switch({ children, test }) {
-  const correctChild = children.find((child) => child.props.test === test);
 
-  return correctChild ?? <Tag>Block type implemented</Tag>;
-}
 
 function Block({ block, index, globalDebug, value, onChange }) {
   const [debug, setDebug] = useState(false);
@@ -138,7 +142,7 @@ function Block({ block, index, globalDebug, value, onChange }) {
       </Switch>
 
       {globalDebug && (
-        <p id="data">
+        <RawData>
           <div>
             <input
               type="checkbox"
@@ -146,87 +150,16 @@ function Block({ block, index, globalDebug, value, onChange }) {
               value={debug}
               onChange={(e) => setDebug(e.target.checked)}
             />
-            <label for={"debug" + index}> Show raw data</label>
+            <label htmlFor={"debug" + index}> Show raw data</label>
           </div>
 
           {debug && <code>Block: {beautify(block, null, 2, 80)}</code>}
-        </p>
+        </RawData>
       )}
     </FormField>
   );
 }
 
-function Description({ block }) {
-  return (
-    <div>
-      <p>{block.data.text}</p>
-    </div>
-  );
-}
-
-function ShortInput({ block, value, onChange }) {
-  return (
-    <div>
-      <Question>{block.data.question}</Question>
-      <Input value={value} onChange={(e) => onChange(e.target.value)} />
-    </div>
-  );
-}
-
-function ParagraphInput({ block, value, onChange }) {
-  return (
-    <div>
-      <Question>{block.data.question}</Question>
-      <TextArea rows={3} value={value} onChange={(e) => onChange(e.target.value)} />
-    </div>
-  );
-}
-
-function MultipleChoiceInput({ block, value, onChange }) {
-  return (
-    <div>
-      <Question>{block.data.question}</Question>
-      {block.data.options.map((text, index) => (
-        <div>
-          <input
-            type="radio"
-            checked={text == value}
-            id={block.key + index}
-            name={text}
-            onChange={(e) => onChange(text)}
-          />
-          <label htmlFor={block.key + index}> {text}</label>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function CheckboxInput({ block, value, onChange }) {
-  return (
-    <div>
-      <Question>{block.data.question}</Question>
-      {block.data.options.map((text, index) => (
-        <div key={index}>
-          <input
-            type="checkbox"
-            id={block.key + index}
-            name={text}
-            checked={value ? value.includes(text) : false}
-            onChange={(e) => {
-              onChange(
-                e.target.checked
-                  ? [...value, text]
-                  : value.filter((x) => x != text)
-              );
-            }}
-          />
-          <label htmlFor={block.key + index}> {text}</label>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 const Wrapper = styled.div`
   display: flex;
@@ -272,14 +205,6 @@ const Navbar = styled.nav`
   }
 `;
 
-const Tag = styled.p`
-  display: inline-block;
-  background: rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.6);
-  padding: 2px 6px;
-  border-radius: 4px;
-`;
-
 const Main = styled.main`
   display: flex;
   flex-direction: column;
@@ -301,7 +226,6 @@ const FormField = styled.div`
   ${(props) =>
     props.isSeparated &&
     css`
-      display: block;
       border: 2px solid rgba(0, 0, 0, 0.2);
       border-radius: 8px;
       padding: 16px 12px;
@@ -310,46 +234,13 @@ const FormField = styled.div`
       &:nth-last-child() {
         border: none;
       }
-
-      /* TODO: Fix this ugly shit */
-      & > p#data {
-        padding-top: 8px;
-        border-top: 2px solid rgba(0, 0, 0, 0.2);
-        margin-top: 8px;
-        width: 100%;
-        white-space: pre-wrap;
-      }
     `};
 `;
 
-const Input = styled.input`
- padding: 12px 8px;
-  border-radius: 4px;
+const RawData = styled.div`
+  padding-top: 8px;
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
+  margin-top: 8px;
   width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  outline: none;
-
-  &:focus {
-    border-color: transparent;
-    box-shadow: 0px 0px 0px 3px #4aabff;
-  }
-`;
-
-const TextArea = styled(TextareaAutosize)`
-  resize: none;
-  padding: 12px 8px;
-  border-radius: 4px;
-  width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  outline: none;
-
-  &:focus {
-    border-color: transparent;
-    box-shadow: 0px 0px 0px 3px #4aabff;
-  }
-
-`;
-
-const Question = styled.p`
-  margin-bottom: 8px;
-`;
+  white-space: pre-wrap;
+`

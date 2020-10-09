@@ -116,7 +116,7 @@ function Block({ block, index, globalDebug, value, onChange }) {
           value={value}
           onChange={(value) => onChange({ key: block.key, value })}
         />
-         <ParagraphInput
+        <ParagraphInput
           test="paragraphinput"
           block={block}
           value={value}
@@ -185,12 +185,17 @@ function MultipleChoiceInput({ block, value, onChange }) {
   return (
     <div>
       <Question>{block.data.question}</Question>
-      {block.data.options.map(text => 
+      {block.data.options.map((text) => (
         <div>
-          <input type="radio" checked={text == value} name={text} onChange={e => onChange(text)}/>
+          <input
+            type="radio"
+            checked={text == value}
+            name={text}
+            onChange={(e) => onChange(text)}
+          />
           <label htmlFor={text}> {text}</label>
         </div>
-      )}
+      ))}
     </div>
   );
 }
@@ -314,24 +319,21 @@ const FormField = styled.div`
     `};
 `;
 
-
-
 const InputAndTextArea = css`
-  padding: 16px 24px;
+  padding: 12px 8px;
   border-radius: 4px;
   width: 100%;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 2px solid rgba(0, 0, 0, 0.1);
   outline: none;
 
   &:focus {
-    border: 1px solid transparent;
+    border-color: transparent;
     box-shadow: 0px 0px 0px 3px #4aabff;
   }
 `;
 
 const Input = styled.input(InputAndTextArea);
 const TextArea = styled.textarea(InputAndTextArea);
-
 
 const Question = styled.p`
   margin-bottom: 8px;

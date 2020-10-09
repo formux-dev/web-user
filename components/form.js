@@ -323,7 +323,7 @@ const InputAndTextArea = css`
   padding: 12px 8px;
   border-radius: 4px;
   width: 100%;
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   outline: none;
 
   &:focus {

@@ -23,7 +23,7 @@ export default function Form({ formID }) {
 
 function FormFields({ formID }) {
   const [formData, setFormData] = useState({});
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
   const [globalDebug, setGlobalDebug] = useState(false);
 
   useEffect(() => {
@@ -35,6 +35,19 @@ function FormFields({ formID }) {
         console.log(data);
 
         setTimeout(() => {
+          // Inital values
+          setUserData(
+            Object.assign(
+              {},
+              ...data.blocks.map((block) =>
+                block.key
+                  ? {
+                      [block.key]: block.data.responseIsArray ? [] : "",
+                    }
+                  : null
+              )
+            )
+          );
           setFormData(data);
         }, 500);
       });
@@ -45,11 +58,11 @@ function FormFields({ formID }) {
       <Tag style={{ marginBottom: "32px" }}>
         <input
           type="checkbox"
-          id={"debug"}
+          id="debug"
           value={globalDebug}
           onChange={(e) => setGlobalDebug(e.target.checked)}
         />
-        <label for={"debug"}> Debug mode</label>
+        <label htmlFor="debug"> Debug mode</label>
       </Tag>
 
       <h2>{formData.meta && formData.meta.title}</h2>
@@ -62,30 +75,53 @@ function FormFields({ formID }) {
             key={index}
             index={index}
             globalDebug={globalDebug}
+            onChange={({ key, value }) => {
+              setUserData((prevState) => ({
+                ...prevState,
+                [key]: value,
+              }));
+            }}
+            value={userData[block.key]}
           />
         ))
       ) : (
         <p>Loading form...</p>
+      )}
+
+      {globalDebug && (
+        <p style={{ whiteSpace: "pre-wrap", marginTop: "64px" }}>
+          Userdata: {beautify(userData, null, 2, 80)}
+        </p>
       )}
     </form>
   );
 }
 
 function Switch({ children, test }) {
-  const correctChild = children.find((child) => child.props.value === test);
+  const correctChild = children.find((child) => child.props.test === test);
 
   return correctChild ?? <p>Not implemented</p>;
 }
 
-function Block({ block, index, globalDebug }) {
+function Block({ block, index, globalDebug, value, onChange }) {
   const [debug, setDebug] = useState(false);
 
   return (
     <FormField isSeparated={globalDebug}>
       <Switch test={block.type}>
         <Description value="description" block={block} />
-        <ShortInput value="shortinput" block={block} />
-        <CheckboxInput value="checkboxinput" block={block} />
+        <ShortInput
+          test="shortinput"
+          block={block}
+          value={value}
+          onChange={(value) => onChange({ key: block.key, value })}
+        />
+        <CheckboxInput
+          test="checkboxinput"
+          block={block}
+          value={value}
+          onChange={(value) => onChange({ key: block.key, value })}
+        />
       </Switch>
 
       {globalDebug && (
@@ -97,10 +133,10 @@ function Block({ block, index, globalDebug }) {
               value={debug}
               onChange={(e) => setDebug(e.target.checked)}
             />
-            <label for={"debug" + index}> Show data</label>
+            <label for={"debug" + index}> Show raw data</label>
           </div>
 
-          {debug && <code>{beautify(block, null, 2, 80)}</code>}
+          {debug && <code>Block: {beautify(block, null, 2, 80)}</code>}
         </p>
       )}
     </FormField>
@@ -115,28 +151,35 @@ function Description({ block }) {
   );
 }
 
-function ShortInput({ block }) {
+function ShortInput({ block, value, onChange }) {
   return (
     <div>
       <p>{block.data.question}</p>
-      <input />
+      <input value={value} onChange={(e) => onChange(e.target.value)} />
     </div>
   );
 }
 
-function CheckboxInput({ block }) {
+function CheckboxInput({ block, value, onChange }) {
   return (
     <div>
       <p>{block.data.question}</p>
       {block.data.options.map((text, index) => (
-        <div>
+        <div key={index}>
           <input
             type="checkbox"
             id={block.key + index}
-            name="vehicle1"
-            value={text}
+            name={text}
+            checked={value ? value.includes(text) : false}
+            onChange={(e) => {
+              onChange(
+                e.target.checked
+                  ? [...value, text]
+                  : value.filter((x) => x != text)
+              );
+            }}
           />
-          <label for={block.key + index}> {text}</label>
+          <label htmlFor={block.key + index}> {text}</label>
         </div>
       ))}
     </div>

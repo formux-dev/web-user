@@ -109,9 +109,21 @@ function Block({ block, index, globalDebug, value, onChange }) {
   return (
     <FormField isSeparated={globalDebug}>
       <Switch test={block.type}>
-        <Description value="description" block={block} />
+        <Description test="description" block={block} />
         <ShortInput
           test="shortinput"
+          block={block}
+          value={value}
+          onChange={(value) => onChange({ key: block.key, value })}
+        />
+         <ParagraphInput
+          test="paragraphinput"
+          block={block}
+          value={value}
+          onChange={(value) => onChange({ key: block.key, value })}
+        />
+        <MultipleChoiceInput
+          test="multiplechoiceinput"
           block={block}
           value={value}
           onChange={(value) => onChange({ key: block.key, value })}
@@ -154,8 +166,31 @@ function Description({ block }) {
 function ShortInput({ block, value, onChange }) {
   return (
     <div>
-      <p>{block.data.question}</p>
-      <input value={value} onChange={(e) => onChange(e.target.value)} />
+      <Question>{block.data.question}</Question>
+      <Input value={value} onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function ParagraphInput({ block, value, onChange }) {
+  return (
+    <div>
+      <Question>{block.data.question}</Question>
+      <TextArea value={value} onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function MultipleChoiceInput({ block, value, onChange }) {
+  return (
+    <div>
+      <Question>{block.data.question}</Question>
+      {block.data.options.map(text => 
+        <div>
+          <input type="radio" checked={text == value} name={text} onChange={e => onChange(text)}/>
+          <label htmlFor={text}> {text}</label>
+        </div>
+      )}
     </div>
   );
 }
@@ -163,7 +198,7 @@ function ShortInput({ block, value, onChange }) {
 function CheckboxInput({ block, value, onChange }) {
   return (
     <div>
-      <p>{block.data.question}</p>
+      <Question>{block.data.question}</Question>
       {block.data.options.map((text, index) => (
         <div key={index}>
           <input
@@ -277,4 +312,27 @@ const FormField = styled.div`
         white-space: pre-wrap;
       }
     `};
+`;
+
+
+
+const InputAndTextArea = css`
+  padding: 16px 24px;
+  border-radius: 4px;
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.1);
+  outline: none;
+
+  &:focus {
+    border: 1px solid transparent;
+    box-shadow: 0px 0px 0px 3px #4aabff;
+  }
+`;
+
+const Input = styled.input(InputAndTextArea);
+const TextArea = styled.textarea(InputAndTextArea);
+
+
+const Question = styled.p`
+  margin-bottom: 8px;
 `;

@@ -295,13 +295,13 @@ const Main = styled.main`
 `;
 
 const FormField = styled.div`
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 
   ${(props) =>
     props.isSeparated &&
     css`
       display: block;
-      background: rgba(0, 0, 0, 0.05);
+      border: 2px solid rgba(0, 0, 0, 0.2);
       border-radius: 8px;
       padding: 16px 12px;
       margin-bottom: 8px;
@@ -312,7 +312,7 @@ const FormField = styled.div`
 
       & > p#data {
         padding-top: 8px;
-        border-top: 1px solid grey;
+        border-top: 2px solid rgba(0, 0, 0, 0.2);
         margin-top: 8px;
         width: 100%;
         white-space: pre-wrap;

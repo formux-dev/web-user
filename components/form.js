@@ -185,15 +185,16 @@ function MultipleChoiceInput({ block, value, onChange }) {
   return (
     <div>
       <Question>{block.data.question}</Question>
-      {block.data.options.map((text) => (
+      {block.data.options.map((text, index) => (
         <div>
           <input
             type="radio"
             checked={text == value}
+            id={block.key + index}
             name={text}
             onChange={(e) => onChange(text)}
           />
-          <label htmlFor={text}> {text}</label>
+          <label htmlFor={block.key + index}> {text}</label>
         </div>
       ))}
     </div>

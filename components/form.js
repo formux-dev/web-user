@@ -29,7 +29,7 @@ function FormFields({ formID }) {
 
   useEffect(() => {
     fetch(
-      `http://us-central1-formux-8d67b.cloudfunctions.net/form?formID=${formID}`
+      `https://us-central1-formux-8d67b.cloudfunctions.net/form?formID=${formID}`
     )
       .then((response) => response.json())
       .then((data) => {

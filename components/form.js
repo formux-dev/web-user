@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import beautify from "json-beautify";
+import TextareaAutosize from 'react-autosize-textarea';
 
 export default function Form({ formID }) {
   return (
@@ -100,7 +101,7 @@ function FormFields({ formID }) {
 function Switch({ children, test }) {
   const correctChild = children.find((child) => child.props.test === test);
 
-  return correctChild ?? <p>Not implemented</p>;
+  return correctChild ?? <Tag>Block type implemented</Tag>;
 }
 
 function Block({ block, index, globalDebug, value, onChange }) {
@@ -176,7 +177,7 @@ function ParagraphInput({ block, value, onChange }) {
   return (
     <div>
       <Question>{block.data.question}</Question>
-      <TextArea value={value} onChange={(e) => onChange(e.target.value)} />
+      <TextArea rows={3} value={value} onChange={(e) => onChange(e.target.value)} />
     </div>
   );
 }
@@ -310,6 +311,7 @@ const FormField = styled.div`
         border: none;
       }
 
+      /* TODO: Fix this ugly shit */
       & > p#data {
         padding-top: 8px;
         border-top: 2px solid rgba(0, 0, 0, 0.2);
@@ -320,11 +322,11 @@ const FormField = styled.div`
     `};
 `;
 
-const InputAndTextArea = css`
-  padding: 12px 8px;
+const Input = styled.input`
+ padding: 12px 8px;
   border-radius: 4px;
   width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   outline: none;
 
   &:focus {
@@ -333,8 +335,20 @@ const InputAndTextArea = css`
   }
 `;
 
-const Input = styled.input(InputAndTextArea);
-const TextArea = styled.textarea(InputAndTextArea);
+const TextArea = styled(TextareaAutosize)`
+  resize: none;
+  padding: 12px 8px;
+  border-radius: 4px;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  outline: none;
+
+  &:focus {
+    border-color: transparent;
+    box-shadow: 0px 0px 0px 3px #4aabff;
+  }
+
+`;
 
 const Question = styled.p`
   margin-bottom: 8px;

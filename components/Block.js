@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled, { css } from "styled-components";
+import beautify from "json-beautify";
 
 import Switch from "./Switch";
+import { FormContext } from "./FormContext";
 
 import CheckboxInput from "./blocks/CheckboxInput";
 import Description from "./blocks/Description";
@@ -9,11 +11,12 @@ import MultipleChoiceInput from "./blocks/MultipleChoiceInput";
 import ParagraphInput from "./blocks/ParagraphInput";
 import ShortInput from "./blocks/ShortInput";
 
-export default function Block({ block, index, globalDebug, value, onChange }) {
-    const [debug, setDebug] = useState(false);
+export default function Block({ block, index, value, onChange }) {
+    const { debug } = useContext(FormContext);
+    const [showRawData, setShowRawData] = useState(false);
 
     return (
-        <BlockContainer isSeparated={globalDebug}>
+        <BlockContainer isSeparated={debug}>
         <Switch test={block.type}>
             <Description test="description" block={block} />
             <ShortInput
@@ -42,19 +45,19 @@ export default function Block({ block, index, globalDebug, value, onChange }) {
             />
         </Switch>
 
-        {globalDebug && (
+        {debug && (
             <RawData>
             <div>
                 <input
                 type="checkbox"
                 id={"debug" + index}
-                value={debug}
-                onChange={(e) => setDebug(e.target.checked)}
+                value={showRawData}
+                onChange={(e) => setShowRawData(e.target.checked)}
                 />
                 <label htmlFor={"debug" + index}> Show raw data</label>
             </div>
 
-            {debug && <code>Block: {beautify(block, null, 2, 80)}</code>}
+            {showRawData && <code>Block: {beautify(block, null, 2, 80)}</code>}
             </RawData>
         )}
         </BlockContainer>

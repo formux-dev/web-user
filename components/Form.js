@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import beautify from "json-beautify";
+
+import { FormContext } from "./FormContext"
 
 import Navbar from "./Navbar";
 import Tag from "./Tag";
@@ -8,9 +10,7 @@ import Block from "./Block";
 import Title from "./Title";
 
 export default function Form({ formID }) {
-  const [formData, setFormData] = useState({});
-  const [userData, setUserData] = useState({});
-  const [globalDebug, setGlobalDebug] = useState(false);
+  const { formData, setFormData, setUserData } = useContext(FormContext)
 
   const generateInitialUserData = (data) => {
     return Object.assign(
@@ -23,13 +23,6 @@ export default function Form({ formID }) {
           : null
       )
     )
-  }
-
-  const handleBlockChange = ({ key, value }) => {
-    setUserData((prevState) => ({
-      ...prevState,
-      [key]: value,
-    }));
   }
 
   useEffect(() => {
@@ -50,29 +43,31 @@ export default function Form({ formID }) {
       <Navbar/>
      
       <form>
-        <Debug userData={userData} globalDebug={globalDebug} setGlobalDebug={setGlobalDebug}/>
+        <Debug/>
         <Title>{formData.meta && formData.meta.title}</Title>
-        <BlockList formData={formData} userData={userData} globalDebug={globalDebug} handleBlockChange={handleBlockChange}/>
+        <BlockList/>
       </form>
   
     </Wrapper>
   );
 }
 
-function Debug({ userData, globalDebug, setGlobalDebug }) {
+function Debug() {
+  const { debug, setDebug, userData } = useContext(FormContext);
+
   return (
     <div>
       <Tag >
         <input
           type="checkbox"
           id="debug"
-          value={globalDebug}
-          onChange={(e) => setGlobalDebug(e.target.checked)}
+          value={debug}
+          onChange={(e) => setDebug(e.target.checked)}
         />
         <label htmlFor="debug"> Debug mode</label>
       </Tag>
 
-      {globalDebug && (
+      {debug && (
         <p style={{ whiteSpace: "pre-wrap" }}>
           Userdata: {beautify(userData, null, 2, 80)}
         </p>
@@ -81,7 +76,16 @@ function Debug({ userData, globalDebug, setGlobalDebug }) {
   )
 }
 
-function BlockList({ formData, userData, globalDebug, handleBlockChange   }) {
+function BlockList() {
+  const { formData, userData, setUserData } = useContext(FormContext)
+
+  const handleBlockChange = ({ key, value }) => {
+    setUserData((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  }
+
   return formData.blocks ? (
     formData.blocks &&
     formData.blocks.map((block, index) => (
@@ -89,7 +93,6 @@ function BlockList({ formData, userData, globalDebug, handleBlockChange   }) {
         block={block}
         key={index}
         index={index}
-        globalDebug={globalDebug}
         onChange={handleBlockChange}
         value={userData[block.key]}
       />

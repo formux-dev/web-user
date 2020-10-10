@@ -9,14 +9,12 @@ import Block from "./Block";
 export default function Form({ formID }) {
   return (
     <Wrapper>
-      <Content>
-        <Navbar/>
-        <Main>
-          <FormFields formID={formID}></FormFields>
-        </Main>
-      </Content>
+      <Navbar/>
+      <Main>
+        <FormFields formID={formID}></FormFields>
+      </Main>
     </Wrapper>
-  );
+);
 }
 
 function FormFields({ formID }) {
@@ -96,24 +94,17 @@ function FormFields({ formID }) {
   );
 }
 
-
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Content = styled.div`
+  margin: 0 auto;
   max-width: 700px;
-  width: 70%;
-  padding: 64px 0;
+  padding: 64px 32px;
 
   @media (max-width: 500px) {
     max-width: unset;
     width: 100%;
     padding: 24px 16px;
   }
-`;
+`
 
 
 const Main = styled.main`

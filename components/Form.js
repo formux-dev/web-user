@@ -4,6 +4,7 @@ import beautify from "json-beautify";
 
 import Navbar from "./Navbar";
 import Tag from "./Tag";
+import Block from "./Block";
 
 export default function Form({ formID }) {
   return (
@@ -94,8 +95,6 @@ function FormFields({ formID }) {
     </form>
   );
 }
-
-
 
 
 const Wrapper = styled.div`

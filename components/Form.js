@@ -50,43 +50,53 @@ export default function Form({ formID }) {
       <Navbar/>
      
       <form>
-        <Tag style={{ marginBottom: "32px" }}>
-          <input
-            type="checkbox"
-            id="debug"
-            value={globalDebug}
-            onChange={(e) => setGlobalDebug(e.target.checked)}
-          />
-          <label htmlFor="debug"> Debug mode</label>
-        </Tag>
-
+        <Debug userData={userData} globalDebug={globalDebug} setGlobalDebug={setGlobalDebug}/>
         <Title>{formData.meta && formData.meta.title}</Title>
-
-        {formData.blocks ? (
-          formData.blocks &&
-          formData.blocks.map((block, index) => (
-            <Block
-              block={block}
-              key={index}
-              index={index}
-              globalDebug={globalDebug}
-              onChange={handleBlockChange}
-              value={userData[block.key]}
-            />
-          ))
-        ) : (
-          <p>Loading form...</p>
-        )}
-
-        {globalDebug && (
-          <p style={{ whiteSpace: "pre-wrap", marginTop: "64px" }}>
-            Userdata: {beautify(userData, null, 2, 80)}
-          </p>
-        )}
+        <BlockList formData={formData} userData={userData} globalDebug={globalDebug} handleBlockChange={handleBlockChange}/>
       </form>
   
     </Wrapper>
   );
+}
+
+function Debug({ userData, globalDebug, setGlobalDebug }) {
+  return (
+    <div>
+      <Tag >
+        <input
+          type="checkbox"
+          id="debug"
+          value={globalDebug}
+          onChange={(e) => setGlobalDebug(e.target.checked)}
+        />
+        <label htmlFor="debug"> Debug mode</label>
+      </Tag>
+
+      {globalDebug && (
+        <p style={{ whiteSpace: "pre-wrap" }}>
+          Userdata: {beautify(userData, null, 2, 80)}
+        </p>
+      )}
+    </div>
+  )
+}
+
+function BlockList({ formData, userData, globalDebug, handleBlockChange   }) {
+  return formData.blocks ? (
+    formData.blocks &&
+    formData.blocks.map((block, index) => (
+      <Block
+        block={block}
+        key={index}
+        index={index}
+        globalDebug={globalDebug}
+        onChange={handleBlockChange}
+        value={userData[block.key]}
+      />
+    ))
+  ) : (
+    <p>Loading form...</p>
+  )
 }
 
 

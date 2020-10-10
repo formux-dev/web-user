@@ -8,4 +8,5 @@ export default function Title({children}) {
 
 const StyledTitle = styled.h1`
     font-size: 2.5em;
+    margin-top: 32px;
 `;

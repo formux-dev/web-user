@@ -8,6 +8,7 @@ import MultipleChoiceInput from "./blocks/MultipleChoiceInput";
 import ParagraphInput from "./blocks/ParagraphInput";
 import ShortInput from "./blocks/ShortInput";
 
+import Navbar from "./Navbar";
 import Switch from "./Switch";
 import Tag from "./Tag";
 
@@ -15,13 +16,7 @@ export default function Form({ formID }) {
   return (
     <Wrapper>
       <Content>
-        <Navbar>
-          <div>
-            <img src="/favicon-192x192.png"></img>
-            <h1>Formux Survey</h1>
-          </div>
-          <Tag>Alpha</Tag>
-        </Navbar>
+        <Navbar/>
         <Main>
           <FormFields formID={formID}></FormFields>
         </Main>
@@ -179,31 +174,7 @@ const Content = styled.div`
   }
 `;
 
-const Navbar = styled.nav`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 64px;
 
-  & > div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  & > div > img {
-    width: 48px;
-    margin-right: 16px;
-  }
-
-  @media (max-width: 500px) {
-    & > div > img {
-      width: 32px;
-      margin-right: 16px;
-    }
-  }
-`;
 
 const Main = styled.main`
   display: flex;

@@ -5,6 +5,7 @@ import beautify from "json-beautify";
 import Navbar from "./Navbar";
 import Tag from "./Tag";
 import Block from "./Block";
+import Title from "./Title";
 
 export default function Form({ formID }) {
   const [formData, setFormData] = useState({});
@@ -48,7 +49,7 @@ export default function Form({ formID }) {
     <Wrapper>
       <Navbar/>
      
-      <FormContainer>
+      <form>
         <Tag style={{ marginBottom: "32px" }}>
           <input
             type="checkbox"
@@ -59,7 +60,7 @@ export default function Form({ formID }) {
           <label htmlFor="debug"> Debug mode</label>
         </Tag>
 
-        <h2>{formData.meta && formData.meta.title}</h2>
+        <Title>{formData.meta && formData.meta.title}</Title>
 
         {formData.blocks ? (
           formData.blocks &&
@@ -82,7 +83,7 @@ export default function Form({ formID }) {
             Userdata: {beautify(userData, null, 2, 80)}
           </p>
         )}
-      </FormContainer>
+      </form>
   
     </Wrapper>
   );
@@ -100,10 +101,3 @@ const Wrapper = styled.div`
     padding: 24px 16px;
   }
 `
-
-const FormContainer = styled.form`
-  & > h2 {
-   
-  }
-`;
-

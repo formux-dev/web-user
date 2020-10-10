@@ -7,17 +7,6 @@ import Tag from "./Tag";
 import Block from "./Block";
 
 export default function Form({ formID }) {
-  return (
-    <Wrapper>
-      <Navbar/>
-      <Main>
-        <FormFields formID={formID}></FormFields>
-      </Main>
-    </Wrapper>
-);
-}
-
-function FormFields({ formID }) {
   const [formData, setFormData] = useState({});
   const [userData, setUserData] = useState({});
   const [globalDebug, setGlobalDebug] = useState(false);
@@ -56,43 +45,49 @@ function FormFields({ formID }) {
   }, []);
 
   return (
-    <form>
-      <Tag style={{ marginBottom: "32px" }}>
-        <input
-          type="checkbox"
-          id="debug"
-          value={globalDebug}
-          onChange={(e) => setGlobalDebug(e.target.checked)}
-        />
-        <label htmlFor="debug"> Debug mode</label>
-      </Tag>
-
-      <h2>{formData.meta && formData.meta.title}</h2>
-
-      {formData.blocks ? (
-        formData.blocks &&
-        formData.blocks.map((block, index) => (
-          <Block
-            block={block}
-            key={index}
-            index={index}
-            globalDebug={globalDebug}
-            onChange={handleBlockChange}
-            value={userData[block.key]}
+    <Wrapper>
+      <Navbar/>
+     
+      <FormContainer>
+        <Tag style={{ marginBottom: "32px" }}>
+          <input
+            type="checkbox"
+            id="debug"
+            value={globalDebug}
+            onChange={(e) => setGlobalDebug(e.target.checked)}
           />
-        ))
-      ) : (
-        <p>Loading form...</p>
-      )}
+          <label htmlFor="debug"> Debug mode</label>
+        </Tag>
 
-      {globalDebug && (
-        <p style={{ whiteSpace: "pre-wrap", marginTop: "64px" }}>
-          Userdata: {beautify(userData, null, 2, 80)}
-        </p>
-      )}
-    </form>
+        <h2>{formData.meta && formData.meta.title}</h2>
+
+        {formData.blocks ? (
+          formData.blocks &&
+          formData.blocks.map((block, index) => (
+            <Block
+              block={block}
+              key={index}
+              index={index}
+              globalDebug={globalDebug}
+              onChange={handleBlockChange}
+              value={userData[block.key]}
+            />
+          ))
+        ) : (
+          <p>Loading form...</p>
+        )}
+
+        {globalDebug && (
+          <p style={{ whiteSpace: "pre-wrap", marginTop: "64px" }}>
+            Userdata: {beautify(userData, null, 2, 80)}
+          </p>
+        )}
+      </FormContainer>
+  
+    </Wrapper>
   );
 }
+
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -106,18 +101,9 @@ const Wrapper = styled.div`
   }
 `
 
-const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  & > form {
-    width: 100%;
-  }
-
-  & > form > h2 {
-    font-size: 2.5em;
-    margin-bottom: 16px;
+const FormContainer = styled.form`
+  & > h2 {
+   
   }
 `;
 

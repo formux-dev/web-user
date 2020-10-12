@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import Tag from "./Tag";
 import Block from "./Block";
 import Title from "./Title";
+import Rating from "./Rating";
 
 export default function Form({ formID }) {
   const { formData, setFormData, setUserData } = useContext(FormContext)
@@ -46,6 +47,7 @@ export default function Form({ formID }) {
         <Debug/>
         <Title>{formData.meta && formData.meta.title}</Title>
         <BlockList/>
+        <Rating/>
       </form>
   
     </Wrapper>

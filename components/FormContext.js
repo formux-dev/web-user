@@ -6,6 +6,7 @@ function FormProvider({ children }) {
     const [formData, setFormData] = useState({});
     const [userData, setUserData] = useState({});
     const [debug, setDebug] = useState(false);
+    const [rating, setRating] = useState(1);
 
     const value = {
         formData,
@@ -13,7 +14,9 @@ function FormProvider({ children }) {
         userData,
         setUserData,
         debug,
-        setDebug
+        setDebug,
+        rating,
+        setRating
     }
 
     return (

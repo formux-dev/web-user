@@ -1,13 +1,22 @@
-
 import styled from "styled-components";
+import { useContext } from "react";
+import { FormContext } from "../context/FormContext";
 
-import { Question } from "./styles"
+import Question from "../Question";
 
-export default function ShortInput({ block, value, onChange }) {
+export default function ShortInput({ block }) {
+  const { userData, setUserData } = useContext(FormContext);
+
   return (
     <div>
       <Question>{block.data.question}</Question>
-      <Input value={value} onChange={(e) => onChange(e.target.value)} />
+
+      <Input
+        value={userData[block.key] || ""}
+        onChange={({ target: { value } }) => {
+          setUserData(prev => ({ ...prev, [block.key]: value }));
+        }}
+      />
     </div>
   );
 }

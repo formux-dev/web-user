@@ -1,7 +1,12 @@
+import { useContext } from "react";
 
-import { Question } from "./styles"
+import { FormContext } from "../context/FormContext";
 
-export default function MultipleChoiceInput({ block, value, onChange }) {
+import Question from "../Question";
+
+export default function MultipleChoiceInput({ block }) {
+  const { userData, setUserData } = useContext(FormContext);
+
   return (
     <div>
       <Question>{block.data.question}</Question>
@@ -9,10 +14,11 @@ export default function MultipleChoiceInput({ block, value, onChange }) {
         <div key={index}>
           <input
             type="radio"
-            checked={text == value}
             id={block.key + index}
-            name={text}
-            onChange={(e) => onChange(text)}
+            checked={userData[block.key] == text}
+            onChange={({ target: { value } }) => {
+              setUserData(prev => ({ ...prev, [block.key]: text }));
+            }}
           />
           <label htmlFor={block.key + index}> {text}</label>
         </div>

@@ -4,4 +4,4 @@ const Question = styled.p`
   margin-bottom: 8px;
 `;
 
-export { Question }
+export default Question

@@ -1,13 +1,24 @@
 import styled from "styled-components";
+import { useContext } from "react";
 
-import { Question } from "./styles"
-import TextareaAutosize from 'react-autosize-textarea';
+import { FormContext } from "../context/FormContext";
 
-export default function ParagraphInput({ block, value, onChange }) {
+import Question from "../Question";
+import TextareaAutosize from "react-autosize-textarea";
+
+export default function ParagraphInput({ block }) {
+  const { userData, setUserData } = useContext(FormContext);
+
   return (
     <div>
       <Question>{block.data.question}</Question>
-      <TextArea rows={3} value={value} onChange={(e) => onChange(e.target.value)} />
+      <TextArea
+        rows={3}
+        value={userData[block.key] || ""}
+        onChange={({ target: { value } }) => {
+          setUserData(prev => ({ ...prev, [block.key]: value }));
+        }}
+      />
     </div>
   );
 }

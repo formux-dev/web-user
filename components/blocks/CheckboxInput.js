@@ -1,7 +1,12 @@
+import { useContext } from "react";
 
-import { Question } from "./styles"
+import { FormContext } from "../context/FormContext";
 
-export default function CheckboxInput({ block, value, onChange }) {
+import Question from "../Question";
+
+export default function CheckboxInput({ block }) {
+  const { userData, setUserData } = useContext(FormContext);
+
   return (
     <div>
       <Question>{block.data.question}</Question>
@@ -10,14 +15,16 @@ export default function CheckboxInput({ block, value, onChange }) {
           <input
             type="checkbox"
             id={block.key + index}
-            name={text}
-            checked={value ? value.includes(text) : false}
-            onChange={(e) => {
-              onChange(
-                e.target.checked
-                  ? value ? [...value, text] : [text]
-                  : value.filter((x) => x != text)
-              );
+            checked={userData[block.key] ? userData[block.key].includes(text) : false}
+            onChange={({ target: { checked } }) => {
+              setUserData(prev => ({
+                ...prev,
+                [block.key]: checked
+                  ? userData[block.key]
+                    ? [...userData[block.key], text]
+                    : [text]
+                  : userData[block.key].filter(x => x != text),
+              }));
             }}
           />
           <label htmlFor={block.key + index}> {text}</label>

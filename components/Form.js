@@ -3,7 +3,7 @@ import beautify from "json-beautify";
 import { useContext } from "react";
 import { useQuery } from "react-query";
 
-import { FormContext, FormProvider } from "./context/FormContext"
+import { FormContext, FormProvider } from "./context/FormContext";
 import { fetchForm } from "./api/endpoints";
 
 import Navbar from "./Navbar";
@@ -13,29 +13,45 @@ import Title from "./Title";
 import Rating from "./Rating";
 
 export default function Form({ formID }) {
-  const { data: formData, isFetching, error } = useQuery(["form", { formID }], fetchForm)
+  const { data: formData, isFetching, error } = useQuery(["form", { formID }], fetchForm);
 
   if (isFetching) {
-    return <span>Loading...</span>
+    return (
+      <Wrapper>
+        <span>Loading...</span>
+      </Wrapper>
+    );
   }
 
   if (error) {
-    return <span>Error: {error.message}</span>
+    return (
+      <Wrapper>
+        <span>Error: {error.message}</span>
+      </Wrapper>
+    );
   }
 
   return (
     <Wrapper>
-      <Navbar/>
+      <Navbar />
 
       <FormProvider>
         <form>
-          <Debug/>
+          <Debug />
           <Title>{formData.meta && formData.meta.title}</Title>
-          <BlockList formData={formData}/>
-          <Rating/>
+          <BlockList formData={formData} />
+          <Rating />
         </form>
       </FormProvider>
     </Wrapper>
+  );
+}
+
+function BlockList({ formData }) {
+  return (
+    formData &&
+    formData.blocks &&
+    formData.blocks.map((block, index) => <Block block={block} key={index} index={index} />)
   );
 }
 
@@ -44,50 +60,15 @@ function Debug() {
 
   return (
     <div>
-      <Tag >
-        <input
-          type="checkbox"
-          id="debug"
-          value={debug}
-          onChange={(e) => setDebug(e.target.checked)}
-        />
+      <Tag>
+        <input type="checkbox" id="debug" value={debug} onChange={e => setDebug(e.target.checked)} />
         <label htmlFor="debug"> Debug mode</label>
       </Tag>
 
-      {debug && (
-        <p style={{ whiteSpace: "pre-wrap" }}>
-          Userdata: {beautify(userData, null, 2, 80)}
-        </p>
-      )}
+      {debug && <p style={{ whiteSpace: "pre-wrap" }}>Userdata: {beautify(userData, null, 2, 80)}</p>}
     </div>
-  )
+  );
 }
-
-function BlockList({ formData }) {
-  const { userData, setUserData } = useContext(FormContext)
-
-  const handleBlockChange = ({ key, value }) => {
-    setUserData((prevState) => ({
-      ...prevState,
-      [key]: value,
-    }));
-  }
-
-  return formData && formData.blocks ? (
-    formData.blocks.map((block, index) => (
-      <Block
-        block={block}
-        key={index}
-        index={index}
-        onChange={handleBlockChange}
-        value={userData[block.key]}
-      />
-    ))
-  ) : (
-    <p>Loading form...</p>
-  )
-}
-
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -99,4 +80,4 @@ const Wrapper = styled.div`
     width: 100%;
     padding: 24px 16px;
   }
-`
+`;

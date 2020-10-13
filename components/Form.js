@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { useQuery } from "react-query";
 
 import { FormProvider } from "./context/FormContext";
@@ -10,9 +10,18 @@ import Title from "./Title";
 import Rating from "./Rating";
 import FormSkeleton from "./FormSkeleton";
 import Debug from "./Debug";
+import Wrapper from "./Wrapper";
 
 export default function Form({ formID }) {
   const { isLoading, isError, error, data: formData } = useQuery(["form", { formID }], fetchForm);
+
+  const theme = {
+    colorTheme: "dark",
+  };
+
+  // const theme = {
+  //   colorTheme: "dark",
+  // };
 
   if (isLoading) {
     return (
@@ -34,19 +43,21 @@ export default function Form({ formID }) {
   }
 
   return (
-    <Wrapper>
-      <Navbar />
+    <ThemeProvider theme={theme}>
+      <Wrapper>
+        <Navbar />
 
-      <FormProvider>
-        <form>
-          <Debug />
+        <FormProvider>
+          <form>
+            <Debug />
 
-          <Title>{formData.meta && formData.meta.title}</Title>
-          <BlockList formData={formData} />
-          <Rating />
-        </form>
-      </FormProvider>
-    </Wrapper>
+            <Title>{formData.meta && formData.meta.title}</Title>
+            <BlockList formData={formData} />
+            <Rating />
+          </form>
+        </FormProvider>
+      </Wrapper>
+    </ThemeProvider>
   );
 }
 
@@ -57,15 +68,3 @@ function BlockList({ formData }) {
     formData.blocks.map((block, index) => <Block block={block} key={index} index={index} />)
   );
 }
-
-const Wrapper = styled.div`
-  margin: 0 auto;
-  max-width: 700px;
-  padding: 64px 32px;
-
-  @media (max-width: 500px) {
-    max-width: unset;
-    width: 100%;
-    padding: 24px 16px;
-  }
-`;

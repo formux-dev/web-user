@@ -11,6 +11,7 @@ import Tag from "./Tag";
 import Block from "./Block";
 import Title from "./Title";
 import Rating from "./Rating";
+import FormSkeleton from "./FormSkeleton";
 
 export default function Form({ formID }) {
   const { isLoading, isError, error, data: formData } = useQuery(["form", { formID }], fetchForm);
@@ -18,7 +19,8 @@ export default function Form({ formID }) {
   if (isLoading) {
     return (
       <Wrapper>
-        <span>Loading...</span>
+        <Navbar />
+        <FormSkeleton />
       </Wrapper>
     );
   }
@@ -37,10 +39,11 @@ export default function Form({ formID }) {
 
       <FormProvider>
         <form>
-          <Debug />
-          <Title>{formData.meta && formData.meta.title}</Title>
+          <Title>{(formData.meta && formData.meta.title) || <Skeleton />}</Title>
           <BlockList formData={formData} />
           <Rating />
+
+          <Debug />
         </form>
       </FormProvider>
     </Wrapper>

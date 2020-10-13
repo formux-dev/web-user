@@ -27,7 +27,8 @@ export default function Form({ formID }) {
     return (
       <Wrapper>
         <Navbar />
-        <span>Error: {error.message}</span>
+        <Title>Error</Title>
+        <p>{error.message}</p>
       </Wrapper>
     );
   }

@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { useEffect, useContext } from "react";
 import beautify from "json-beautify";
+import { useQuery } from "react-query";
 
-import { FormContext } from "./FormContext"
+import { FormContext } from "./context/FormContext"
+import { fetchForm } from "./api/endpoints";
 
 import Navbar from "./Navbar";
 import Tag from "./Tag";
@@ -26,29 +28,66 @@ export default function Form({ formID }) {
     )
   }
 
-  useEffect(() => {
-    fetch(
-      `https://us-central1-formux-8d67b.cloudfunctions.net/form?formID=${formID}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Got data from function", data);
+  // useEffect(() => {
+  //   fetch(
+  //     `https://us-central1-formux-8d67b.cloudfunctions.net/form?formID=${formID}`
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("Got data from function", data);
 
-        setUserData(generateInitialUserData(data))
-        setFormData(data);
-      });
-  }, []);
+  //       setUserData(generateInitialUserData(data))
+  //       setFormData(data);
+  //     });
+  // }, []);
+
+  const { data, isFetching, error, isFetched } = useQuery(["form", { formID }], fetchForm)
+
+  
+  // if (isFetching) {
+  //   return <span>Loading...</span>
+  // }
+
+  // if (error) {
+  //   return <span>Error: {error.message}</span>
+  // }
+
+  // if (isFetched && data.blocks) {
+  //   setUserData(generateInitialUserData(data));
+  //   setFormData(data);
+  // }
+
+  useEffect(() => {
+    if (data.blocks) {
+      setUserData(generateInitialUserData(data));
+    }
+  }, [data]);
+
+  // TODO: Read logs
+
 
   return (
     <Wrapper>
       <Navbar/>
-     
+
+      {isFetching && <span>Loading...</span>}
+
+      {error && <span>{error.message}</span>}
+
+      {isFetched && <form>
+        <Debug/>
+        <Title>{formData.meta && formData.meta.title}</Title>
+        <BlockList/>
+        <Rating/>
+      </form>}
+
+{/*      
       <form>
         <Debug/>
         <Title>{formData.meta && formData.meta.title}</Title>
         <BlockList/>
         <Rating/>
-      </form>
+      </form> */}
   
     </Wrapper>
   );

@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import styled, {  css } from "styled-components";
 
-import { FormContext } from "./FormContext";
+import { FormContext } from "./context/FormContext";
 
 export default function Rating() {
     const { rating, setRating } = useContext(FormContext);
@@ -15,7 +15,7 @@ export default function Rating() {
 
             <StarContainer>
                 { [...Array(5)].map((_, index) => (
-                    <div>
+                    <div key={"rating"+index}>
                         <HiddenInput 
                             type="radio" name="rating" 
                             aria-label={"Rate " + index+1} 

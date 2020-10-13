@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "export": "next build && next export",
-    "start": "next start"
+    "export": "next build && next export"
   },
   "dependencies": {
     "firebase": "7.22.0",
@@ -15,6 +14,8 @@
     "react": "16.13.1",
     "react-autosize-textarea": "^7.1.0",
     "react-dom": "16.13.1",
+    "react-query": "^2.23.1",
+    "react-query-devtools": "^2.6.0",
     "styled-components": "^5.2.0"
   },
   "devDependencies": {

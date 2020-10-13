@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import beautify from "json-beautify";
 
 import Switch from "./Switch";
-import { FormContext } from "./FormContext";
+import { FormContext } from "./context/FormContext";
 
 import CheckboxInput from "./blocks/CheckboxInput";
 import Description from "./blocks/Description";

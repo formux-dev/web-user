@@ -1,14 +1,18 @@
 import Head from "next/head";
 import * as firebase from "firebase/app";
 import "firebase/firestore";
-import Form from "../components/Form";
+import { ReactQueryDevtools } from 'react-query-devtools'
+
 import GlobalStyle from "./globalStyles";
-import { FormProvider } from "../components/FormContext";
+
+import Form from "../components/Form";
+import { FormProvider } from "../components/context/FormContext";
 
 export default function Home({ formID, title, description }) {
   return (
     <div>
       <GlobalStyle />
+      <ReactQueryDevtools initialIsOpen={false} />
 
       <Head>
         <title>{"Formux Survey - " + title}</title>

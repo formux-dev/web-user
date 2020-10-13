@@ -15,7 +15,7 @@ export default function CheckboxInput({ block, value, onChange }) {
             onChange={(e) => {
               onChange(
                 e.target.checked
-                  ? [...value, text]
+                  ? value ? [...value, text] : [text]
                   : value.filter((x) => x != text)
               );
             }}

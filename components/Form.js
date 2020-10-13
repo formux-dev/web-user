@@ -1,17 +1,15 @@
 import styled from "styled-components";
-import beautify from "json-beautify";
-import { useContext } from "react";
 import { useQuery } from "react-query";
 
-import { FormContext, FormProvider } from "./context/FormContext";
+import { FormProvider } from "./context/FormContext";
 import { fetchForm } from "./api/endpoints";
 
 import Navbar from "./Navbar";
-import Tag from "./Tag";
 import Block from "./Block";
 import Title from "./Title";
 import Rating from "./Rating";
 import FormSkeleton from "./FormSkeleton";
+import Debug from "./Debug";
 
 export default function Form({ formID }) {
   const { isLoading, isError, error, data: formData } = useQuery(["form", { formID }], fetchForm);
@@ -40,11 +38,11 @@ export default function Form({ formID }) {
 
       <FormProvider>
         <form>
-          <Title>{(formData.meta && formData.meta.title) || <Skeleton />}</Title>
+          <Debug />
+
+          <Title>{formData.meta && formData.meta.title}</Title>
           <BlockList formData={formData} />
           <Rating />
-
-          <Debug />
         </form>
       </FormProvider>
     </Wrapper>
@@ -56,21 +54,6 @@ function BlockList({ formData }) {
     formData &&
     formData.blocks &&
     formData.blocks.map((block, index) => <Block block={block} key={index} index={index} />)
-  );
-}
-
-function Debug() {
-  const { debug, setDebug, userData } = useContext(FormContext);
-
-  return (
-    <div>
-      <Tag>
-        <input type="checkbox" id="debug" value={debug} onChange={e => setDebug(e.target.checked)} />
-        <label htmlFor="debug"> Debug mode</label>
-      </Tag>
-
-      {debug && <p style={{ whiteSpace: "pre-wrap" }}>Userdata: {beautify(userData, null, 2, 80)}</p>}
-    </div>
   );
 }
 

@@ -28,6 +28,7 @@ export default function Form({ formID }) {
   if (isError) {
     return (
       <Wrapper>
+        <Navbar />
         <span>Error: {error.message}</span>
       </Wrapper>
     );

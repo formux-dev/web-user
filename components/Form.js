@@ -13,9 +13,9 @@ import Title from "./Title";
 import Rating from "./Rating";
 
 export default function Form({ formID }) {
-  const { data: formData, isFetching, error } = useQuery(["form", { formID }], fetchForm);
+  const { isLoading, isError, error, data: formData } = useQuery(["form", { formID }], fetchForm);
 
-  if (isFetching) {
+  if (isLoading) {
     return (
       <Wrapper>
         <span>Loading...</span>
@@ -23,7 +23,7 @@ export default function Form({ formID }) {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <Wrapper>
         <span>Error: {error.message}</span>

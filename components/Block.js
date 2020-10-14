@@ -2,9 +2,10 @@ import { useState, useContext } from "react";
 import styled, { css } from "styled-components";
 import beautify from "json-beautify";
 
-import Switch from "./Switch";
 import { FormContext } from "./context/FormContext";
+import { getBorderColor } from "./styles/themeValues";
 
+import Switch from "./Switch";
 import CheckboxInput from "./blocks/CheckboxInput";
 import Description from "./blocks/Description";
 import MultipleChoiceInput from "./blocks/MultipleChoiceInput";
@@ -19,22 +20,10 @@ export default function Block({ block, index }) {
     <BlockContainer isSeparated={debug}>
       <Switch test={block.type}>
         <Description test="description" block={block} />
-        <ShortInput
-          test="shortinput"
-          block={block}
-        />
-        <ParagraphInput
-          test="paragraphinput"
-          block={block}
-        />
-        <MultipleChoiceInput
-          test="multiplechoiceinput"
-          block={block}
-        />
-        <CheckboxInput
-          test="checkboxinput"
-          block={block}
-        />
+        <ShortInput test="shortinput" block={block} />
+        <ParagraphInput test="paragraphinput" block={block} />
+        <MultipleChoiceInput test="multiplechoiceinput" block={block} />
+        <CheckboxInput test="checkboxinput" block={block} />
       </Switch>
 
       {debug && (
@@ -44,7 +33,7 @@ export default function Block({ block, index }) {
               type="checkbox"
               id={"debug" + index}
               value={showRawData}
-              onChange={(e) => setShowRawData(e.target.checked)}
+              onChange={e => setShowRawData(e.target.checked)}
             />
             <label htmlFor={"debug" + index}> Show raw data</label>
           </div>
@@ -56,22 +45,13 @@ export default function Block({ block, index }) {
   );
 }
 
-
-// function updateBlock(prev, key, value) {
-//   return {
-//     ...prev,
-//     [key]: value,
-//   }
-// }
-
-
 const BlockContainer = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 
-  ${(props) =>
+  ${props =>
     props.isSeparated &&
     css`
-      border: 2px solid rgba(0, 0, 0, 0.2);
+      border: 1.5px solid ${props => getBorderColor(props)};
       border-radius: 8px;
       padding: 16px 12px;
       margin-bottom: 8px;
@@ -79,9 +59,9 @@ const BlockContainer = styled.div`
 `;
 
 const RawData = styled.div`
-  padding-top: 8px;
-  border-top: 2px solid rgba(0, 0, 0, 0.2);
-  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1.5px solid ${props => getBorderColor(props)};
+  margin-top: 12px;
   width: 100%;
   white-space: pre-wrap;
-`
+`;

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useContext } from "react";
+
 import { FormContext } from "../context/FormContext";
+import { getInputColors, getTextColor } from "../styles/themeValues";
 
 import Question from "../Question";
 
@@ -25,10 +27,10 @@ const Input = styled.input`
   padding: 12px 8px;
   border-radius: 4px;
   width: 100%;
-  border: 1.5px solid ${props => (props.theme.colorTheme == "dark" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)")};
   outline: none;
-  background: ${props => (props.theme.colorTheme == "dark" ? "rgba(255, 255, 255, 0.1)" : "white")};
-  color: ${props => (props.theme.colorTheme == "dark" ? "white" : "black")};
+  border: 1.5px solid ${props => getInputColors(props).border};
+  background: ${props => getInputColors(props).background};
+  color: ${props => getTextColor(props)};
 
   &:focus {
     border-color: transparent;

@@ -17,5 +17,5 @@ export default function Debug() {
 }
 
 const WhiteSpace = styled.p`
-  white-space: "pre-wrap";
+  white-space: pre-wrap;
 `;

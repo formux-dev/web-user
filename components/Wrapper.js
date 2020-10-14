@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { getBackgroundColor, getTextColor } from "./styles/themeValues";
 
 export default function Wrapper({ children }) {
   return (
@@ -9,8 +10,8 @@ export default function Wrapper({ children }) {
 }
 
 const WrapperBackground = styled.div`
-  color: ${props => (props.theme.colorTheme == "dark" ? "white" : "black")};
-  background: ${props => (props.theme.colorTheme == "dark" ? "rgba(0, 0, 0, 0.85)" : "rgba(0, 0, 0, 0.0.5)")};
+  color: ${props => getTextColor(props)};
+  background: ${props => getBackgroundColor(props)};
   min-height: 100vh;
 `;
 

@@ -25,8 +25,8 @@ function getBorderColor({ theme: { colorTheme } }) {
   }
 }
 
-function getFontFamily({ theme: { font } }) {
-  switch (font) {
+function getFontFamily({ theme: { fontCategory } }) {
+  switch (fontCategory) {
     case "sans-serif":
       return `"Inter", sans-serif`;
     case "serif":
@@ -34,8 +34,8 @@ function getFontFamily({ theme: { font } }) {
   }
 }
 
-function getBoldFontWeight({ theme: { font } }) {
-  switch (font) {
+function getBoldFontWeight({ theme: { fontCategory } }) {
+  switch (fontCategory) {
     case "sans-serif":
       return 600;
     case "serif":

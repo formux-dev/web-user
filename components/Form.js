@@ -15,11 +15,6 @@ import Wrapper from "./Wrapper";
 export default function Form({ formID }) {
   const { isLoading, isError, error, data: formData } = useQuery(["form", { formID }], fetchForm);
 
-  const theme = {
-    colorTheme: "light",
-    font: "serif",
-  };
-
   if (isLoading) {
     return (
       <Wrapper>

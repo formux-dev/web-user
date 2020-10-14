@@ -82,6 +82,7 @@ const HiddenInput = styled.input`
 
 const Star = styled.img`
   width: 40px;
+  margin: 0 4px;
   cursor: pointer;
 
   ${props =>

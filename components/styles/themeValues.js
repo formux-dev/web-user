@@ -62,4 +62,21 @@ function getInputColors(props) {
   }
 }
 
-export { getTextColor, getBackgroundColor, getBorderColor, getFontFamily, getBoldFontWeight, getInputColors };
+function getTagBackground({ theme: { colorTheme } }) {
+  switch (colorTheme) {
+    case "light":
+      return "rgba(0, 0, 0, 0.1)";
+    case "dark":
+      return "rgba(255, 255, 255, 0.1)";
+  }
+}
+
+export {
+  getTextColor,
+  getBackgroundColor,
+  getBorderColor,
+  getFontFamily,
+  getBoldFontWeight,
+  getInputColors,
+  getTagBackground,
+};

@@ -20,10 +20,6 @@ export default function Form({ formID }) {
     font: "serif",
   };
 
-  // const theme = {
-  //   colorTheme: "dark",
-  // };
-
   if (isLoading) {
     return (
       <Wrapper>
@@ -44,7 +40,7 @@ export default function Form({ formID }) {
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={formData.theme}>
       <Wrapper>
         <Navbar />
 

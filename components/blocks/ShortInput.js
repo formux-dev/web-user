@@ -31,10 +31,10 @@ const Input = styled.input`
   border: 1.5px solid ${props => getInputColors(props).border};
   background: ${props => getInputColors(props).background};
   color: ${props => getTextColor(props)};
+  transition: all 100ms ease-in-out;
 
   &:focus {
-    border-color: transparent;
-    box-shadow: 0px 0px 0px 3px #4aabff;
-    border: 1.5px solid #387eff;
+    box-shadow: 0px 0px 0px 3px ${props => getInputColors(props).activeShadow};
+    border: 1.5px solid ${props => getInputColors(props).activeBorder};
   }
 `;

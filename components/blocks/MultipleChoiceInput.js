@@ -13,29 +13,29 @@ export default function MultipleChoiceInput({ block }) {
     <div>
       <Question>{block.data.question}</Question>
       {block.data.options.map((text, index) => (
-        <Label key={index}>
-          <Radio
-            type="radio"
-            checked={userData[block.key] == text}
-            onChange={_ => {
-              setUserData(prev => ({ ...prev, [block.key]: text }));
-            }}
-          />
-          <RadioCircle />
-          {text}
-        </Label>
+        <div key={index}>
+          <Label>
+            <Radio
+              type="radio"
+              checked={userData[block.key] == text}
+              onChange={_ => {
+                setUserData(prev => ({ ...prev, [block.key]: text }));
+              }}
+            />
+            <RadioCircle />
+            {text}
+          </Label>
+        </div>
       ))}
     </div>
   );
 }
 
 const Label = styled.label`
-  display: flex;
+  display: inline-flex;
   align-items: center;
-
-  &:not(:last-child) {
-    margin-bottom: 8px;
-  }
+  cursor: pointer;
+  margin-bottom: 2px;
 `;
 
 const RadioCircle = styled.span`
@@ -44,8 +44,9 @@ const RadioCircle = styled.span`
   width: 1.2rem;
   height: 1.2em;
   border-radius: 50%;
-  background: ${props => getInputColors(props).background};
+  background: radial-gradient(${props => getInputColors(props).activeShadow} 100%);
   border: 1.5px solid ${props => getInputColors(props).border};
+  transition: all 100ms ease-in-out;
 `;
 
 const Radio = styled.input`
@@ -55,14 +56,17 @@ const Radio = styled.input`
 
   &:checked {
     & ~ ${RadioCircle} {
-      background: radial-gradient(#4aabff 40%, ${props => getInputColors(props).background} 41%);
+      background: radial-gradient(
+        ${props => getInputColors(props).activeShadow} 40%,
+        ${props => getInputColors(props).background} 41%
+      );
     }
   }
 
   &:focus {
     & ~ ${RadioCircle} {
-      box-shadow: 0px 0px 0px 3px #4aabff;
-      border: 1.5px solid #387eff;
+      box-shadow: 0px 0px 0px 3px ${props => getInputColors(props).activeShadow};
+      border: 1.5px solid ${props => getInputColors(props).activeBorder};
     }
   }
 `;

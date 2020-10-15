@@ -53,11 +53,15 @@ function getInputColors(props) {
       return {
         background: "white",
         border: getBorderColor(props),
+        activeBorder: "#387eff",
+        activeShadow: "#4aabff",
       };
     case "dark":
       return {
         background: "rgba(255, 255, 255, 0.1)",
         border: getBorderColor(props),
+        activeBorder: "#387eff",
+        activeShadow: "#4aabff",
       };
   }
 }

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useContext } from "react";
 
 import { FormContext } from "../context/FormContext";
-import { getBorderColor, getInputColors, getTextColor } from "../styles/themeValues";
+import { getInputColors, getTextColor } from "../styles/themeValues";
 
 import Question from "../Question";
 import TextareaAutosize from "react-autosize-textarea";
@@ -33,9 +33,10 @@ const TextArea = styled(TextareaAutosize)`
   background: ${props => getInputColors(props).background};
   color: ${props => getTextColor(props)};
   border: 1.5px solid ${props => getInputColors(props).border};
+  transition: all 100ms ease-in-out;
 
   &:focus {
-    box-shadow: 0px 0px 0px 3px #4aabff;
-    border: 1.5px solid #387eff;
+    box-shadow: 0px 0px 0px 3px ${props => getInputColors(props).activeShadow};
+    border: 1.5px solid ${props => getInputColors(props).activeBorder};
   }
 `;

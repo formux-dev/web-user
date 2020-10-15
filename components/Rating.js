@@ -7,7 +7,7 @@ import Title from "./Title";
 
 export default function Rating() {
   const { rating, setRating } = useContext(FormContext);
-  const [focused, setFocused] = useState(false);
+  // const [focused, setFocused] = useState(false);
 
   return (
     <RatingContainer>
@@ -22,18 +22,14 @@ export default function Rating() {
           <div key={"rating" + index}>
             <HiddenInput
               type="radio"
-              name="rating"
-              aria-label={"Rate " + index + 1}
-              name="rating"
               id={"rating" + index}
+              aria-label={"Rate " + (index + 1)}
+              onFocus={() => setRating(index + 1)}
               onChange={() => setRating(index + 1)}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
             />
 
             {rating >= index + 1 ? (
               <Star
-                focused={focused && rating == index + 1}
                 aria-hidden={true}
                 src="/star-filled.svg"
                 onClick={() => setRating(index + 1)}
@@ -61,14 +57,34 @@ const RatingContainer = styled.div`
   border-top: 1.5px solid ${props => getBorderColor(props)};
 `;
 
+const Description = styled.p`
+  margin-bottom: 16px;
+  font-family: ${props => getFontFamily(props)};
+`;
+
 const StarContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
 
-const Description = styled.p`
-  margin-bottom: 16px;
-  font-family: ${props => getFontFamily(props)};
+const Star = styled.img`
+  width: 40px;
+  margin: 0 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+`;
+
+const HiddenInput = styled.input`
+  opacity: 0;
+  width: 0;
+  height: 0;
+
+  &:focus {
+    & ~ ${Star} {
+      border-radius: 4px;
+      border: 2px solid ${props => getBorderColor(props)};
+    }
+  }
 `;
 
 const StarHelp = styled.p`
@@ -79,23 +95,4 @@ const StarHelp = styled.p`
 const CurrentRating = styled.h2`
   font-size: 2em;
   margin-top: 8px;
-`;
-
-const HiddenInput = styled.input`
-  opacity: 0;
-  width: 0;
-  height: 0;
-`;
-
-const Star = styled.img`
-  width: 40px;
-  margin: 0 4px;
-  cursor: pointer;
-
-  ${props =>
-    props.focused &&
-    css`
-      border-radius: 4px;
-      border: 2px solid ${props => getBorderColor(props)};
-    `};
 `;

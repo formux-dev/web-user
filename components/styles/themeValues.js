@@ -10,9 +10,9 @@ function getTextColor({ theme: { colorTheme } }) {
 function getBackgroundColor({ theme: { colorTheme } }) {
   switch (colorTheme) {
     case "light":
-      return "rgba(0, 0, 0, 0.05)";
+      return "#f2f2f2";
     case "dark":
-      return "rgba(0, 0, 0, 0.85)";
+      return "#303030";
   }
 }
 

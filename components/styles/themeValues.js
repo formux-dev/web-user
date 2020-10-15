@@ -21,7 +21,7 @@ function getBorderColor({ theme: { colorTheme } }) {
     case "light":
       return "rgba(0, 0, 0, 0.2)";
     case "dark":
-      return "rgba(255, 255, 255, 0.2)";
+      return "rgba(255, 255, 255, 0.3)";
   }
 }
 

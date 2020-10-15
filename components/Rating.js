@@ -82,13 +82,9 @@ const CurrentRating = styled.h2`
 `;
 
 const HiddenInput = styled.input`
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+  opacity: 0;
+  width: 0;
+  height: 0;
 `;
 
 const Star = styled.img`
@@ -100,6 +96,6 @@ const Star = styled.img`
     props.focused &&
     css`
       border-radius: 4px;
-      border: 2px solid rgba(0, 0, 0, 0.1);
+      border: 2px solid ${props => getBorderColor(props)};
     `};
 `;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getInputColors, getTextColor } from "./styles/themeValues";
+import { getBorderColor, getInputColors, getTextColor } from "./styles/themeValues";
 
 export default function SubmitButton() {
   const handleSubmit = e => {

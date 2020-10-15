@@ -44,7 +44,10 @@ const RadioCircle = styled.span`
   width: 1.2rem;
   height: 1.2em;
   border-radius: 50%;
-  background: radial-gradient(${props => getInputColors(props).activeShadow} 100%);
+  background: radial-gradient(
+    ${props => getInputColors(props).background} 0%,
+    ${props => getInputColors(props).background} 100%
+  );
   border: 1.5px solid ${props => getInputColors(props).border};
   transition: all 100ms ease-in-out;
 `;

@@ -30,12 +30,12 @@ const TextArea = styled(TextareaAutosize)`
   border-radius: 4px;
   width: 100%;
   outline: none;
-  border: 1.5px solid ${props => getInputColors(props).border};
   background: ${props => getInputColors(props).background};
   color: ${props => getTextColor(props)};
 
   &:focus {
     border-color: transparent;
     box-shadow: 0px 0px 0px 3px #4aabff;
+    border: 1.5px solid #387eff;
   }
 `;

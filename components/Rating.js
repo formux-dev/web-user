@@ -1,8 +1,9 @@
 import { useState, useContext } from "react";
 import styled, { css } from "styled-components";
 
-import { getFontFamily } from "./styles/themeValues";
+import { getBorderColor, getFontFamily } from "./styles/themeValues";
 import { FormContext } from "./context/FormContext";
+import Title from "./Title";
 
 export default function Rating() {
   const { rating, setRating } = useContext(FormContext);
@@ -10,9 +11,11 @@ export default function Rating() {
 
   return (
     <RatingContainer>
-      <Description>Please rate the overall design of this form</Description>
-
-      <CurrentRating>{rating}/5 stars</CurrentRating>
+      <Title>Give us feedback</Title>
+      <Description>
+        Please rate the overall design of this form. Your response will help us make better form
+        designs for future users
+      </Description>
 
       <StarContainer>
         {[...Array(5)].map((_, index) => (
@@ -41,6 +44,12 @@ export default function Rating() {
           </div>
         ))}
       </StarContainer>
+
+      {rating ? (
+        <CurrentRating>{rating}/5 stars</CurrentRating>
+      ) : (
+        <StarHelp>Click a star to rate</StarHelp>
+      )}
     </RatingContainer>
   );
 }
@@ -48,8 +57,8 @@ export default function Rating() {
 const RatingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 64px;
+  margin-top: 32px;
+  border-top: 1.5px solid ${props => getBorderColor(props)};
 `;
 
 const StarContainer = styled.div`
@@ -58,16 +67,18 @@ const StarContainer = styled.div`
 `;
 
 const Description = styled.p`
-  font-size: 1.1em;
-  max-width: 25ch;
-  text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
+  font-family: ${props => getFontFamily(props)};
+`;
+
+const StarHelp = styled.p`
+  margin-top: 16px;
   font-family: ${props => getFontFamily(props)};
 `;
 
 const CurrentRating = styled.h2`
   font-size: 2em;
-  margin-bottom: 8px;
+  margin-top: 8px;
 `;
 
 const HiddenInput = styled.input`

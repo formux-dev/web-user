@@ -11,7 +11,7 @@ export default function SubmitButton() {
 }
 
 const StyledButton = styled.button`
-  margin-top: 128px;
+  margin-top: 64px;
   padding: 32px;
   font-size: 1.2em;
   border-radius: 4px;

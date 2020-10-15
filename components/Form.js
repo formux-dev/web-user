@@ -11,9 +11,13 @@ import Rating from "./Rating";
 import FormSkeleton from "./FormSkeleton";
 import Debug from "./Debug";
 import Wrapper from "./Wrapper";
+import SubmitButton from "./SubmitButton";
 
 export default function Form({ formID }) {
-  const { isLoading, isError, error, data: formData } = useQuery(["form", { formID }], fetchForm);
+  const { isLoading, isError, error, data: formData } = useQuery(["form", { formID }], fetchForm, {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 
   if (isLoading) {
     return (
@@ -46,6 +50,7 @@ export default function Form({ formID }) {
             <Title>{formData.meta && formData.meta.title}</Title>
             <BlockList formData={formData} />
             <Rating />
+            <SubmitButton />
           </form>
         </FormProvider>
       </Wrapper>

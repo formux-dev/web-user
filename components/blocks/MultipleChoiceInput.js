@@ -44,10 +44,9 @@ const RadioCircle = styled.span`
   width: 1.2rem;
   height: 1.2em;
   border-radius: 50%;
-  background: radial-gradient(
-    ${props => getInputColors(props).background} 0%,
-    ${props => getInputColors(props).background} 100%
-  );
+  background: ${props => getInputColors(props).background};
+  background-position: 50% 50%;
+  background-size: 80%;
   border: 1.5px solid ${props => getInputColors(props).border};
   transition: all 100ms ease-in-out;
 `;
@@ -59,10 +58,10 @@ const Radio = styled.input`
 
   &:checked {
     & ~ ${RadioCircle} {
-      background: radial-gradient(
-        ${props => getInputColors(props).activeShadow} 40%,
-        ${props => getInputColors(props).background} 41%
-      );
+      background: url("/dot.svg") ${props => getInputColors(props).background};
+      background-position: 50% 50%;
+      background-size: 70%;
+      background-repeat: no-repeat;
     }
   }
 

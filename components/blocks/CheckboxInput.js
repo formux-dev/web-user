@@ -39,10 +39,10 @@ export default function CheckboxInput({ block }) {
 }
 
 const Label = styled.label`
-  display: flex;
+  display: inline-flex;
   align-items: center;
   cursor: pointer;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 `;
 
 const CheckboxSquare = styled.span`

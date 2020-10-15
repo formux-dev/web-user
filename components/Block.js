@@ -11,6 +11,7 @@ import Description from "./blocks/Description";
 import MultipleChoiceInput from "./blocks/MultipleChoiceInput";
 import ParagraphInput from "./blocks/ParagraphInput";
 import ShortInput from "./blocks/ShortInput";
+import RangeInput from "./blocks/RangeInput";
 
 export default function Block({ block, index }) {
   const { debug } = useContext(FormContext);
@@ -19,6 +20,8 @@ export default function Block({ block, index }) {
   return (
     <BlockContainer isSeparated={debug}>
       <Switch test={block.type}>
+        <RangeInput test="rangeinput" block={block} />
+
         <Description test="description" block={block} />
         <ShortInput test="shortinput" block={block} />
         <ParagraphInput test="paragraphinput" block={block} />

@@ -2,7 +2,7 @@ import { useContext } from "react";
 import styled from "styled-components";
 
 import { FormContext } from "../context/FormContext";
-import { getBorderColor, getInputColors } from "../styles/themeValues";
+import { getInputColors } from "../styles/themeValues";
 
 import Question from "../Question";
 

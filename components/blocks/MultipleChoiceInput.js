@@ -21,7 +21,7 @@ export default function MultipleChoiceInput({ block }) {
               setUserData(prev => ({ ...prev, [block.key]: text }));
             }}
           />
-          <Radio />
+          <RadioCircle />
           {text}
         </Label>
       ))}

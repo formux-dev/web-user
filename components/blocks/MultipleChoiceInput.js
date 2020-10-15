@@ -14,14 +14,14 @@ export default function MultipleChoiceInput({ block }) {
       <Question>{block.data.question}</Question>
       {block.data.options.map((text, index) => (
         <Label key={index}>
-          <RadioInput
+          <Radio
             type="radio"
             checked={userData[block.key] == text}
             onChange={_ => {
               setUserData(prev => ({ ...prev, [block.key]: text }));
             }}
           />
-          <RadioCircle />
+          <Radio />
           {text}
         </Label>
       ))}
@@ -48,7 +48,7 @@ const RadioCircle = styled.span`
   border: 1.5px solid ${props => getInputColors(props).border};
 `;
 
-const RadioInput = styled.input`
+const Radio = styled.input`
   opacity: 0;
   width: 0;
   height: 0;

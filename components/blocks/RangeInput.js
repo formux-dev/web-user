@@ -48,7 +48,7 @@ export default function RangeInput({ block }) {
       <Options farLeft={farLeft} farRight={farRight}>
         <OptionsContent ref={scrollContainer}>
           {block.data.options.map((text, index) => (
-            <LabelBox selected={userData[block.key] == text}>
+            <LabelBox selected={userData[block.key] == text} key={index}>
               <div>
                 <Radio
                   type="radio"

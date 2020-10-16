@@ -20,15 +20,15 @@ export default function RangeInput({ block }) {
     }
   }, [farLeft, helpShown]);
 
-  const scroll = (length, index) => {
+  const scroll = (amount, index) => {
     const scrollElement = scrollContainer.current;
 
     if (scrollElement !== null) {
-      const { scrollWidth } = scrollElement;
+      const { scrollWidth, clientWidth } = scrollElement;
+      console.log(scrollWidth, clientWidth);
 
-      const size = scrollWidth / length;
-      // Todo: fix this
-      const left = -size + size * index - size / 2;
+      const size = scrollWidth / amount;
+      const left = (size / 2) * index + size * (index - (clientWidth / size - 1));
 
       scrollElement.scrollTo({
         left,

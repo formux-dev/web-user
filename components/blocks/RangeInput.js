@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { transparentize } from "polished";
 import useHorizontalScollPosition from "../hooks/useHorizontalScollPosition";
@@ -10,11 +10,31 @@ import Question from "../Question";
 
 export default function RangeInput({ block }) {
   const { userData, setUserData } = useContext(FormContext);
-  const optionsRef = useRef(null);
-  const { farLeft, farRight } = useHorizontalScollPosition(optionsRef);
+  const [helpShown, setHelpShown] = useState(false);
+  const scrollContainer = useRef(null);
+  const { farLeft, farRight } = useHorizontalScollPosition(scrollContainer);
 
-  const removeSpaces = string => {
-    return string.replaceAll(" ", "");
+  useEffect(() => {
+    if (!farLeft && !helpShown) {
+      setHelpShown(true);
+    }
+  }, [farLeft, helpShown]);
+
+  const scroll = (length, index) => {
+    const scrollElement = scrollContainer.current;
+
+    if (scrollElement !== null) {
+      const { scrollWidth } = scrollElement;
+
+      const size = scrollWidth / length;
+      // Todo: fix this
+      const left = -size + size * index - size / 2;
+
+      scrollElement.scrollTo({
+        left,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
@@ -22,14 +42,15 @@ export default function RangeInput({ block }) {
       <Question>{block.data.question}</Question>
 
       <Options farLeft={farLeft} farRight={farRight}>
-        <OptionsContent ref={optionsRef}>
+        <OptionsContent ref={scrollContainer}>
           {block.data.options.map((text, index) => (
-            <LabelBox selected={userData[block.key] == text} name={removeSpaces(block.key) + index}>
+            <LabelBox selected={userData[block.key] == text}>
               <div>
                 <Radio
                   type="radio"
                   checked={userData[block.key] == text}
                   onChange={_ => {
+                    scroll(block.data.options.length, index);
                     setUserData(prev => ({ ...prev, [block.key]: text }));
                   }}
                 />
@@ -40,6 +61,7 @@ export default function RangeInput({ block }) {
             </LabelBox>
           ))}
         </OptionsContent>
+        {!helpShown && <p>{`Scroll to view full list`}</p>}
       </Options>
     </div>
   );
@@ -76,7 +98,9 @@ const OptionsContent = styled.div`
   justify-content: space-between;
 
   @media (max-width: 700px) {
-    padding-bottom: 8px;
+    /* To make sure scrollbar is not hiding content */
+    padding-bottom: 16px;
+    margin-bottom: -16px;
 
     overflow-x: scroll;
     position: relative;

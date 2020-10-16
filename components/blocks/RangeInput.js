@@ -34,7 +34,9 @@ export default function RangeInput({ block }) {
       // const halfElement = size / 2;
       // const left = halfScreen + sizeElementsOffScreen + halfElement;
 
-      const left = -(clientWidth / size - 1) * (size / 2) + size * index;
+      //const left = -(clientWidth / size - 1) * (size / 2) + size * index;
+      const left = -((clientWidth - size) / 2) + size * index;
+
       console.log(left);
 
       scrollElement.scrollTo({

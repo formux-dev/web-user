@@ -34,14 +34,13 @@ export default function Form({ formID }) {
       isLoading: isSubmitLoading,
       isError: isSubmitError,
       isSuccess: isSubmitSuccess,
-      isIdle: isSubmitIdle,
       error: submitError,
       reset: submitReset,
     },
   ] = useMutation(submitForm);
 
-  const handleSubmit = (e, userData) => {
-    e.preventDefault();
+  const handleSubmit = e => {
+    if (e) e.preventDefault();
 
     // TODO: Add validation
 
@@ -92,7 +91,7 @@ export default function Form({ formID }) {
       <Wrapper>
         <Navbar />
 
-        {(isSubmitIdle || isSubmitLoading || isSubmitError) && (
+        {!isSubmitSuccess && (
           <form>
             <Debug />
 
@@ -104,18 +103,21 @@ export default function Form({ formID }) {
 
             <Rating />
 
-            {isSubmitIdle && (
-              <SubmitButton onClick={e => handleSubmit(e, userData)}>
-                Submit my reponse
-              </SubmitButton>
+            {!isSubmitLoading && !isSubmitError && (
+              <SubmitButton onClick={e => handleSubmit(e)}>Submit my reponse</SubmitButton>
             )}
 
             {isSubmitLoading && <SubmitButton disabled>Submitting...</SubmitButton>}
 
             {isSubmitError && (
-              <Error>
-                <p>Something went wrong</p>
-                <b onClick={() => submitReset()}>Try again</b>
+              <Error
+                onClick={() => {
+                  submitReset();
+                  handleSubmit(null);
+                }}
+              >
+                <p>Error: {submitError.message}</p>
+                <b>Try again</b>
               </Error>
             )}
           </form>
@@ -159,4 +161,5 @@ const Error = styled.div`
   background: #d93232;
   text-align: center;
   color: white;
+  cursor: pointer;
 `;

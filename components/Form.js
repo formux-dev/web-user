@@ -42,7 +42,8 @@ export default function Form({ formID }) {
 
   const handleSubmit = (e, userData) => {
     e.preventDefault();
-    console.log("f", formData, "u", userData);
+
+    // TODO: Add validation
 
     if (userData) {
       const { blocks, theme } = formData;

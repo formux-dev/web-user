@@ -1,23 +1,36 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useMemo } from "react";
 
 const FormContext = createContext({});
 
 function FormProvider({ children }) {
   const [formData, setFormData] = useState({});
   const [userData, setUserData] = useState({});
-  const [debug, setDebug] = useState(false);
   const [rating, setRating] = useState(null);
+  const [isDebug, setIsDebug] = useState(false);
 
-  const value = {
-    formData,
-    setFormData,
-    userData,
-    setUserData,
-    debug,
-    setDebug,
-    rating,
-    setRating,
-  };
+  // const value = {
+  //   formData,
+  //   setFormData,
+  //   userData,
+  //   setUserData,
+  //   isDebug,
+  //   setIsDebug,
+  //   rating,
+  //   setRating,
+  // };
+
+  const value = useMemo(() => {
+    return {
+      formData,
+      setFormData,
+      userData,
+      setUserData,
+      isDebug,
+      setIsDebug,
+      rating,
+      setRating,
+    };
+  }, [formData, userData, isDebug, rating]);
 
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
 }

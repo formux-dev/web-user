@@ -15,7 +15,7 @@ const WrapperBackground = styled.div`
   min-height: 100vh;
 `;
 
-const WrapperContent = styled.div`
+const WrapperContent = styled.main`
   margin: 0 auto;
   max-width: 700px;
   padding: 64px 32px;

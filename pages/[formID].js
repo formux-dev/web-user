@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from "react-query-devtools";
 import GlobalStyle from "./globalStyles";
 
 import Form from "../components/Form";
+import { FormProvider } from "../components/context/FormContext";
 
 export default function Home({ formID, title, description }) {
   return (
@@ -38,7 +39,9 @@ export default function Home({ formID, title, description }) {
         <meta name="theme-color" content="#3281fb"></meta>
       </Head>
 
-      <Form formID={formID} />
+      <FormProvider>
+        <Form formID={formID} />
+      </FormProvider>
     </div>
   );
 }

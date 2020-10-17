@@ -6,10 +6,10 @@ import beautify from "json-beautify";
 import { FormContext } from "./context/FormContext";
 
 export default function Debug() {
-  const { debug, setDebug, userData } = useContext(FormContext);
-  useHotkeys("ctrl+q", () => setDebug(prev => !prev));
+  const { isDebug, setIsDebug, userData } = useContext(FormContext);
+  useHotkeys("ctrl+q", () => setIsDebug(prev => !prev));
 
-  if (debug) {
+  if (isDebug) {
     return <WhiteSpace>Userdata: {beautify(userData, null, 2, 80)}</WhiteSpace>;
   } else {
     return false;

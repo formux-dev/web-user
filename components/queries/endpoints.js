@@ -6,7 +6,13 @@ const fetchForm = async (key, { formID }) => {
 };
 
 const submitForm = async data => {
-  return fetch(`https://us-central1-formux-8d67b.cloudfunctions.net/submitform`, data);
+  return await fetch(`https://us-central1-formux-8d67b.cloudfunctions.net/submitform`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify(data),
+  });
 };
 
 export { fetchForm, submitForm };

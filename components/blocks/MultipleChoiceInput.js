@@ -18,7 +18,7 @@ export default function MultipleChoiceInput({ block }) {
             <Radio
               type="radio"
               checked={userData[block.key] == text}
-              onChange={_ => {
+              onChange={() => {
                 setUserData(prev => ({ ...prev, [block.key]: text }));
               }}
             />

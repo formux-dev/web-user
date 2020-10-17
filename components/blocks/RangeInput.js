@@ -52,7 +52,7 @@ export default function RangeInput({ block }) {
     <div>
       <Question>{block.data.question}</Question>
 
-      <Options farLeft={farLeft} farRight={farRight}>
+      <Options farLeft={farLeft} farRight={farRight} scrollable={scrollable}>
         <OptionsContent ref={scrollContainer} scrollable={scrollable}>
           {block.data.options.map((text, index) => (
             <LabelBox selected={userData[block.key] == text} key={index}>
@@ -81,27 +81,29 @@ export default function RangeInput({ block }) {
 const Options = styled.div`
   position: relative;
 
-  @media (max-width: 700px) {
-    &:after {
-      content: "";
-      position: absolute;
-      z-index: 1;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      pointer-events: none;
+  ${props =>
+    props.scrollable &&
+    css`
+      &:after {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        pointer-events: none;
 
-      background: linear-gradient(
-        90deg,
-        ${props => transparentize(props.farLeft ? 1 : 0, getBackgroundColor(props))} 0%,
-        ${props => transparentize(1, getBackgroundColor(props))} 20%,
-        ${props => transparentize(1, getBackgroundColor(props))} 80%,
-        ${props => transparentize(props.farRight ? 1 : 0, getBackgroundColor(props))} 100%
-      );
-      width: 100%;
-    }
-  }
+        background: linear-gradient(
+          90deg,
+          ${props => transparentize(props.farLeft ? 1 : 0, getBackgroundColor(props))} 0%,
+          ${props => transparentize(1, getBackgroundColor(props))} 20%,
+          ${props => transparentize(1, getBackgroundColor(props))} 80%,
+          ${props => transparentize(props.farRight ? 1 : 0, getBackgroundColor(props))} 100%
+        );
+        width: 100%;
+      }
+    `}
 `;
 
 const OptionsContent = styled.div`

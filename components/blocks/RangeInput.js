@@ -1,7 +1,10 @@
-import { useContext, useRef, useState, useEffect } from "react";
+import { useContext, useRef, useState, useLayoutEffect } from "react";
 import styled, { css } from "styled-components";
 import { transparentize } from "polished";
+import { isMobile } from "react-device-detect";
+
 import useHorizontalScollPosition from "../hooks/useHorizontalScollPosition";
+import useResize from "../hooks/useResize";
 
 import { FormContext } from "../context/FormContext";
 import { getBackgroundColor, getInputColors } from "../styles/themeValues";
@@ -11,10 +14,19 @@ import Question from "../Question";
 export default function RangeInput({ block }) {
   const { userData, setUserData } = useContext(FormContext);
   const [helpShown, setHelpShown] = useState(false);
+  const [scrollable, setScrollable] = useState(true);
   const scrollContainer = useRef(null);
   const { farLeft, farRight } = useHorizontalScollPosition(scrollContainer);
 
-  useEffect(() => {
+  useResize(() => {
+    const scrollElement = scrollContainer.current;
+
+    if (scrollElement != null) {
+      setScrollable(scrollElement.clientWidth < scrollElement.scrollWidth);
+    }
+  });
+
+  useLayoutEffect(() => {
     if (!farLeft && !helpShown) {
       setHelpShown(true);
     }
@@ -27,24 +39,6 @@ export default function RangeInput({ block }) {
       const { scrollWidth, clientWidth } = scrollElement;
 
       const size = scrollWidth / amount;
-
-      // Alvar
-      // const halfScreen = clientWidth / 2;
-      // const sizeElementsOffScreen = size * (index - clientWidth / size);
-      // const halfElement = size / 2;
-      // const left = halfScreen + sizeElementsOffScreen + halfElement;
-
-      // Sebastian
-      //const left = -(clientWidth / size - 1) * (size / 2) + size * index;
-
-      // Eric
-      //const left = -((clientWidth - size) / 2) + size * index;
-
-      // Ludwig
-      // const left = (size / 2) * index + size * (index - (clientWidth / size - 1));
-      // const left = size * index - clientWidth / 2 - size / 2;
-      // const left = -clientWidth + size * index + (size / 2) * (clientWidth / size - 1);
-
       const left = -((clientWidth - size) / 2) + size * index;
 
       scrollElement.scrollTo({
@@ -59,14 +53,14 @@ export default function RangeInput({ block }) {
       <Question>{block.data.question}</Question>
 
       <Options farLeft={farLeft} farRight={farRight}>
-        <OptionsContent ref={scrollContainer}>
+        <OptionsContent ref={scrollContainer} scrollable={scrollable}>
           {block.data.options.map((text, index) => (
             <LabelBox selected={userData[block.key] == text} key={index}>
               <div>
                 <Radio
                   type="radio"
                   checked={userData[block.key] == text}
-                  onChange={_ => {
+                  onChange={() => {
                     scroll(block.data.options.length, index);
                     setUserData(prev => ({ ...prev, [block.key]: text }));
                   }}
@@ -78,7 +72,7 @@ export default function RangeInput({ block }) {
             </LabelBox>
           ))}
         </OptionsContent>
-        {!helpShown && <p>{`Scroll to view full list`}</p>}
+        {!helpShown && isMobile && <p>{`Scroll to view full list`}</p>}
       </Options>
     </div>
   );
@@ -114,14 +108,12 @@ const OptionsContent = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 700px) {
-    /* To make sure scrollbar is not hiding content */
-    padding-bottom: 16px;
-    margin-bottom: -16px;
+  /* To make sure scrollbar is not hiding content */
+  padding-bottom: 16px;
+  margin-bottom: -16px;
 
-    overflow-x: scroll;
-    position: relative;
-  }
+  overflow-x: ${props => (props.scrollable ? "scroll" : "none")};
+  position: relative;
 `;
 
 const LabelBox = styled.label`

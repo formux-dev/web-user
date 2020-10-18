@@ -1,23 +1,33 @@
 import styled from "styled-components";
 
-export default function ErrorViewer({ errors }) {
-  if (errors && errors.length > 0) {
+export default function ErrorViewer({ error }) {
+  if (error) {
     return (
-      <ErrorList>
-        {errors.map((message, index) => (
-          <p key={index}>{message}</p>
-        ))}
-      </ErrorList>
+      <Box>
+        <Sign alt="Warning" src="/warning.svg" />
+        <Message>{error}</Message>
+      </Box>
     );
   }
 
   return false;
 }
 
-const ErrorList = styled.ul`
+const Box = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin-top: 8px;
-  padding: 8px 12px;
+  padding: 4px 8px;
   border-radius: 4px;
-  background: #d11e06;
+  background: rgba(209, 30, 6, 0.7);
+`;
+
+const Sign = styled.img`
+  height: 1em;
+  margin-right: 4px;
+`;
+
+const Message = styled.p`
   color: white;
 `;

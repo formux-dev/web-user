@@ -24,9 +24,10 @@ export default function ParagraphInput({ block }) {
         required={block.data.required}
         onChange={({ target: { value } }) => setUserDataByKey(block, value)}
         onBlur={() => errorCheck(block)}
+        error={errors[block.key]}
       />
 
-      <ErrorViewer errors={errors[block.key]} />
+      <ErrorViewer error={errors[block.key]} />
     </div>
   );
 }

@@ -8,18 +8,18 @@ function FormProvider({ children }) {
   const [isDebug, setIsDebug] = useState(false);
 
   const errorCheck = (block, value) => {
+    // Returns true if no errors
+
     value = value ?? userData[block.key];
 
     if (block.data.required) {
       // TODO: Check for actual things (maybe a switch?)
 
-      console.log(block.type, value);
-
       if (!value || value.length == 0) {
-        setErrors(prev => ({ ...prev, [block.key]: ["Field is requiered"] }));
+        setErrors(prev => ({ ...prev, [block.key]: "Field is required" }));
         return false;
       } else {
-        setErrors(prev => ({ ...prev, [block.key]: [] }));
+        setErrors(prev => ({ ...prev, [block.key]: null }));
       }
     }
 
@@ -31,7 +31,7 @@ function FormProvider({ children }) {
     errorCheck(block, value);
   };
 
-  const isFormComplete = async formData => {
+  const isFormComplete = formData => {
     return formData.blocks.every(block => (block.key ? errorCheck(block) : true));
   };
 

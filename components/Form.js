@@ -41,23 +41,24 @@ export default function Form({ formID }) {
   const handleSubmit = async (e, formData) => {
     if (e) e.preventDefault();
 
-    if (await isFormComplete(formData)) {
+    if (isFormComplete(formData)) {
       const { blocks, theme } = formData;
 
       const requestData = {
         formID,
         rating: {
-          value: rating,
+          value: userData["FormuxRating"],
           theme,
         },
         userData: blocks
+          .filter(block => block.key != undefined)
+          .filter(block => block.type == "rating")
           .map(block => {
             return {
               key: block.key,
               value: userData[block.key],
             };
-          })
-          .filter(block => block.key != undefined),
+          }),
       };
 
       mutate(requestData);

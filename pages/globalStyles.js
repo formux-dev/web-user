@@ -9,6 +9,10 @@ const GlobalStyle = createGlobalStyle`
         line-height: 1.5;
         -webkit-tap-highlight-color: transparent;
     }
+
+    ::selection {
+        background: #387eff;
+    }
 `;
 
 export default GlobalStyle;

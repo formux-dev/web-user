@@ -51,7 +51,7 @@ export default function Rating({ block }) {
         <StarHelp>Click a star to rate</StarHelp>
       )}
 
-      <ErrorViewer errors={errors[block.key]} />
+      <ErrorViewer error={errors[block.key]} />
     </RatingContainer>
   );
 }

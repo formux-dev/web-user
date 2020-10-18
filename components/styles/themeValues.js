@@ -48,20 +48,22 @@ function getInputColors(props) {
     theme: { colorTheme },
   } = props;
 
+  const base = {
+    border: props.error == null ? getBorderColor(props) : "rgba(209, 30, 6, 0.7)",
+    activeBorder: "#387eff",
+    activeShadow: "#4aabff",
+  };
+
   switch (colorTheme) {
     case "light":
       return {
+        ...base,
         background: "white",
-        border: getBorderColor(props),
-        activeBorder: "#387eff",
-        activeShadow: "#4aabff",
       };
     case "dark":
       return {
+        ...base,
         background: "rgba(255, 255, 255, 0.1)",
-        border: getBorderColor(props),
-        activeBorder: "#387eff",
-        activeShadow: "#4aabff",
       };
   }
 }

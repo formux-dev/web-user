@@ -33,12 +33,12 @@ export default function CheckboxInput({ block }) {
             }}
             onBlur={() => errorCheck(block)}
           />
-          <CheckboxSquare />
+          <CheckboxSquare error={errors[block.key]} />
           {text}
         </Label>
       ))}
 
-      <ErrorViewer errors={errors[block.key]} />
+      <ErrorViewer error={errors[block.key]} />
     </Fieldset>
   );
 }

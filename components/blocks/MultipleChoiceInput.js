@@ -23,11 +23,11 @@ export default function MultipleChoiceInput({ block }) {
             onChange={() => setUserDataByKey(block, text)}
             onBlur={() => errorCheck(block)}
           />
-          <RadioCircle />
+          <RadioCircle error={errors[block.key]} />
           {text}
         </Label>
       ))}
-      <ErrorViewer errors={errors[block.key]} />
+      <ErrorViewer error={errors[block.key]} />
     </Fieldset>
   );
 }

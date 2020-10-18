@@ -68,7 +68,7 @@ export default function RangeInput({ block }) {
                 }}
                 onBlur={() => errorCheck(block)}
               />
-              <RadioCircle />
+              <RadioCircle error={errors[block.key]} />
 
               <LabelText>{text}</LabelText>
             </LabelBox>
@@ -77,7 +77,7 @@ export default function RangeInput({ block }) {
         {!helpShown && isMobile && <p>{`Scroll to view full list`}</p>}
       </Options>
 
-      <ErrorViewer errors={errors[block.key]} />
+      <ErrorViewer error={errors[block.key]} />
     </Fieldset>
   );
 }

@@ -5,48 +5,34 @@ const FormContext = createContext({});
 function FormProvider({ children }) {
   const [userData, setUserData] = useState({});
   const [errors, setErrors] = useState({});
-  const [rating, setRating] = useState(null);
   const [isDebug, setIsDebug] = useState(false);
 
   const errorCheck = (block, value) => {
-    if (!value) value = userData[block.key] ?? null;
+    value = value ?? userData[block.key];
 
-    return new Promise(resolve => {
-      const clear = () => {
-        setErrors(
-          prev => ({ ...prev, [block.key]: [] }),
-          () => resolve()
-        );
-      };
+    if (block.data.required) {
+      // TODO: Check for actual things (maybe a switch?)
 
-      if (block.data.required) {
-        // TODO: Check for only spaces too
-        if (!value || value.length == 0) {
-          setErrors(
-            prev => ({ ...prev, [block.key]: ["Field is requiered"] }),
-            () => resolve()
-          );
-        } else {
-          clear();
-        }
+      console.log(block.type, value);
+
+      if (!value || value.length == 0) {
+        setErrors(prev => ({ ...prev, [block.key]: ["Field is requiered"] }));
+        return false;
+      } else {
+        setErrors(prev => ({ ...prev, [block.key]: [] }));
       }
-    });
+    }
+
+    return true;
   };
 
   const setUserDataByKey = (block, value) => {
     setUserData(prev => ({ ...prev, [block.key]: value }));
-
-    if (value.length > 0) errorCheck(block, value);
+    errorCheck(block, value);
   };
 
-  const formComplete = async formData => {
-    for (const block of formData.blocks) {
-      if (block.key) {
-        await errorCheck(block);
-      }
-    }
-
-    return Object.values(errors).every(error => error.length == 0);
+  const isFormComplete = async formData => {
+    return formData.blocks.every(block => (block.key ? errorCheck(block) : true));
   };
 
   const value = {
@@ -54,11 +40,9 @@ function FormProvider({ children }) {
     setUserDataByKey,
     errors,
     errorCheck,
-    formComplete,
+    isFormComplete,
     isDebug,
     setIsDebug,
-    rating,
-    setRating,
   };
 
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;

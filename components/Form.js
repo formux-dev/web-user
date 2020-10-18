@@ -10,13 +10,12 @@ import { getInputColors, getTextColor } from "./styles/themeValues";
 import Navbar from "./Navbar";
 import Block from "./Block";
 import Title from "./Title";
-import Rating from "./Rating";
 import FormSkeleton from "./FormSkeleton";
 import Debug from "./Debug";
 import Wrapper from "./Wrapper";
 
 export default function Form({ formID }) {
-  const { rating, userData, formComplete } = useContext(FormContext);
+  const { userData, isFormComplete } = useContext(FormContext);
 
   const {
     isLoading: isFormLoading,
@@ -42,7 +41,7 @@ export default function Form({ formID }) {
   const handleSubmit = async (e, formData) => {
     if (e) e.preventDefault();
 
-    if (await formComplete(formData)) {
+    if (await isFormComplete(formData)) {
       const { blocks, theme } = formData;
 
       const requestData = {
@@ -98,8 +97,6 @@ export default function Form({ formID }) {
             {formData.blocks.map((block, index) => (
               <Block block={block} key={index} index={index} />
             ))}
-
-            <Rating />
 
             {!isSubmitLoading && !isSubmitError && (
               <SubmitButton onClick={e => handleSubmit(e, formData)}>

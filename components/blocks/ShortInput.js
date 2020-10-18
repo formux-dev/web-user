@@ -12,7 +12,7 @@ export default function ShortInput({ block }) {
 
   return (
     <div>
-      <Question as="label" for={block.key}>
+      <Question as="label" htmlFor={block.key}>
         {block.data.question}
       </Question>
 

@@ -1,51 +1,57 @@
-import { useState, useContext } from "react";
-import styled, { css } from "styled-components";
+import { useContext } from "react";
+import styled from "styled-components";
 
 import { getBorderColor, getFontFamily } from "../styles/themeValues";
 import { FormContext } from "../context/FormContext";
-import Title from "../Title";
 
-export default function Rating() {
-  const { rating, setRating } = useContext(FormContext);
-  // const [focused, setFocused] = useState(false);
+import Title from "../Title";
+import ErrorViewer from "../ErrorViewer";
+
+export default function Rating({ block }) {
+  const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
 
   return (
     <RatingContainer>
-      <Title>Give us feedback</Title>
-      <Description>
-        Please rate the overall design of this form. Your response will help us make better form
-        designs for future users
-      </Description>
+      <Title>{block.data.title}</Title>
+      <Description>{block.data.description}</Description>
 
       <StarContainer>
         {[...Array(5)].map((_, index) => (
-          <div key={"rating" + index}>
+          <div key={index}>
             <HiddenInput
               type="radio"
-              id={"rating" + index}
               aria-label={"Rate " + (index + 1)}
-              onFocus={() => setRating(index + 1)}
-              onChange={() => setRating(index + 1)}
+              checked={userData[block.key] || ""}
+              required={block.data.required}
+              onChange={() => setUserDataByKey(block, index + 1)}
+              onFocus={() => setUserDataByKey(block, index + 1)}
+              onBlur={() => errorCheck(block)}
             />
 
-            {rating >= index + 1 ? (
+            {userData[block.key] >= index + 1 ? (
               <Star
-                aria-hidden={true}
+                aria-hidden
                 src="/star-filled.svg"
-                onClick={() => setRating(index + 1)}
+                onClick={() => setUserDataByKey(block, index + 1)}
               />
             ) : (
-              <Star aria-hidden={true} src="/star.svg" onClick={() => setRating(index + 1)} />
+              <Star
+                aria-hidden
+                src="/star.svg"
+                onClick={() => setUserDataByKey(block, index + 1)}
+              />
             )}
           </div>
         ))}
       </StarContainer>
 
-      {rating ? (
-        <CurrentRating>{rating}/5 stars</CurrentRating>
+      {userData[block.key] ? (
+        <CurrentRating>{userData[block.key]}/5 stars</CurrentRating>
       ) : (
         <StarHelp>Click a star to rate</StarHelp>
       )}
+
+      <ErrorViewer errors={errors[block.key]} />
     </RatingContainer>
   );
 }

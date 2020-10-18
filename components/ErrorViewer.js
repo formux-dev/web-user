@@ -4,8 +4,8 @@ export default function ErrorViewer({ errors }) {
   if (errors && errors.length > 0) {
     return (
       <ErrorList>
-        {errors.map(message => (
-          <p>{message}</p>
+        {errors.map((message, index) => (
+          <p key={index}>{message}</p>
         ))}
       </ErrorList>
     );

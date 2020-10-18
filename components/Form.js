@@ -16,7 +16,7 @@ import Debug from "./Debug";
 import Wrapper from "./Wrapper";
 
 export default function Form({ formID }) {
-  const { rating, userData } = useContext(FormContext);
+  const { rating, userData, formComplete } = useContext(FormContext);
 
   const {
     isLoading: isFormLoading,
@@ -39,12 +39,10 @@ export default function Form({ formID }) {
     },
   ] = useMutation(submitForm);
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e, formData) => {
     if (e) e.preventDefault();
 
-    // TODO: Add validation
-
-    if (userData) {
+    if (await formComplete(formData)) {
       const { blocks, theme } = formData;
 
       const requestData = {
@@ -104,7 +102,9 @@ export default function Form({ formID }) {
             <Rating />
 
             {!isSubmitLoading && !isSubmitError && (
-              <SubmitButton onClick={e => handleSubmit(e)}>Submit my reponse</SubmitButton>
+              <SubmitButton onClick={e => handleSubmit(e, formData)}>
+                Submit my reponse
+              </SubmitButton>
             )}
 
             {isSubmitLoading && <SubmitButton disabled>Submitting...</SubmitButton>}
@@ -113,7 +113,7 @@ export default function Form({ formID }) {
               <Error
                 onClick={() => {
                   submitReset();
-                  handleSubmit(null);
+                  handleSubmit(null, formData);
                 }}
               >
                 <p>Error: {submitError.message}</p>

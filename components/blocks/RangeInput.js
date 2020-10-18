@@ -10,9 +10,11 @@ import { FormContext } from "../context/FormContext";
 import { getBackgroundColor, getInputColors } from "../styles/themeValues";
 
 import Question from "../Question";
+import Fieldset from "../Fieldset";
+import ErrorViewer from "../ErrorViewer";
 
 export default function RangeInput({ block }) {
-  const { userData, setUserDataByKey } = useContext(FormContext);
+  const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
   const [helpShown, setHelpShown] = useState(false);
   const [scrollable, setScrollable] = useState(true);
   const scrollContainer = useRef(null);
@@ -49,24 +51,24 @@ export default function RangeInput({ block }) {
   };
 
   return (
-    <div>
-      <Question>{block.data.question}</Question>
+    <Fieldset>
+      <Question as="legend">{block.data.question}</Question>
 
       <Options farLeft={farLeft} farRight={farRight} scrollable={scrollable}>
         <OptionsContent ref={scrollContainer} scrollable={scrollable}>
           {block.data.options.map((text, index) => (
             <LabelBox selected={userData[block.key] == text} key={index}>
-              <div>
-                <Radio
-                  type="radio"
-                  checked={userData[block.key] == text}
-                  onChange={() => {
-                    scroll(block.data.options.length, index);
-                    setUserDataByKey(block.key, text);
-                  }}
-                />
-                <RadioCircle />
-              </div>
+              <Radio
+                type="radio"
+                required={block.data.required}
+                checked={userData[block.key] == text}
+                onChange={() => {
+                  scroll(block.data.options.length, index);
+                  setUserDataByKey(block, text);
+                }}
+                onBlur={() => errorCheck(block)}
+              />
+              <RadioCircle />
 
               <LabelText>{text}</LabelText>
             </LabelBox>
@@ -74,7 +76,9 @@ export default function RangeInput({ block }) {
         </OptionsContent>
         {!helpShown && isMobile && <p>{`Scroll to view full list`}</p>}
       </Options>
-    </div>
+
+      <ErrorViewer errors={errors[block.key]} />
+    </Fieldset>
   );
 }
 

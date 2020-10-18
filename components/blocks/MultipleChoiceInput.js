@@ -5,27 +5,30 @@ import { FormContext } from "../context/FormContext";
 import { getInputColors } from "../styles/themeValues";
 
 import Question from "../Question";
+import Fieldset from "../Fieldset";
+import ErrorViewer from "../ErrorViewer";
 
 export default function MultipleChoiceInput({ block }) {
-  const { userData, setUserDataByKey } = useContext(FormContext);
+  const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
 
   return (
-    <div>
-      <Question>{block.data.question}</Question>
+    <Fieldset>
+      <Question as="legend">{block.data.question}</Question>
       {block.data.options.map((text, index) => (
-        <div key={index}>
-          <Label>
-            <Radio
-              type="radio"
-              checked={userData[block.key] == text}
-              onChange={() => setUserDataByKey(block.key, text)}
-            />
-            <RadioCircle />
-            {text}
-          </Label>
-        </div>
+        <Label key={index}>
+          <Radio
+            type="radio"
+            required={block.data.required}
+            checked={userData[block.key] == text}
+            onChange={() => setUserDataByKey(block, text)}
+            onBlur={() => errorCheck(block)}
+          />
+          <RadioCircle />
+          {text}
+        </Label>
       ))}
-    </div>
+      <ErrorViewer errors={errors[block.key]} />
+    </Fieldset>
   );
 }
 

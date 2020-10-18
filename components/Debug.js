@@ -6,13 +6,16 @@ import beautify from "json-beautify";
 import { FormContext } from "./context/FormContext";
 
 export default function Debug() {
-  const { isDebug, setIsDebug, userData, rating } = useContext(FormContext);
+  const { isDebug, setIsDebug, userData, rating, errors } = useContext(FormContext);
   useHotkeys("ctrl+q", () => setIsDebug(prev => !prev));
+
+  const beautifyData = data => beautify(data, null, 2, 80);
 
   if (isDebug) {
     return (
       <React.Fragment>
-        <WhiteSpace>Userdata: {beautify(userData, null, 2, 80)}</WhiteSpace>
+        <WhiteSpace>Userdata: {beautifyData(userData)}</WhiteSpace>
+        <WhiteSpace>Errors: {beautifyData(errors)}</WhiteSpace>
         <WhiteSpace>Rating: {String(rating)}</WhiteSpace>
       </React.Fragment>
     );

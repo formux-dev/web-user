@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import styled, { css } from "styled-components";
 
-import { getBorderColor, getFontFamily } from "./styles/themeValues";
-import { FormContext } from "./context/FormContext";
-import Title from "./Title";
+import { getBorderColor, getFontFamily } from "../styles/themeValues";
+import { FormContext } from "../context/FormContext";
+import Title from "../Title";
 
 export default function Rating() {
   const { rating, setRating } = useContext(FormContext);

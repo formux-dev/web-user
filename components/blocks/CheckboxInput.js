@@ -5,36 +5,41 @@ import { FormContext } from "../context/FormContext";
 import { getInputColors } from "../styles/themeValues";
 
 import Question from "../Question";
+import ErrorViewer from "../ErrorViewer";
+import Fieldset from "../Fieldset";
 
 export default function CheckboxInput({ block }) {
-  const { userData, setUserData, setUserDataByKey } = useContext(FormContext);
+  const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
 
   return (
-    <div>
-      <Question>{block.data.question}</Question>
+    <Fieldset>
+      <Question as="legend">{block.data.question}</Question>
+
       {block.data.options.map((text, index) => (
-        <div key={index}>
-          <Label>
-            <Checkbox
-              type="checkbox"
-              checked={userData[block.key] ? userData[block.key].includes(text) : false}
-              onChange={({ target: { checked } }) => {
-                setUserDataByKey(
-                  block.key,
-                  checked
-                    ? userData[block.key]
-                      ? [...userData[block.key], text]
-                      : [text]
-                    : userData[block.key].filter(x => x != text)
-                );
-              }}
-            />
-            <CheckboxSquare />
-            {text}
-          </Label>
-        </div>
+        <Label key={index}>
+          <Checkbox
+            type="checkbox"
+            required={block.data.required}
+            checked={userData[block.key] ? userData[block.key].includes(text) : false}
+            onChange={({ target: { checked } }) => {
+              setUserDataByKey(
+                block,
+                checked
+                  ? userData[block.key]
+                    ? [...userData[block.key], text]
+                    : [text]
+                  : userData[block.key].filter(x => x != text)
+              );
+            }}
+            onBlur={() => errorCheck(block)}
+          />
+          <CheckboxSquare />
+          {text}
+        </Label>
       ))}
-    </div>
+
+      <ErrorViewer errors={errors[block.key]} />
+    </Fieldset>
   );
 }
 

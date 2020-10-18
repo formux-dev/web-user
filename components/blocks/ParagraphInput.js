@@ -1,23 +1,32 @@
 import styled from "styled-components";
 import { useContext } from "react";
+import TextareaAutosize from "react-autosize-textarea";
 
 import { FormContext } from "../context/FormContext";
 import { getInputColors, getTextColor } from "../styles/themeValues";
 
 import Question from "../Question";
-import TextareaAutosize from "react-autosize-textarea";
+import ErrorViewer from "../ErrorViewer";
 
 export default function ParagraphInput({ block }) {
-  const { userData, setUserDataByKey } = useContext(FormContext);
+  const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
 
   return (
     <div>
-      <Question>{block.data.question}</Question>
+      <Question as="label" for={block.key}>
+        {block.data.question}
+      </Question>
+
       <TextArea
+        id={block.key}
         rows={3}
         value={userData[block.key] || ""}
-        onChange={({ target: { value } }) => setUserDataByKey(block.key, value)}
+        required={block.data.required}
+        onChange={({ target: { value } }) => setUserDataByKey(block, value)}
+        onBlur={() => errorCheck(block)}
       />
+
+      <ErrorViewer errors={errors[block.key]} />
     </div>
   );
 }

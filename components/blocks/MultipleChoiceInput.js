@@ -7,7 +7,7 @@ import { getInputColors } from "../styles/themeValues";
 import Question from "../Question";
 
 export default function MultipleChoiceInput({ block }) {
-  const { userData, setUserData } = useContext(FormContext);
+  const { userData, setUserDataByKey } = useContext(FormContext);
 
   return (
     <div>
@@ -18,9 +18,7 @@ export default function MultipleChoiceInput({ block }) {
             <Radio
               type="radio"
               checked={userData[block.key] == text}
-              onChange={() => {
-                setUserData(prev => ({ ...prev, [block.key]: text }));
-              }}
+              onChange={() => setUserDataByKey(block.key, text)}
             />
             <RadioCircle />
             {text}

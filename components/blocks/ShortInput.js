@@ -7,7 +7,7 @@ import { getInputColors, getTextColor } from "../styles/themeValues";
 import Question from "../Question";
 
 export default function ShortInput({ block }) {
-  const { userData, setUserData } = useContext(FormContext);
+  const { userData, setUserData, setUserDataByKey } = useContext(FormContext);
 
   return (
     <div>
@@ -15,9 +15,7 @@ export default function ShortInput({ block }) {
 
       <Input
         value={userData[block.key] || ""}
-        onChange={({ target: { value } }) => {
-          setUserData(prev => ({ ...prev, [block.key]: value }));
-        }}
+        onChange={({ target: { value } }) => setUserDataByKey(block.key, value)}
       />
     </div>
   );

@@ -8,7 +8,7 @@ import Question from "../Question";
 import TextareaAutosize from "react-autosize-textarea";
 
 export default function ParagraphInput({ block }) {
-  const { userData, setUserData } = useContext(FormContext);
+  const { userData, setUserDataByKey } = useContext(FormContext);
 
   return (
     <div>
@@ -16,9 +16,7 @@ export default function ParagraphInput({ block }) {
       <TextArea
         rows={3}
         value={userData[block.key] || ""}
-        onChange={({ target: { value } }) => {
-          setUserData(prev => ({ ...prev, [block.key]: value }));
-        }}
+        onChange={({ target: { value } }) => setUserDataByKey(block.key, value)}
       />
     </div>
   );

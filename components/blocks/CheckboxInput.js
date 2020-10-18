@@ -7,7 +7,7 @@ import { getInputColors } from "../styles/themeValues";
 import Question from "../Question";
 
 export default function CheckboxInput({ block }) {
-  const { userData, setUserData } = useContext(FormContext);
+  const { userData, setUserData, setUserDataByKey } = useContext(FormContext);
 
   return (
     <div>
@@ -19,14 +19,14 @@ export default function CheckboxInput({ block }) {
               type="checkbox"
               checked={userData[block.key] ? userData[block.key].includes(text) : false}
               onChange={({ target: { checked } }) => {
-                setUserData(prev => ({
-                  ...prev,
-                  [block.key]: checked
+                setUserDataByKey(
+                  block.key,
+                  checked
                     ? userData[block.key]
                       ? [...userData[block.key], text]
                       : [text]
-                    : userData[block.key].filter(x => x != text),
-                }));
+                    : userData[block.key].filter(x => x != text)
+                );
               }}
             />
             <CheckboxSquare />

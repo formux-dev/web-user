@@ -12,7 +12,7 @@ import { getBackgroundColor, getInputColors } from "../styles/themeValues";
 import Question from "../Question";
 
 export default function RangeInput({ block }) {
-  const { userData, setUserData } = useContext(FormContext);
+  const { userData, setUserDataByKey } = useContext(FormContext);
   const [helpShown, setHelpShown] = useState(false);
   const [scrollable, setScrollable] = useState(true);
   const scrollContainer = useRef(null);
@@ -62,7 +62,7 @@ export default function RangeInput({ block }) {
                   checked={userData[block.key] == text}
                   onChange={() => {
                     scroll(block.data.options.length, index);
-                    setUserData(prev => ({ ...prev, [block.key]: text }));
+                    setUserDataByKey(block.key, text);
                   }}
                 />
                 <RadioCircle />

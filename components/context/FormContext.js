@@ -7,9 +7,14 @@ function FormProvider({ children }) {
   const [rating, setRating] = useState(null);
   const [isDebug, setIsDebug] = useState(false);
 
+  const setUserDataByKey = (key, value) => {
+    setUserData(prev => ({ ...prev, [key]: value }));
+  };
+
   const value = {
     userData,
     setUserData,
+    setUserDataByKey,
     isDebug,
     setIsDebug,
     rating,

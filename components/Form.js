@@ -52,7 +52,7 @@ export default function Form({ formID }) {
         },
         userData: blocks
           .filter(block => block.key != undefined)
-          .filter(block => block.type == "rating")
+          .filter(block => block.key != "FormuxRating")
           .map(block => {
             return {
               key: block.key,

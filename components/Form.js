@@ -13,6 +13,7 @@ import Title from "./Title";
 import FormSkeleton from "./FormSkeleton";
 import Debug from "./Debug";
 import Wrapper from "./Wrapper";
+import SubmitSuccess from "./SubmitSuccess";
 
 export default function Form({ formID }) {
   const { userData, isFormComplete } = useContext(FormContext);
@@ -84,6 +85,17 @@ export default function Form({ formID }) {
     );
   }
 
+  if (formID && formData) {
+    return (
+      <ThemeProvider theme={formData.theme}>
+        <Wrapper>
+          <Navbar />
+          <SubmitSuccess formID={formID} />
+        </Wrapper>
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider theme={formData.theme}>
       <Wrapper>
@@ -121,12 +133,7 @@ export default function Form({ formID }) {
           </form>
         )}
 
-        {isSubmitSuccess && (
-          <div>
-            <Title>Thanks for your response!</Title>
-            <p>Data submitted successfully</p>
-          </div>
-        )}
+        {isSubmitSuccess && <SubmitSuccess formID={formID} />}
       </Wrapper>
     </ThemeProvider>
   );

@@ -72,10 +72,7 @@ export async function getStaticProps({ params: { formID } }) {
 }
 
 export async function getStaticPaths() {
-  const firebase = await connectFirebase();
-
-  const forms = await firebase.firestore().collection("forms").get();
-
+  const forms = await fetch;
   return {
     paths: forms.docs.map(doc => ({
       params: {

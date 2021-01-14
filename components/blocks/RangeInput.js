@@ -13,7 +13,7 @@ import Question from "../Question";
 import Fieldset from "../Fieldset";
 import ErrorViewer from "../ErrorViewer";
 
-export default function RangeInput({ block, index }) {
+export default function RangeInput({ block }) {
   const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
   const [helpShown, setHelpShown] = useState(false);
   const [scrollable, setScrollable] = useState(true);
@@ -59,8 +59,8 @@ export default function RangeInput({ block, index }) {
           {block.data.options.map((text, i) => (
             <LabelBox selected={userData[block.key] == text} key={i}>
               <Radio
-                tabIndex={index * 100 + i}
                 type="radio"
+                name={block.key}
                 required={block.data.required}
                 checked={userData[block.key] == text}
                 onChange={() => {

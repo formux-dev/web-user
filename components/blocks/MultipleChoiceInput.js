@@ -8,7 +8,7 @@ import Question from "../Question";
 import Fieldset from "../Fieldset";
 import ErrorViewer from "../ErrorViewer";
 
-export default function MultipleChoiceInput({ block, index }) {
+export default function MultipleChoiceInput({ block }) {
   const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
 
   return (
@@ -17,8 +17,8 @@ export default function MultipleChoiceInput({ block, index }) {
       {block.data.options.map((text, i) => (
         <Label key={i}>
           <Radio
-            tabIndex={index * 100 + i}
             type="radio"
+            name={block.key}
             required={block.data.required}
             checked={userData[block.key] == text}
             onChange={() => setUserDataByKey(block, text)}

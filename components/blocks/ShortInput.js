@@ -7,7 +7,7 @@ import { getInputColors, getTextColor } from "../styles/themeValues";
 import Question from "../Question";
 import ErrorViewer from "../ErrorViewer";
 
-export default function ShortInput({ block, index }) {
+export default function ShortInput({ block }) {
   const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
 
   return (
@@ -17,7 +17,7 @@ export default function ShortInput({ block, index }) {
       </Question>
 
       <Input
-        tabIndex={index * 100}
+        name={block.key}
         id={block.key}
         value={userData[block.key] || ""}
         required={block.data.required}

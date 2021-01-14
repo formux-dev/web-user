@@ -7,7 +7,7 @@ import { FormContext } from "../context/FormContext";
 import Title from "../Title";
 import ErrorViewer from "../ErrorViewer";
 
-export default function Rating({ block, index }) {
+export default function Rating({ block }) {
   const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
 
   return (
@@ -19,8 +19,8 @@ export default function Rating({ block, index }) {
         {[...Array(5)].map((_, i) => (
           <div key={i}>
             <HiddenInput
-              tabIndex={index * 100 + i}
               type="radio"
+              name={block.key}
               aria-label={"Rate " + (i + 1)}
               checked={userData[block.key] || ""}
               required={block.data.required}

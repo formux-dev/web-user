@@ -8,7 +8,7 @@ import { getInputColors, getTextColor } from "../styles/themeValues";
 import Question from "../Question";
 import ErrorViewer from "../ErrorViewer";
 
-export default function ParagraphInput({ block, index }) {
+export default function ParagraphInput({ block }) {
   const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
 
   return (
@@ -18,8 +18,8 @@ export default function ParagraphInput({ block, index }) {
       </Question>
 
       <TextArea
-        tabIndex={index * 100}
         id={block.key}
+        name={block.key}
         rows={3}
         value={userData[block.key] || ""}
         required={block.data.required}

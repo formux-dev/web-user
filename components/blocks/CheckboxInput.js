@@ -8,18 +8,18 @@ import Question from "../Question";
 import ErrorViewer from "../ErrorViewer";
 import Fieldset from "../Fieldset";
 
-export default function CheckboxInput({ block, index }) {
+export default function CheckboxInput({ block }) {
   const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
 
   return (
-    <Fieldset index={index}>
+    <Fieldset>
       <Question as="legend">{block.data.question}</Question>
 
       {block.data.options.map((text, i) => (
         <Label key={i}>
           <Checkbox
-            tabIndex={index * 100 + i}
             type="checkbox"
+            name={block.key}
             required={block.data.required}
             checked={userData[block.key] ? userData[block.key].includes(text) : false}
             onChange={({ target: { checked } }) => {

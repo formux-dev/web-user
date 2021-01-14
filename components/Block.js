@@ -21,13 +21,13 @@ export default function Block({ block, index }) {
   return (
     <BlockContainer isSeparated={isDebug}>
       <Switch test={block.type}>
-        <Description test="description" block={block} index={index} />
-        <ShortInput test="shortinput" block={block} index={index} />
-        <ParagraphInput test="paragraphinput" block={block} index={index} />
-        <MultipleChoiceInput test="multiplechoiceinput" block={block} index={index} />
-        <CheckboxInput test="checkboxinput" block={block} index={index} />
-        <RangeInput test="rangeinput" block={block} index={index} />
-        <Rating test="rating" block={block} index={index} />
+        <Description test="description" block={block} />
+        <ShortInput test="shortinput" block={block} />
+        <ParagraphInput test="paragraphinput" block={block} />
+        <MultipleChoiceInput test="multiplechoiceinput" block={block} />
+        <CheckboxInput test="checkboxinput" block={block} />
+        <RangeInput test="rangeinput" block={block} />
+        <Rating test="rating" block={block} />
       </Switch>
 
       {isDebug && (

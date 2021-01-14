@@ -85,17 +85,6 @@ export default function Form({ formID }) {
     );
   }
 
-  if (formID && formData) {
-    return (
-      <ThemeProvider theme={formData.theme}>
-        <Wrapper>
-          <Navbar />
-          <SubmitSuccess formID={formID} />
-        </Wrapper>
-      </ThemeProvider>
-    );
-  }
-
   return (
     <ThemeProvider theme={formData.theme}>
       <Wrapper>

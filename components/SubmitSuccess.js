@@ -2,7 +2,7 @@ import copy from "copy-to-clipboard";
 import Tooltip from "react-tooltip-lite";
 
 import styled from "styled-components";
-import { getTextColor } from "./styles/themeValues";
+import { getBorderColor, getInputColors, getTextColor } from "./styles/themeValues";
 
 export default function SubmitSuccess({ formID }) {
   const handleClick = () => {
@@ -14,8 +14,8 @@ export default function SubmitSuccess({ formID }) {
       <h1>Thanks for your response</h1>
       <p>Data submitted successfully</p>
       <Callout>Please share this form with your friends</Callout>
-      <Link>
-        <p>https://formux.web.app/{formID}/</p>
+      <LinkBox>
+        <Link>https://formux.web.app/{formID}/</Link>
         <StyledTooltip
           direction="bottom"
           content="Copied!"
@@ -25,7 +25,7 @@ export default function SubmitSuccess({ formID }) {
         >
           <CopyButton onClick={() => handleClick()}>Copy link</CopyButton>
         </StyledTooltip>
-      </Link>
+      </LinkBox>
     </StyledSubmitSuccess>
   );
 }
@@ -34,14 +34,51 @@ const StyledSubmitSuccess = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   color: ${props => getTextColor(props)};
 `;
 
+const LinkBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  padding: 8px;
+  background: ${props => getInputColors(props).background};
+  border: 1.5px solid ${props => getInputColors(props).border};
+  border-radius: 4px;
+  color: ${props => getInputColors(props).getTextColor};
+  text-decoration: none;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+`;
+
+const Link = styled.p`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+`;
+
 const CopyButton = styled.p`
-  border-left: 1.5px solid #c0c0c0;
+  border-left: 1.5px solid ${props => getBorderColor(props)};
   margin-left: 8px;
   padding-left: 8px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    border-left: none;
+    border-top: 1.5px solid ${props => getBorderColor(props)};
+    margin-left: none;
+    padding-left: none;
+    margin-top: 8px;
+    padding-top: 8px;
+  }
 `;
 
 const StyledTooltip = styled(Tooltip)`
@@ -54,15 +91,4 @@ const StyledTooltip = styled(Tooltip)`
 
 const Callout = styled.b`
   margin-top: 64px;
-`;
-
-const Link = styled.div`
-  display: flex;
-  margin-top: 8px;
-  padding: 8px;
-  background: #e0e0e0;
-  border: 1.5px solid grey;
-  border-radius: 4px;
-  color: grey;
-  text-decoration: none;
 `;

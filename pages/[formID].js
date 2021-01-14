@@ -1,6 +1,4 @@
 import Head from "next/head";
-import * as firebase from "firebase/app";
-import "firebase/firestore";
 import { ReactQueryDevtools } from "react-query-devtools";
 
 import GlobalStyle from "./globalStyles";
@@ -46,40 +44,29 @@ export default function Home({ formID, title, description }) {
   );
 }
 
-export const connectFirebase = () => {
-  if (!firebase.apps.length) {
-    firebase.initializeApp({
-      apiKey: process.env.FIREBASE_API_KEY,
-      authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-      projectId: process.env.FIREBASE_PROJECT_ID,
-    });
-  }
-
-  return firebase;
-};
-
 export async function getStaticProps({ params: { formID } }) {
-  const firebase = await connectFirebase();
+  const response = await fetch(
+    "https://us-central1-formux-8d67b.cloudfunctions.net/fetchFormMeta?formID=" + formID
+  );
 
-  const form = await firebase.firestore().collection("forms").doc(formID).get();
+  const json = await response.json();
 
   return {
     props: {
       formID,
-      ...form.data().meta,
+      ...json,
     },
   };
 }
 
 export async function getStaticPaths() {
-  const firebase = await connectFirebase();
-
-  const forms = await firebase.firestore().collection("forms").get();
+  const response = await fetch("https://us-central1-formux-8d67b.cloudfunctions.net/fetchFormIDs");
+  const json = await response.json();
 
   return {
-    paths: forms.docs.map(doc => ({
+    paths: json.forms.map(form => ({
       params: {
-        formID: doc.id,
+        formID: form,
       },
     })),
     fallback: false,

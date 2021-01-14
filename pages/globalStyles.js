@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
         font-family: "Inter", sans-serif;
         line-height: 1.5;
         -webkit-tap-highlight-color: transparent;
+        appearance: none;
     }
 
     ::selection {

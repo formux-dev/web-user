@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import styled from "styled-components";
-import { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
+
 import { useQuery, useMutation } from "react-query";
 
 import { FormContext } from "./context/FormContext";
@@ -24,7 +24,7 @@ export default function Form({ formID }) {
     error: formError,
     data: formData,
   } = useQuery(["form", { formID }], fetchForm, {
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     refetchOnReconnect: false,
   });
 
@@ -94,9 +94,9 @@ export default function Form({ formID }) {
           <form>
             <Debug />
 
-            <Title>{formData.meta && formData.meta.title}</Title>
+            {formData.theme.showImage && <Image src={formData.meta.image} />}
 
-            {formData.theme.image && <Image src={formData.meta.image} />}
+            <Title>{formData.meta && formData.meta.title}</Title>
 
             {formData.blocks.map((block, index) => (
               <Block block={block} key={index} index={index} />
@@ -146,6 +146,13 @@ const SubmitButton = styled.button`
     box-shadow: 0px 0px 0px 3px #4aabff;
     border: 1.5px solid #387eff;
   }
+`;
+
+const Image = styled.img`
+  object-fit: cover;
+  width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
 `;
 
 const Error = styled.div`

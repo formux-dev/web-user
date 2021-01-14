@@ -48,7 +48,6 @@ export async function getStaticProps({ params: { formID } }) {
   const response = await fetch(
     "https://us-central1-formux-8d67b.cloudfunctions.net/fetchFormMeta?formID=" + formID
   );
-
   const json = await response.json();
 
   return {

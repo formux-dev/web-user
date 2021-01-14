@@ -123,7 +123,7 @@ export default function Form({ formID }) {
           </form>
         )}
 
-        {isSubmitSuccess && <SubmitSuccess lang={formData.meta.lang} formID={formID} />}
+        {isSubmitSuccess && <SubmitSuccess text={formData.meta.sharescreen} formID={formID} />}
       </Wrapper>
     </ThemeProvider>
   );

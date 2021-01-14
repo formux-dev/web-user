@@ -96,6 +96,8 @@ export default function Form({ formID }) {
 
             <Title>{formData.meta && formData.meta.title}</Title>
 
+            {formData.theme.image && <Image src={formData.meta.image} />}
+
             {formData.blocks.map((block, index) => (
               <Block block={block} key={index} index={index} />
             ))}

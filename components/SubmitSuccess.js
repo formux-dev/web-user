@@ -4,21 +4,21 @@ import Tooltip from "react-tooltip-lite";
 import styled from "styled-components";
 import { getBorderColor, getInputColors, getTextColor } from "./styles/themeValues";
 
-export default function SubmitSuccess({ formID }) {
+export default function SubmitSuccess({ formID, lang }) {
   const handleClick = () => {
     copy("https://formux.web.app/" + formID);
   };
 
   return (
     <StyledSubmitSuccess>
-      <h1>Thanks for your response</h1>
-      <p>Data submitted successfully</p>
-      <Callout>Please share this form with your friends</Callout>
+      <h1>Tack för ditt svar</h1>
+      <p>Ditt svar är skickat</p>
+      <Callout>Dela gärna det här formuläret med dina vänner</Callout>
       <LinkBox>
         <Link>https://formux.web.app/{formID}/</Link>
         <StyledTooltip
           direction="bottom"
-          content="Copied!"
+          content="Kopierat!"
           eventOn="onClick"
           eventOff="onMouseOut"
           useHover={false}

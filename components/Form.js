@@ -47,17 +47,12 @@ export default function Form({ formID }) {
     if (e) e.preventDefault();
 
     if (isFormComplete(formData)) {
-      const { blocks, theme } = formData;
-
       const requestData = {
         formID,
-        info: {
-          rating: userData["FormuxRating"],
-          isRandom: formData.isRandom,
-        },
-        data: blocks
+        rating: userData["__Formux__Rating"],
+        data: formData.blocks
           .filter(block => block.key != undefined)
-          .filter(block => block.key != "FormuxRating")
+          .filter(block => block.key != "__Formux__Rating")
           .map(block => {
             return {
               key: block.key,
@@ -128,7 +123,7 @@ export default function Form({ formID }) {
           </form>
         )}
 
-        {isSubmitSuccess && <SubmitSuccess formID={formID} />}
+        {isSubmitSuccess && <SubmitSuccess lang={formData.meta.lang} formID={formID} />}
       </Wrapper>
     </ThemeProvider>
   );

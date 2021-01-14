@@ -14,17 +14,21 @@ import FormSkeleton from "./FormSkeleton";
 import Debug from "./Debug";
 import Wrapper from "./Wrapper";
 import SubmitSuccess from "./SubmitSuccess";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export default function Form({ formID }) {
   const { userData, isFormComplete } = useContext(FormContext);
+
+  useHotkeys("ctrl+b", () => refetch());
 
   const {
     isLoading: isFormLoading,
     isError: isFormError,
     error: formError,
     data: formData,
+    refetch,
   } = useQuery(["form", { formID }], fetchForm, {
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
 
@@ -88,13 +92,13 @@ export default function Form({ formID }) {
   return (
     <ThemeProvider theme={formData.theme}>
       <Wrapper>
-        <Navbar />
+        {formData.theme.showNavbar && <Navbar />}
 
         {!isSubmitSuccess && (
           <form>
-            <Debug />
-
             {formData.theme.showImage && <Image src={formData.meta.image} />}
+
+            <Debug />
 
             <Title>{formData.meta && formData.meta.title}</Title>
 

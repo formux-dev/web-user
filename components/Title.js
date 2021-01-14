@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { getFontFamily, getBoldFontWeight } from "./styles/themeValues";
 
 export default function Title({ children }) {
@@ -11,4 +11,10 @@ const StyledTitle = styled.h1`
   margin-bottom: 16px;
   font-weight: ${props => getBoldFontWeight(props)};
   font-family: ${props => getFontFamily(props)};
+
+  ${props =>
+    props.theme.centerText &&
+    css`
+      text-align: center;
+    `};
 `;

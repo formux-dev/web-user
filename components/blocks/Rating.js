@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { getBorderColor, getFontFamily } from "../styles/themeValues";
 import { FormContext } from "../context/FormContext";
@@ -63,12 +63,24 @@ const StyledRating = styled.div`
 const Description = styled.p`
   margin-bottom: 16px;
   font-family: ${props => getFontFamily(props)};
+
+  ${props =>
+    props.theme.centerText &&
+    css`
+      text-align: center;
+    `};
 `;
 
 const StarContainer = styled.fieldset`
   display: flex;
   flex-direction: row;
   border: none;
+
+  ${props =>
+    props.theme.centerText &&
+    css`
+      justify-content: center;
+    `};
 `;
 
 const Star = styled.img`
@@ -94,9 +106,21 @@ const HiddenInput = styled.input`
 const StarHelp = styled.p`
   margin-top: 16px;
   font-family: ${props => getFontFamily(props)};
+
+  ${props =>
+    props.theme.centerText &&
+    css`
+      text-align: center;
+    `};
 `;
 
 const CurrentRating = styled.h2`
   font-size: 2em;
   margin-top: 8px;
+
+  ${props =>
+    props.theme.centerText &&
+    css`
+      text-align: center;
+    `};
 `;

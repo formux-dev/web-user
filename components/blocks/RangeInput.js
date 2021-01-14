@@ -13,7 +13,7 @@ import Question from "../Question";
 import Fieldset from "../Fieldset";
 import ErrorViewer from "../ErrorViewer";
 
-export default function RangeInput({ block }) {
+export default function RangeInput({ block, index }) {
   const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
   const [helpShown, setHelpShown] = useState(false);
   const [scrollable, setScrollable] = useState(true);
@@ -56,14 +56,15 @@ export default function RangeInput({ block }) {
 
       <Options farLeft={farLeft} farRight={farRight} scrollable={scrollable}>
         <OptionsContent ref={scrollContainer} scrollable={scrollable}>
-          {block.data.options.map((text, index) => (
-            <LabelBox selected={userData[block.key] == text} key={index}>
+          {block.data.options.map((text, i) => (
+            <LabelBox selected={userData[block.key] == text} key={i}>
               <Radio
+                tabIndex={index * 100 + i}
                 type="radio"
                 required={block.data.required}
                 checked={userData[block.key] == text}
                 onChange={() => {
-                  scroll(block.data.options.length, index);
+                  scroll(block.data.options.length, i);
                   setUserDataByKey(block, text);
                 }}
                 onBlur={() => errorCheck(block)}
@@ -149,10 +150,11 @@ const RadioCircle = styled.span`
   display: block;
   margin-bottom: 8px;
   width: 1.2rem;
-  height: 1.2em;
+  height: 1.2rem;
   border-radius: 50%;
-  background: ${props => getInputColors(props).background};
-  background-position: 50% 50%;
+  background-color: ${props => getInputColors(props).background};
+  background-position: center;
+  background-repeat: no-repeat;
   background-size: 80%;
   border: 1.5px solid ${props => getInputColors(props).border};
   transition: all 100ms ease-in-out;
@@ -166,17 +168,14 @@ const Radio = styled.input`
 
   &:checked {
     & ~ ${RadioCircle} {
-      background: url("/dot.svg") ${props => getInputColors(props).background};
-      background-position: 50% 50%;
-      background-size: 70%;
-      background-repeat: no-repeat;
+      background-image: url("/dot.svg");
     }
   }
 
   &:focus {
     & ~ ${RadioCircle} {
       box-shadow: 0px 0px 0px 3px ${props => getInputColors(props).activeShadow};
-      border: 1.5px solid ${props => getInputColors(props).activeBorder};
+      border-color: ${props => getInputColors(props).activeBorder};
     }
   }
 `;

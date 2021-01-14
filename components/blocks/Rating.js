@@ -7,39 +7,36 @@ import { FormContext } from "../context/FormContext";
 import Title from "../Title";
 import ErrorViewer from "../ErrorViewer";
 
-export default function Rating({ block }) {
+export default function Rating({ block, index }) {
   const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
 
   return (
-    <RatingContainer>
+    <StyledRating>
       <Title>{block.data.title}</Title>
       <Description>{block.data.description}</Description>
 
       <StarContainer>
-        {[...Array(5)].map((_, index) => (
-          <div key={index}>
+        {[...Array(5)].map((_, i) => (
+          <div key={i}>
             <HiddenInput
+              tabIndex={index * 100 + i}
               type="radio"
-              aria-label={"Rate " + (index + 1)}
+              aria-label={"Rate " + (i + 1)}
               checked={userData[block.key] || ""}
               required={block.data.required}
-              onChange={() => setUserDataByKey(block, index + 1)}
-              onFocus={() => setUserDataByKey(block, index + 1)}
+              onChange={() => setUserDataByKey(block, i + 1)}
+              onFocus={() => setUserDataByKey(block, i + 1)}
               onBlur={() => errorCheck(block)}
             />
 
-            {userData[block.key] >= index + 1 ? (
+            {userData[block.key] >= i + 1 ? (
               <Star
                 aria-hidden
                 src="/star-filled.svg"
-                onClick={() => setUserDataByKey(block, index + 1)}
+                onClick={() => setUserDataByKey(block, i + 1)}
               />
             ) : (
-              <Star
-                aria-hidden
-                src="/star.svg"
-                onClick={() => setUserDataByKey(block, index + 1)}
-              />
+              <Star aria-hidden src="/star.svg" onClick={() => setUserDataByKey(block, i + 1)} />
             )}
           </div>
         ))}
@@ -52,11 +49,11 @@ export default function Rating({ block }) {
       )}
 
       <ErrorViewer error={errors[block.key]} />
-    </RatingContainer>
+    </StyledRating>
   );
 }
 
-const RatingContainer = styled.div`
+const StyledRating = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 32px;
@@ -68,9 +65,10 @@ const Description = styled.p`
   font-family: ${props => getFontFamily(props)};
 `;
 
-const StarContainer = styled.div`
+const StarContainer = styled.fieldset`
   display: flex;
   flex-direction: row;
+  border: none;
 `;
 
 const Star = styled.img`

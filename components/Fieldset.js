@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export default function FieldSet({ children }) {
-  return <StyledFieldSet>{children}</StyledFieldSet>;
+  return <StyledFieldset>{children}</StyledFieldset>;
 }
 
-const StyledFieldSet = styled.fieldset`
+const StyledFieldset = styled.fieldset`
   display: flex;
   flex-direction: column;
   border: none;

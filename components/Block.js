@@ -15,22 +15,22 @@ import RangeInput from "./blocks/RangeInput";
 import Rating from "./blocks/Rating";
 
 export default function Block({ block, index }) {
-  const { debug } = useContext(FormContext);
+  const { isDebug } = useContext(FormContext);
   const [showRawData, setShowRawData] = useState(false);
 
   return (
-    <BlockContainer isSeparated={debug}>
+    <BlockContainer isSeparated={isDebug}>
       <Switch test={block.type}>
-        <RangeInput test="rangeinput" block={block} />
-        <Rating test="rating" block={block} />
-        <Description test="description" block={block} />
-        <ShortInput test="shortinput" block={block} />
-        <ParagraphInput test="paragraphinput" block={block} />
-        <MultipleChoiceInput test="multiplechoiceinput" block={block} />
-        <CheckboxInput test="checkboxinput" block={block} />
+        <Description test="description" block={block} index={index} />
+        <ShortInput test="shortinput" block={block} index={index} />
+        <ParagraphInput test="paragraphinput" block={block} index={index} />
+        <MultipleChoiceInput test="multiplechoiceinput" block={block} index={index} />
+        <CheckboxInput test="checkboxinput" block={block} index={index} />
+        <RangeInput test="rangeinput" block={block} index={index} />
+        <Rating test="rating" block={block} index={index} />
       </Switch>
 
-      {debug && (
+      {isDebug && (
         <RawData>
           <div>
             <input
@@ -68,4 +68,9 @@ const RawData = styled.div`
   margin-top: 12px;
   width: 100%;
   white-space: pre-wrap;
+  appearance: initial;
+
+  & > div > input {
+    appearance: checkbox;
+  }
 `;

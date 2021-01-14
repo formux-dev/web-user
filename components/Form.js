@@ -51,11 +51,11 @@ export default function Form({ formID }) {
 
       const requestData = {
         formID,
-        rating: {
-          value: userData["FormuxRating"],
-          theme,
+        info: {
+          rating: userData["FormuxRating"],
+          isRandom: formData.isRandom,
         },
-        userData: blocks
+        data: blocks
           .filter(block => block.key != undefined)
           .filter(block => block.key != "FormuxRating")
           .map(block => {

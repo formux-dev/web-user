@@ -50,6 +50,7 @@ export default function Form({ formID }) {
       const requestData = {
         formID,
         rating: userData["__Formux__Rating"],
+        theme: formData.theme,
         data: formData.blocks
           .filter(block => block.key != undefined)
           .filter(block => block.key != "__Formux__Rating")

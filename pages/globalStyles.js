@@ -12,7 +12,8 @@ const GlobalStyle = createGlobalStyle`
     }
 
     ::selection {
-        background: #387eff;
+        background: lightgrey;
+        
     }
 `;
 

@@ -43,9 +43,12 @@ export default function Rating({ block }) {
       </StarContainer>
 
       {userData[block.key] ? (
-        <CurrentRating>{userData[block.key]}/5 stars</CurrentRating>
+        <CurrentRating>
+          {userData[block.key]}
+          {block.data.total}
+        </CurrentRating>
       ) : (
-        <StarHelp>Click a star to rate</StarHelp>
+        <StarHelp>{block.data.help}</StarHelp>
       )}
 
       <ErrorViewer error={errors[block.key]} />

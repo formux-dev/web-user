@@ -7,7 +7,7 @@ import useHorizontalScollPosition from "../hooks/useHorizontalScollPosition";
 import useResize from "../hooks/useResize";
 
 import { FormContext } from "../context/FormContext";
-import { getBackgroundColor, getInputColors } from "../styles/themeValues";
+import { getBackgroundColor, getInputColors, getIcon } from "../styles/themeValues";
 
 import Question from "../Question";
 import Fieldset from "../Fieldset";
@@ -168,7 +168,7 @@ const Radio = styled.input`
 
   &:checked {
     & ~ ${RadioCircle} {
-      background-image: url("/dot.svg");
+      background-image: ${props => getIcon(props).dot};
     }
   }
 

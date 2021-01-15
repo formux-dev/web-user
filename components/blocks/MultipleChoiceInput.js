@@ -2,7 +2,7 @@ import { useContext } from "react";
 import styled from "styled-components";
 
 import { FormContext } from "../context/FormContext";
-import { getInputColors } from "../styles/themeValues";
+import { getInputColors, getIcon } from "../styles/themeValues";
 
 import Question from "../Question";
 import Fieldset from "../Fieldset";
@@ -62,7 +62,7 @@ const Radio = styled.input`
 
   &:checked {
     & ~ ${RadioCircle} {
-      background-image: url("/dot.svg");
+      background-image: ${props => getIcon(props).dot};
     }
   }
 

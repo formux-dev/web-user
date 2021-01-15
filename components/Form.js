@@ -103,7 +103,7 @@ export default function Form({ formID }) {
 
             {!isSubmitLoading && !isSubmitError && (
               <SubmitButton onClick={e => handleSubmit(e, formData)}>
-                Submit my reponse
+                {formData.meta.submitbutton}
               </SubmitButton>
             )}
 
@@ -141,9 +141,8 @@ const SubmitButton = styled.button`
   color: ${props => getTextColor(props)};
 
   &:focus {
-    border-color: transparent;
-    box-shadow: 0px 0px 0px 3px #4aabff;
-    border: 1.5px solid #387eff;
+    box-shadow: 0px 0px 0px 3px ${props => getInputColors(props).activeShadow};
+    border: 1.5px solid ${props => getInputColors(props).activeBorder};
   }
 `;
 

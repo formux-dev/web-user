@@ -59,9 +59,7 @@ function getAccentColors({ theme: { colorAccent } }) {
 }
 
 function getInputColors(props) {
-  const {
-    theme: { colorTheme },
-  } = props;
+  const { colorTheme } = props.theme;
 
   const base = {
     border: props.error == null ? getBorderColor(props) : "rgba(209, 30, 6, 0.7)",

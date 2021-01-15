@@ -2,3 +2,4 @@
 out
 .next
 .firebase
+node_modules/

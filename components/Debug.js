@@ -9,7 +9,9 @@ export default function Debug() {
   const { isDebug, setIsDebug, userData, rating, errors } = useContext(FormContext);
   const themeContext = useContext(ThemeContext);
 
-  useHotkeys("ctrl+q", () => setIsDebug(prev => !prev));
+  if (process.env.NODE_ENV == "development") {
+    useHotkeys("ctrl+q", () => setIsDebug(prev => !prev));
+  }
 
   const beautifyData = data => beautify(data, null, 2, 80);
 

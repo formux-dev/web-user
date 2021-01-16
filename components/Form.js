@@ -19,7 +19,9 @@ import { useHotkeys } from "react-hotkeys-hook";
 export default function Form({ formId }) {
   const { userData, isFormComplete } = useContext(FormContext);
 
-  useHotkeys("ctrl+b", () => refetch());
+  if (process.env.NODE_ENV == "development") {
+    useHotkeys("ctrl+b", () => refetch());
+  }
 
   const {
     isLoading: isFormLoading,

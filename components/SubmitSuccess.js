@@ -4,9 +4,9 @@ import Tooltip from "react-tooltip-lite";
 import styled from "styled-components";
 import { getBorderColor, getInputColors, getTextColor } from "./styles/themeValues";
 
-export default function SubmitSuccess({ formID, text }) {
+export default function SubmitSuccess({ formId, text }) {
   const handleClick = () => {
-    copy("https://formux.web.app/" + formID);
+    copy("https://formux.web.app/" + formId);
   };
 
   return (
@@ -15,7 +15,7 @@ export default function SubmitSuccess({ formID, text }) {
       <p>{text.subtitle}</p>
       <Callout>{text.callout}</Callout>
       <LinkBox>
-        <Link>https://formux.web.app/{formID}/</Link>
+        <Link>https://formux.web.app/{formId}/</Link>
         <StyledTooltip
           direction="bottom"
           content={text.copymessage}

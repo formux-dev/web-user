@@ -4,7 +4,7 @@ import styled, { ThemeProvider, css } from "styled-components";
 import { useQuery, useMutation } from "react-query";
 
 import { FormContext } from "./context/FormContext";
-import { fetchForm, submitForm } from "./queries/endpoints";
+import { getForm, postForm } from "../queries/client";
 import { getInputColors, getTextColor } from "./styles/themeValues";
 
 import Navbar from "./Navbar";
@@ -16,7 +16,7 @@ import Wrapper from "./Wrapper";
 import SubmitSuccess from "./SubmitSuccess";
 import { useHotkeys } from "react-hotkeys-hook";
 
-export default function Form({ formID }) {
+export default function Form({ formId }) {
   const { userData, isFormComplete } = useContext(FormContext);
 
   useHotkeys("ctrl+b", () => refetch());
@@ -27,7 +27,7 @@ export default function Form({ formID }) {
     error: formError,
     data: formData,
     refetch,
-  } = useQuery(["form", { formID }], fetchForm, {
+  } = useQuery(["form", { formId }], getForm, {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
@@ -41,14 +41,14 @@ export default function Form({ formID }) {
       error: submitError,
       reset: submitReset,
     },
-  ] = useMutation(submitForm);
+  ] = useMutation(postForm);
 
-  const handleSubmit = async (e, formData) => {
-    if (e) e.preventDefault();
+  const handleSubmit = async (event, formData) => {
+    if (event) event.preventDefault();
 
     if (isFormComplete(formData)) {
       const requestData = {
-        formID,
+        formId,
         rating: userData["__Formux__Rating"],
         theme: formData.theme,
         data: formData.blocks
@@ -124,7 +124,7 @@ export default function Form({ formID }) {
           </form>
         )}
 
-        {isSubmitSuccess && <SubmitSuccess text={formData.meta.sharescreen} formID={formID} />}
+        {isSubmitSuccess && <SubmitSuccess text={formData.meta.sharescreen} formId={formId} />}
       </Wrapper>
     </ThemeProvider>
   );

@@ -6,7 +6,9 @@ import GlobalStyle from "./globalStyles";
 import Form from "../components/Form";
 import { FormProvider } from "../components/context/FormContext";
 
-export default function Home({ formID, title, description }) {
+import { getForm, getForms } from "../queries/generator";
+
+export default function Home({ formId, title, description }) {
   return (
     <div>
       <GlobalStyle />
@@ -19,7 +21,7 @@ export default function Home({ formID, title, description }) {
         <meta property="og:site_name" content="Formux"></meta>
         <meta property="og:description" content={description}></meta>
         <meta property="og:image" content="/social.jpg"></meta>
-        <meta property="og:url" content={"https://formux.web.app/" + formID}></meta>
+        <meta property="og:url" content={"https://formux.web.app/" + formId}></meta>
         <meta name="twitter:card" content="summary"></meta>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
@@ -38,34 +40,30 @@ export default function Home({ formID, title, description }) {
       </Head>
 
       <FormProvider>
-        <Form formID={formID} />
+        <Form formId={formId} />
       </FormProvider>
     </div>
   );
 }
 
-export async function getStaticProps({ params: { formID } }) {
-  const response = await fetch(
-    "https://us-central1-formux-8d67b.cloudfunctions.net/fetchFormMeta?formID=" + formID
-  );
-  const json = await response.json();
+export async function getStaticProps({ params: { formId } }) {
+  const json = await getForm(formId);
 
   return {
     props: {
-      formID,
-      ...json,
+      formId,
+      ...json.meta,
     },
   };
 }
 
 export async function getStaticPaths() {
-  const response = await fetch("https://us-central1-formux-8d67b.cloudfunctions.net/fetchFormIDs");
-  const json = await response.json();
+  const json = await getForms();
 
   return {
     paths: json.forms.map(form => ({
       params: {
-        formID: form,
+        formId: form.id,
       },
     })),
     fallback: false,

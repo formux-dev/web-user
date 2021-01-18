@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import translations from "../i18n/translations";
 
 const FormContext = createContext({});
 
@@ -13,10 +14,18 @@ function FormProvider({ children }) {
     value = value ?? userData[block.key];
 
     if (block.data.required) {
-      // TODO: Check for actual things (maybe a switch?)
+      // We won't check for other things because it
+      // does not matter a lot for this experiment
+
+      // Ugly i18n hack. I know
 
       if (!value || value.length == 0) {
-        setErrors(prev => ({ ...prev, [block.key]: "Field is required" }));
+        setErrors(prev => ({
+          ...prev,
+          [block.key]: navigator.languages.includes("sv")
+            ? translations.sv.validation.required
+            : translations.en.validation.required,
+        }));
         return false;
       } else {
         setErrors(prev => ({ ...prev, [block.key]: null }));

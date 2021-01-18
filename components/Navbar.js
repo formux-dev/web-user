@@ -1,12 +1,13 @@
 import styled from "styled-components";
+import translations from "./i18n/translations";
 import Tag from "./Tag";
 
-export default function Navbar() {
+export default function Navbar({ lang }) {
   return (
     <NavbarContainer>
       <RightSide>
         <Logo alt="logo" src="/favicon-192x192.png" />
-        <h1>Formux Survey</h1>
+        <h1>{translations[lang].appTitle}</h1>
       </RightSide>
       <Tag>Alpha</Tag>
     </NavbarContainer>

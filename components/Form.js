@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import styled, { ThemeProvider, css } from "styled-components";
+import { useContext, useMemo } from "react";
+import styled, { ThemeProvider } from "styled-components";
 
 import { useQuery, useMutation } from "react-query";
 
@@ -15,6 +15,7 @@ import Debug from "./Debug";
 import Wrapper from "./Wrapper";
 import SubmitSuccess from "./SubmitSuccess";
 import { useHotkeys } from "react-hotkeys-hook";
+import translations from "./i18n/translations";
 
 export default function Form({ formId }) {
   const { userData, isFormComplete } = useContext(FormContext);
@@ -68,10 +69,28 @@ export default function Form({ formId }) {
     }
   };
 
+  const blocksWithRating = useMemo(() => {
+    if (formData) {
+      const rating = {
+        type: "rating",
+        key: "__Formux__Rating",
+        data: {
+          required: true,
+          title: translations[formData.meta.lang].rating.title,
+          description: translations[formData.meta.lang].rating.description,
+          help: translations[formData.meta.lang].rating.help,
+          total: translations[formData.meta.lang].rating.total,
+        },
+      };
+
+      return [...formData.blocks, rating];
+    }
+    return [];
+  }, [formData]);
+
   if (isFormLoading) {
     return (
       <Wrapper>
-        <Navbar />
         <FormSkeleton />
       </Wrapper>
     );
@@ -80,8 +99,7 @@ export default function Form({ formId }) {
   if (isFormError) {
     return (
       <Wrapper>
-        <Navbar />
-        <Title>Failed to load form</Title>
+        <Title>Error</Title>
         <p>{formError.message}</p>
       </Wrapper>
     );
@@ -90,7 +108,7 @@ export default function Form({ formId }) {
   return (
     <ThemeProvider theme={formData.theme}>
       <Wrapper>
-        {formData.theme.showNavbar && <Navbar />}
+        {formData.theme.showNavbar && <Navbar lang={formData.meta.lang} />}
 
         {!isSubmitSuccess && (
           <form>
@@ -100,17 +118,21 @@ export default function Form({ formId }) {
 
             <Title>{formData.meta && formData.meta.title}</Title>
 
-            {formData.blocks.map((block, index) => (
+            {blocksWithRating.map((block, index) => (
               <Block block={block} key={index} index={index} />
             ))}
 
             {!isSubmitLoading && !isSubmitError && (
               <SubmitButton onClick={e => handleSubmit(e, formData)}>
-                {formData.meta.submitbutton}
+                {translations[formData.meta.lang].submitButton.default}
               </SubmitButton>
             )}
 
-            {isSubmitLoading && <SubmitButton disabled>Submitting...</SubmitButton>}
+            {isSubmitLoading && (
+              <SubmitButton disabled>
+                {translations[formData.meta.lang].submitButton.sending}
+              </SubmitButton>
+            )}
 
             {isSubmitError && (
               <Error
@@ -120,13 +142,13 @@ export default function Form({ formId }) {
                 }}
               >
                 <p>Error: {submitError.message}</p>
-                <b>Try again</b>
+                <b>{translations[formData.meta.lang].submitButton.tryAgain}</b>
               </Error>
             )}
           </form>
         )}
 
-        {isSubmitSuccess && <SubmitSuccess text={formData.meta.sharescreen} formId={formId} />}
+        {isSubmitSuccess && <SubmitSuccess lang={formData.meta.lang} formId={formId} />}
       </Wrapper>
     </ThemeProvider>
   );

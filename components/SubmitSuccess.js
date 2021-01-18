@@ -2,28 +2,31 @@ import copy from "copy-to-clipboard";
 import Tooltip from "react-tooltip-lite";
 
 import styled from "styled-components";
+import translations from "./i18n/translations";
 import { getBorderColor, getInputColors, getTextColor } from "./styles/themeValues";
 
-export default function SubmitSuccess({ formId, text }) {
+export default function SubmitSuccess({ formId, lang }) {
   const handleClick = () => {
     copy("https://formux.web.app/" + formId);
   };
 
   return (
     <StyledSubmitSuccess>
-      <h1>{text.title}</h1>
-      <p>{text.subtitle}</p>
-      <Callout>{text.callout}</Callout>
+      <h1>{translations[lang].submitSuccess.title}</h1>
+      <p>{translations[lang].submitSuccess.subtitle}</p>
+      <Callout>{translations[lang].submitSuccess.callout}</Callout>
       <LinkBox>
         <Link>https://formux.web.app/{formId}/</Link>
         <StyledTooltip
           direction="bottom"
-          content={text.copymessage}
+          content={translations[lang].submitSuccess.button.message}
           eventOn="onClick"
           eventOff="onMouseOut"
           useHover={false}
         >
-          <CopyButton onClick={() => handleClick()}>{text.copybutton}</CopyButton>
+          <CopyButton onClick={() => handleClick()}>
+            {translations[lang].submitSuccess.button.text}
+          </CopyButton>
         </StyledTooltip>
       </LinkBox>
     </StyledSubmitSuccess>

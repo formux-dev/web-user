@@ -15,6 +15,7 @@ export default function Home({ formId, title, description }) {
       <ReactQueryDevtools initialIsOpen={false} />
 
       <Head>
+        <meta charset="utf-8" />
         <title>{`${title} - Formux`}</title>
         <meta name="description" content={description}></meta>
         <meta property="og:title" content={`${title} - Formux`}></meta>

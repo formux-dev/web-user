@@ -42,7 +42,7 @@ function FormProvider({ children }) {
     errorCheck(true, block, value);
   };
 
-  const isFormComplete = (blocks, updateErrors) => {
+  const isFormComplete = (updateErrors, blocks) => {
     return blocks.every(block => (block.key ? errorCheck(updateErrors, block) : true));
   };
 

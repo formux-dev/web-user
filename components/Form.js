@@ -57,7 +57,7 @@ export default function Form({ formId }) {
 
     setUserDataChanged(false);
 
-    if (isFormComplete(blocksWithRating, true)) {
+    if (isFormComplete(true, blocksWithRating)) {
       const requestData = {
         formId,
         rating: userData["__Formux__Rating"],
@@ -128,13 +128,13 @@ export default function Form({ formId }) {
 
             {!isSubmitLoading &&
               !isSubmitError &&
-              (isFormComplete(blocksWithRating, false) || userDataChanged) && (
+              (isFormComplete(false, blocksWithRating) || userDataChanged) && (
                 <SubmitButton onClick={e => handleSubmit(e, formData)}>
                   {translations[language].submitButton.default}
                 </SubmitButton>
               )}
 
-            {!isFormComplete(blocksWithRating, false) && !userDataChanged && (
+            {!isFormComplete(false, blocksWithRating) && !userDataChanged && (
               <SubmitButton disabled>{translations[language].submitButton.fillOut}</SubmitButton>
             )}
 

@@ -3,7 +3,7 @@ import styled from "styled-components";
 function Question({ block }) {
   return (
     <StyledQuestion>
-      {block.data.question} {block.data.required && <span>*</span>}
+      {block.data.question} {block.data.required && "*"}
     </StyledQuestion>
   );
 }

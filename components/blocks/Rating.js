@@ -118,7 +118,7 @@ const StarHelp = styled.p`
 `;
 
 const CurrentRating = styled.h2`
-  font-size: 2em;
+  font-size: 1.8em;
   margin-top: 8px;
 
   ${props =>

@@ -62,7 +62,7 @@ function getInputColors(props) {
   const { colorTheme } = props.theme;
 
   const base = {
-    border: props.error == null ? getBorderColor(props) : "rgba(209, 30, 6, 0.7)",
+    border: props.error == null ? getBorderColor(props) : getErrorColor(props),
     activeBorder: getAccentColors(props).activeBorder,
     activeShadow: getAccentColors(props).activeShadow,
   };
@@ -83,6 +83,16 @@ function getInputColors(props) {
         ...base,
         background: "white",
       };
+  }
+}
+
+function getErrorColor({ theme: { colorTheme } }) {
+  switch (colorTheme) {
+    case "light":
+    case "beige":
+      return "#d6351e";
+    case "dark":
+      return "#9c2313";
   }
 }
 
@@ -119,6 +129,7 @@ export {
   getFontFamily,
   getBoldFontWeight,
   getInputColors,
+  getErrorColor,
   getTagBackground,
   getIcon,
 };

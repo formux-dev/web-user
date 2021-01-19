@@ -19,7 +19,6 @@ import translations from "./i18n/translations";
 
 export default function Form({ formId }) {
   const { userData, isFormComplete, language, setLanguage } = useContext(FormContext);
-  const [clickedSend, setClickedSend] = useState(false);
   const [userDataChanged, setUserDataChanged] = useState(false);
 
   useEffect(() => {
@@ -39,11 +38,7 @@ export default function Form({ formId }) {
   } = useQuery(["form", { formId }], getForm, {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    onSuccess: data => {
-      console.log(translations[data.meta.language].appTitle);
-      console.log(data.meta.language);
-      setLanguage(data.meta.language);
-    },
+    onSuccess: data => setLanguage(data.meta.language),
   });
 
   const [
@@ -60,7 +55,6 @@ export default function Form({ formId }) {
   const handleSubmit = async (event, formData) => {
     if (event) event.preventDefault();
 
-    setClickedSend(true);
     setUserDataChanged(false);
 
     if (isFormComplete(blocksWithRating, true)) {
@@ -134,13 +128,13 @@ export default function Form({ formId }) {
 
             {!isSubmitLoading &&
               !isSubmitError &&
-              (!clickedSend || isFormComplete(blocksWithRating, false) || userDataChanged) && (
+              (isFormComplete(blocksWithRating, false) || userDataChanged) && (
                 <SubmitButton onClick={e => handleSubmit(e, formData)}>
                   {translations[language].submitButton.default}
                 </SubmitButton>
               )}
 
-            {clickedSend && !isFormComplete(blocksWithRating, false) && !userDataChanged && (
+            {!isFormComplete(blocksWithRating, false) && !userDataChanged && (
               <SubmitButton disabled>{translations[language].submitButton.fillOut}</SubmitButton>
             )}
 

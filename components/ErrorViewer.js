@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import styled from "styled-components";
+import { getErrorColor } from "./styles/themeValues";
 
 export default function ErrorViewer({ error }) {
   if (error) {
@@ -21,7 +21,7 @@ const Box = styled.div`
   margin-top: 8px;
   padding: 4px 8px;
   border-radius: 4px;
-  background: rgba(209, 30, 6, 0.7);
+  background: ${props => getErrorColor(props)};
 `;
 
 const Sign = styled.img`

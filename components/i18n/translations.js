@@ -10,6 +10,9 @@ export default {
       tryAgain: "Try again",
       fillOut: "Please fill all required fields",
     },
+    rangeInput: {
+      scrollHint: "Scroll to view full list",
+    },
     submitSuccess: {
       title: "Thanks for your response",
       subtitle: "Your response has been sent",
@@ -37,6 +40,9 @@ export default {
       sending: "Skickar...",
       tryAgain: "Försök igen",
       fillOut: "Fyll i alla obligatoriska fält",
+    },
+    rangeInput: {
+      scrollHint: "Scrolla för att visa hela listan",
     },
     submitSuccess: {
       title: "Tack för ditt svar!",

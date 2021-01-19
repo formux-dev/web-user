@@ -6,7 +6,7 @@ export default function Title({ children }) {
 }
 
 const StyledTitle = styled.h1`
-  font-size: 2.5em;
+  font-size: 2.4em;
   margin-top: 32px;
   margin-bottom: 16px;
   font-weight: ${props => getBoldFontWeight(props)};

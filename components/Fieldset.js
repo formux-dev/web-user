@@ -7,5 +7,6 @@ export default function FieldSet({ children }) {
 const StyledFieldset = styled.fieldset`
   display: flex;
   flex-direction: column;
+  min-width: 0;
   border: none;
 `;

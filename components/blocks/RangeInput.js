@@ -1,12 +1,14 @@
-import { useContext, useRef, useState, useLayoutEffect } from "react";
+import { useContext, useRef, useState, useLayoutEffect, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { transparentize } from "polished";
 import { isMobile } from "react-device-detect";
+import smoothscroll from "smoothscroll-polyfill";
 
 import useHorizontalScollPosition from "../hooks/useHorizontalScollPosition";
 import useResize from "../hooks/useResize";
 
 import { FormContext } from "../context/FormContext";
+import translations from "../i18n/translations";
 import { getBackgroundColor, getInputColors, getIcon } from "../styles/themeValues";
 
 import Question from "../Question";
@@ -14,7 +16,7 @@ import Fieldset from "../Fieldset";
 import ErrorViewer from "../ErrorViewer";
 
 export default function RangeInput({ block }) {
-  const { userData, setUserDataByKey, errors, errorCheck } = useContext(FormContext);
+  const { userData, setUserDataByKey, errors, errorCheck, language } = useContext(FormContext);
   const [helpShown, setHelpShown] = useState(false);
   const [scrollable, setScrollable] = useState(true);
   const scrollContainer = useRef(null);
@@ -33,6 +35,10 @@ export default function RangeInput({ block }) {
       setHelpShown(true);
     }
   }, [farLeft, helpShown]);
+
+  useEffect(() => {
+    smoothscroll.polyfill();
+  }, []);
 
   const scroll = (amount, index) => {
     const scrollElement = scrollContainer.current;
@@ -54,8 +60,8 @@ export default function RangeInput({ block }) {
     <Fieldset>
       <Question as="legend" block={block} />
 
-      <Options farLeft={farLeft} farRight={farRight} scrollable={scrollable}>
-        <OptionsContent ref={scrollContainer} scrollable={scrollable}>
+      <Fade farLeft={farLeft} farRight={farRight} scrollable={scrollable}>
+        <Options ref={scrollContainer} scrollable={scrollable}>
           {block.data.options.map((text, i) => (
             <LabelBox selected={userData[block.key] == text} key={i}>
               <Radio
@@ -74,16 +80,18 @@ export default function RangeInput({ block }) {
               <LabelText>{text}</LabelText>
             </LabelBox>
           ))}
-        </OptionsContent>
-        {!helpShown && isMobile && <p>{`Scroll to view full list`}</p>}
-      </Options>
+        </Options>
+        {!helpShown && isMobile && scrollable && (
+          <p>{translations[language].rangeInput.scrollHint}</p>
+        )}
+      </Fade>
 
       <ErrorViewer error={errors[block.key]} />
     </Fieldset>
   );
 }
 
-const Options = styled.div`
+const Fade = styled.div`
   position: relative;
 
   ${props =>
@@ -108,24 +116,25 @@ const Options = styled.div`
         );
         width: 100%;
       }
-    `}
+    `};
 `;
 
-const OptionsContent = styled.div`
+const Options = styled.div`
   display: flex;
   justify-content: space-between;
 
-  /* To make sure scrollbar is not hiding content */
-  padding-bottom: 16px;
-  margin-bottom: -16px;
-
   overflow-x: ${props => (props.scrollable ? "scroll" : "none")};
-  position: relative;
+
+  /* To make sure scrollbar is not hiding content */
+  @media (max-width: 500px) {
+    padding-bottom: 16px;
+    margin-bottom: -16px;
+  }
 `;
 
 const LabelBox = styled.label`
   display: flex;
-  position: relative;
+  flex-grow: 1;
   flex-direction: column;
   align-items: center;
   cursor: pointer;

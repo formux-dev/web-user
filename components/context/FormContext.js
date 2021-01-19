@@ -18,7 +18,7 @@ function FormProvider({ children }) {
       // We won't check for other things because it
       // does not matter a lot for this experiment
 
-      if (!value || value.length == 0) {
+      if (!value || (value && value.toString().trim().length == 0)) {
         if (updateErrors) {
           // Ugly i18n hack. I know
 

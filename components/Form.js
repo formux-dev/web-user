@@ -35,7 +35,7 @@ export default function Form({ formId }) {
     error: formError,
     data: formData,
     refetch,
-  } = useQuery(["form", { formId }], getForm, {
+  } = useQuery(["form", formId], getForm, {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     onSuccess: data => setLanguage(data.meta.language),

@@ -1,10 +1,10 @@
 import { getFormUrl, postFormUrl } from "./config";
 
-const getForm = async (key, { formId }) => {
+async function getForm(_, formId) {
   return await (await fetch(getFormUrl(formId))).json();
-};
+}
 
-const postForm = async data => {
+async function postForm(data) {
   return await (
     await fetch(postFormUrl, {
       headers: {
@@ -14,6 +14,6 @@ const postForm = async data => {
       body: JSON.stringify(data),
     })
   ).json();
-};
+}
 
 export { getForm, postForm };

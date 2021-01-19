@@ -8,6 +8,7 @@ export default {
       default: "Submit",
       sending: "Submitting...",
       tryAgain: "Try again",
+      fillOut: "Please fill all required fields",
     },
     submitSuccess: {
       title: "Thanks for your response",
@@ -35,6 +36,7 @@ export default {
       default: "Skicka in formuläret",
       sending: "Skickar...",
       tryAgain: "Försök igen",
+      fillOut: "Fyll i alla obligatoriska fält",
     },
     submitSuccess: {
       title: "Tack för ditt svar!",

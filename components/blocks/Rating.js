@@ -12,7 +12,7 @@ export default function Rating({ block }) {
 
   return (
     <StyledRating>
-      <Title>{block.data.title}</Title>
+      <Title>{block.data.title} *</Title>
       <Description>{block.data.description}</Description>
 
       <StarContainer>
@@ -26,7 +26,7 @@ export default function Rating({ block }) {
               required={block.data.required}
               onChange={() => setUserDataByKey(block, i + 1)}
               onFocus={() => setUserDataByKey(block, i + 1)}
-              onBlur={() => errorCheck(block)}
+              onBlur={() => errorCheck(true, block)}
             />
 
             {userData[block.key] >= i + 1 ? (

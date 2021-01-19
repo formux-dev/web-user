@@ -13,7 +13,7 @@ export default function MultipleChoiceInput({ block }) {
 
   return (
     <Fieldset>
-      <Question as="legend">{block.data.question}</Question>
+      <Question as="legend" block={block} />
       {block.data.options.map((text, i) => (
         <Label key={i}>
           <Radio
@@ -22,7 +22,7 @@ export default function MultipleChoiceInput({ block }) {
             required={block.data.required}
             checked={userData[block.key] == text}
             onChange={() => setUserDataByKey(block, text)}
-            onBlur={() => errorCheck(block)}
+            onBlur={() => errorCheck(true, block)}
           />
 
           <RadioCircle error={errors[block.key]} />

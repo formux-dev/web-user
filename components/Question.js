@@ -1,6 +1,14 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-const Question = styled.p`
+function Question({ block }) {
+  return (
+    <StyledQuestion>
+      {block.data.question} {block.data.required && <span>*</span>}
+    </StyledQuestion>
+  );
+}
+
+const StyledQuestion = styled.p`
   display: block;
   margin-bottom: 4px;
   font-weight: bold;

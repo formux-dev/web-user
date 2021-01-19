@@ -8,7 +8,7 @@ function FormProvider({ children }) {
   const [errors, setErrors] = useState({});
   const [isDebug, setIsDebug] = useState(false);
 
-  const errorCheck = (block, value) => {
+  const errorCheck = (updateErrors, block, value) => {
     // Returns true if no errors
 
     value = value ?? userData[block.key];
@@ -17,15 +17,18 @@ function FormProvider({ children }) {
       // We won't check for other things because it
       // does not matter a lot for this experiment
 
-      // Ugly i18n hack. I know
-
       if (!value || value.length == 0) {
-        setErrors(prev => ({
-          ...prev,
-          [block.key]: navigator.languages.includes("sv")
-            ? translations.sv.validation.required
-            : translations.en.validation.required,
-        }));
+        if (updateErrors) {
+          // Ugly i18n hack. I know
+
+          setErrors(prev => ({
+            ...prev,
+            [block.key]: navigator.languages.includes("sv")
+              ? translations.sv.validation.required
+              : translations.en.validation.required,
+          }));
+        }
+
         return false;
       } else {
         setErrors(prev => ({ ...prev, [block.key]: null }));
@@ -37,11 +40,11 @@ function FormProvider({ children }) {
 
   const setUserDataByKey = (block, value) => {
     setUserData(prev => ({ ...prev, [block.key]: value }));
-    errorCheck(block, value);
+    errorCheck(false, block, value);
   };
 
-  const isFormComplete = formData => {
-    return formData.blocks.every(block => (block.key ? errorCheck(block) : true));
+  const isFormComplete = (blocks, updateErrors) => {
+    return blocks.every(block => (block.key ? errorCheck(updateErrors, block) : true));
   };
 
   const value = {

@@ -1,5 +1,5 @@
-import { useContext, useMemo } from "react";
-import styled, { ThemeProvider } from "styled-components";
+import { useContext, useEffect, useMemo, useState } from "react";
+import styled, { ThemeProvider, css } from "styled-components";
 
 import { useQuery, useMutation } from "react-query";
 
@@ -19,6 +19,12 @@ import translations from "./i18n/translations";
 
 export default function Form({ formId }) {
   const { userData, isFormComplete } = useContext(FormContext);
+  const [clickedSend, setClickedSend] = useState(false);
+  const [userDataChanged, setUserDataChanged] = useState(false);
+
+  useEffect(() => {
+    setUserDataChanged(true);
+  }, [userData]);
 
   if (process.env.NODE_ENV == "development") {
     useHotkeys("ctrl+b", () => refetch());
@@ -49,14 +55,16 @@ export default function Form({ formId }) {
   const handleSubmit = async (event, formData) => {
     if (event) event.preventDefault();
 
-    if (isFormComplete(formData)) {
+    setClickedSend(true);
+    setUserDataChanged(false);
+
+    if (isFormComplete(blocksWithRating, true)) {
       const requestData = {
         formId,
         rating: userData["__Formux__Rating"],
         theme: formData.theme,
         data: formData.blocks
           .filter(block => block.key != undefined)
-          .filter(block => block.key != "__Formux__Rating")
           .map(block => {
             return {
               key: block.key,
@@ -122,9 +130,17 @@ export default function Form({ formId }) {
               <Block block={block} key={index} index={index} />
             ))}
 
-            {!isSubmitLoading && !isSubmitError && (
-              <SubmitButton onClick={e => handleSubmit(e, formData)}>
-                {translations[formData.meta.lang].submitButton.default}
+            {!isSubmitLoading &&
+              !isSubmitError &&
+              (!clickedSend || isFormComplete(blocksWithRating, false) || userDataChanged) && (
+                <SubmitButton onClick={e => handleSubmit(e, formData)}>
+                  {translations[formData.meta.lang].submitButton.default}
+                </SubmitButton>
+              )}
+
+            {clickedSend && !isFormComplete(blocksWithRating, false) && !userDataChanged && (
+              <SubmitButton disabled>
+                {translations[formData.meta.lang].submitButton.fillOut}
               </SubmitButton>
             )}
 
@@ -169,6 +185,10 @@ const SubmitButton = styled.button`
     box-shadow: 0px 0px 0px 3px ${props => getInputColors(props).activeShadow};
     border: 1.5px solid ${props => getInputColors(props).activeBorder};
   }
+
+  &:disabled {
+    color: grey;
+  }
 `;
 
 const Image = styled.img`
@@ -184,7 +204,7 @@ const Error = styled.div`
   font-size: 1.2em;
   border-radius: 4px;
   width: 100%;
-  background: #d93232;
+  background: #d44a4a;
   text-align: center;
   color: white;
   cursor: pointer;

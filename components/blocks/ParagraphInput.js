@@ -13,9 +13,7 @@ export default function ParagraphInput({ block }) {
 
   return (
     <div>
-      <Question as="label" htmlFor={block.key}>
-        {block.data.question}
-      </Question>
+      <Question as="label" htmlFor={block.key} block={block} />
 
       <TextArea
         id={block.key}
@@ -24,7 +22,7 @@ export default function ParagraphInput({ block }) {
         value={userData[block.key] || ""}
         required={block.data.required}
         onChange={({ target: { value } }) => setUserDataByKey(block, value)}
-        onBlur={() => errorCheck(block)}
+        onBlur={() => errorCheck(true, block)}
         error={errors[block.key]}
       />
 

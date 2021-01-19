@@ -52,7 +52,7 @@ export default function RangeInput({ block }) {
 
   return (
     <Fieldset>
-      <Question as="legend">{block.data.question}</Question>
+      <Question as="legend" block={block} />
 
       <Options farLeft={farLeft} farRight={farRight} scrollable={scrollable}>
         <OptionsContent ref={scrollContainer} scrollable={scrollable}>
@@ -67,7 +67,7 @@ export default function RangeInput({ block }) {
                   scroll(block.data.options.length, i);
                   setUserDataByKey(block, text);
                 }}
-                onBlur={() => errorCheck(block)}
+                onBlur={() => errorCheck(true, block)}
               />
               <RadioCircle error={errors[block.key]} />
 

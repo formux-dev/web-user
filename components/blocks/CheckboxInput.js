@@ -13,7 +13,7 @@ export default function CheckboxInput({ block }) {
 
   return (
     <Fieldset>
-      <Question as="legend">{block.data.question}</Question>
+      <Question as="legend" block={block} />
 
       {block.data.options.map((text, i) => (
         <Label key={i}>
@@ -32,7 +32,7 @@ export default function CheckboxInput({ block }) {
                   : userData[block.key].filter(x => x != text)
               );
             }}
-            onBlur={() => errorCheck(block)}
+            onBlur={() => errorCheck(true, block)}
           />
           <CheckboxSquare error={errors[block.key]} />
           {text}

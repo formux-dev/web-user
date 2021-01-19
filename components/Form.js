@@ -18,7 +18,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import translations from "./i18n/translations";
 
 export default function Form({ formId }) {
-  const { userData, isFormComplete } = useContext(FormContext);
+  const { userData, isFormComplete, language, setLanguage } = useContext(FormContext);
   const [clickedSend, setClickedSend] = useState(false);
   const [userDataChanged, setUserDataChanged] = useState(false);
 
@@ -39,6 +39,11 @@ export default function Form({ formId }) {
   } = useQuery(["form", { formId }], getForm, {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    onSuccess: data => {
+      console.log(translations[data.meta.language].appTitle);
+      console.log(data.meta.language);
+      setLanguage(data.meta.language);
+    },
   });
 
   const [
@@ -78,22 +83,19 @@ export default function Form({ formId }) {
   };
 
   const blocksWithRating = useMemo(() => {
-    if (formData) {
-      const rating = {
-        type: "rating",
-        key: "__Formux__Rating",
-        data: {
-          required: true,
-          title: translations[formData.meta.lang].rating.title,
-          description: translations[formData.meta.lang].rating.description,
-          help: translations[formData.meta.lang].rating.help,
-          total: translations[formData.meta.lang].rating.total,
-        },
-      };
+    const rating = {
+      type: "rating",
+      key: "__Formux__Rating",
+      data: {
+        required: true,
+        title: translations[language].rating.title,
+        description: translations[language].rating.description,
+        help: translations[language].rating.help,
+        total: translations[language].rating.total,
+      },
+    };
 
-      return [...formData.blocks, rating];
-    }
-    return [];
+    return [...(formData ? formData.blocks : []), rating];
   }, [formData]);
 
   if (isFormLoading) {
@@ -116,7 +118,7 @@ export default function Form({ formId }) {
   return (
     <ThemeProvider theme={formData.theme}>
       <Wrapper>
-        {formData.theme.showNavbar && <Navbar lang={formData.meta.lang} />}
+        {formData.theme.showNavbar && <Navbar lang={language} />}
 
         {!isSubmitSuccess && (
           <form>
@@ -134,20 +136,16 @@ export default function Form({ formId }) {
               !isSubmitError &&
               (!clickedSend || isFormComplete(blocksWithRating, false) || userDataChanged) && (
                 <SubmitButton onClick={e => handleSubmit(e, formData)}>
-                  {translations[formData.meta.lang].submitButton.default}
+                  {translations[language].submitButton.default}
                 </SubmitButton>
               )}
 
             {clickedSend && !isFormComplete(blocksWithRating, false) && !userDataChanged && (
-              <SubmitButton disabled>
-                {translations[formData.meta.lang].submitButton.fillOut}
-              </SubmitButton>
+              <SubmitButton disabled>{translations[language].submitButton.fillOut}</SubmitButton>
             )}
 
             {isSubmitLoading && (
-              <SubmitButton disabled>
-                {translations[formData.meta.lang].submitButton.sending}
-              </SubmitButton>
+              <SubmitButton disabled>{translations[language].submitButton.sending}</SubmitButton>
             )}
 
             {isSubmitError && (
@@ -158,13 +156,13 @@ export default function Form({ formId }) {
                 }}
               >
                 <p>Error: {submitError.message}</p>
-                <b>{translations[formData.meta.lang].submitButton.tryAgain}</b>
+                <b>{translations[language].submitButton.tryAgain}</b>
               </Error>
             )}
           </form>
         )}
 
-        {isSubmitSuccess && <SubmitSuccess lang={formData.meta.lang} formId={formId} />}
+        {isSubmitSuccess && <SubmitSuccess lang={language} formId={formId} />}
       </Wrapper>
     </ThemeProvider>
   );

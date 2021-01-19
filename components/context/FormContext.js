@@ -7,6 +7,7 @@ function FormProvider({ children }) {
   const [userData, setUserData] = useState({});
   const [errors, setErrors] = useState({});
   const [isDebug, setIsDebug] = useState(false);
+  const [language, setLanguage] = useState("en");
 
   const errorCheck = (updateErrors, block, value) => {
     // Returns true if no errors
@@ -23,15 +24,13 @@ function FormProvider({ children }) {
 
           setErrors(prev => ({
             ...prev,
-            [block.key]: navigator.languages.includes("sv")
-              ? translations.sv.validation.required
-              : translations.en.validation.required,
+            [block.key]: translations[language].validation.required,
           }));
         }
 
         return false;
       } else {
-        setErrors(prev => ({ ...prev, [block.key]: null }));
+        if (updateErrors) setErrors(prev => ({ ...prev, [block.key]: null }));
       }
     }
 
@@ -40,7 +39,7 @@ function FormProvider({ children }) {
 
   const setUserDataByKey = (block, value) => {
     setUserData(prev => ({ ...prev, [block.key]: value }));
-    errorCheck(false, block, value);
+    errorCheck(true, block, value);
   };
 
   const isFormComplete = (blocks, updateErrors) => {
@@ -55,6 +54,8 @@ function FormProvider({ children }) {
     isFormComplete,
     isDebug,
     setIsDebug,
+    language,
+    setLanguage,
   };
 
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;

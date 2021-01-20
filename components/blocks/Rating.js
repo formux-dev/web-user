@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import styled, { css } from "styled-components";
+import ReactHtmlParser from "react-html-parser";
 
 import { getBorderColor, getFontFamily } from "../styles/themeValues";
 import { FormContext } from "../context/FormContext";
@@ -13,7 +14,7 @@ export default function Rating({ block }) {
   return (
     <StyledRating>
       <Title>{block.data.title} *</Title>
-      <Description>{block.data.description}</Description>
+      <Description>{ReactHtmlParser(block.data.description)}</Description>
 
       <StarContainer>
         <HorizontalRow>
@@ -65,14 +66,23 @@ const StyledRating = styled.div`
   border-top: 1.5px solid ${props => getBorderColor(props)};
 `;
 
-const Description = styled.p`
+const Description = styled.div`
   margin-bottom: 16px;
   font-family: ${props => getFontFamily(props)};
+
+  & ul {
+    margin-left: 16px;
+  }
 
   ${props =>
     props.theme.centerText &&
     css`
       text-align: center;
+
+      & ul {
+        list-style-type: none;
+        margin: 0;
+      }
     `};
 `;
 

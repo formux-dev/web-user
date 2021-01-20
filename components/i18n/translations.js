@@ -25,8 +25,14 @@ export default {
     rating: {
       title: "Give us feedback",
       help: "Click a star to rate",
-      description:
-        "This page updates its own design automatically based on user feedback. Therefore, we ask you to please rate the visual design on this form. For example, look at colors and layout. Be critical.",
+      description: `
+        <p>Please rate like this:</p>
+        <ul>
+          <li>Rate the visual design</li>
+          <li>Look at for example colors and layout</li>
+          <li>Be critical if there there is anything you don't like</li>
+        </ul>
+      `,
       total: " of 5 stars",
     },
   },
@@ -56,8 +62,14 @@ export default {
     rating: {
       title: "Ge oss feedback",
       help: "Klicka på en stjärna",
-      description:
-        "Den här sidan uppdaterar sin egen design automatiskt baserat på användarfeedback. Därför ber vi dig att betygsätta den visuella designen på det här formuläret. Kolla exempelvis på färger och layout. Var kritisk.",
+      description: `
+        <p>Gör så här:</p>
+        <ul>
+          <li>Betysätt den visuella desingen</li>
+          <li>Basera på t.ex. färger och layout</li>
+          <li>Var kritisk om det är något du inte gillar</li>
+        </ul>
+      `,
       total: " av 5 stjärnor",
     },
   },

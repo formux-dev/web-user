@@ -48,7 +48,7 @@ const Label = styled.label`
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 `;
 
 const CheckboxSquare = styled.span`

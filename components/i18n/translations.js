@@ -5,8 +5,8 @@ export default {
       required: "Field is required",
     },
     submitButton: {
-      default: "Submit",
-      sending: "Submitting...",
+      default: "Submit my response",
+      sending: "Submiting...",
       tryAgain: "Try again",
       fillOut: "Please fill all required fields",
     },
@@ -15,7 +15,7 @@ export default {
     },
     submitSuccess: {
       title: "Thanks for your response",
-      subtitle: "Your response has been sent",
+      subtitle: "Your response has been saved",
       callout: "Please share this form with your friends",
       button: {
         text: "Copy",
@@ -26,7 +26,7 @@ export default {
       title: "Give us feedback",
       help: "Click a star to rate",
       description:
-        "Please rate the overall design of this form. Your answer will help us create better form designs for future users",
+        "This page updates its own design automatically based on user feedback. Therefore, we ask you to please rate the visual design on this form. For example, look at colors and layout. Be critical.",
       total: " of 5 stars",
     },
   },
@@ -36,7 +36,7 @@ export default {
       required: "Fältet krävs",
     },
     submitButton: {
-      default: "Skicka in formuläret",
+      default: "Skicka mitt svar",
       sending: "Skickar...",
       tryAgain: "Försök igen",
       fillOut: "Fyll i alla obligatoriska fält",
@@ -57,7 +57,7 @@ export default {
       title: "Ge oss feedback",
       help: "Klicka på en stjärna",
       description:
-        "Vänligen betygsätt den övergripande utformningen av detta formulär. Ditt svar hjälper oss att skapa bättre formulärdesign för framtida användare",
+        "Den här sidan uppdaterar sin egen design automatiskt baserat på användarfeedback. Därför ber vi dig att betygsätta den visuella designen på det här formuläret. Kolla exempelvis på färger och layout. Var kritisk.",
       total: " av 5 stjärnor",
     },
   },

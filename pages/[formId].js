@@ -62,7 +62,7 @@ export async function getStaticPaths() {
   const json = await getForms();
 
   return {
-    paths: json.forms.map(form => ({
+    paths: json.map(form => ({
       params: {
         formId: form.formId,
       },

@@ -1,7 +1,5 @@
 name: CI
 on:
-  repository_dispatch:
-    types: run
   push:
     branches: [master]
 

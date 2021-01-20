@@ -26,7 +26,7 @@ export default {
       title: "Give us feedback",
       help: "Click a star to rate",
       description: `
-        <p>Please rate like this:</p>
+        <em>Please rate like this:</em>
         <ul>
           <li>Rate the visual design</li>
           <li>Look at for example colors and layout</li>
@@ -63,7 +63,7 @@ export default {
       title: "Ge oss feedback",
       help: "Klicka på en stjärna",
       description: `
-        <p>Gör så här:</p>
+        <em>Gör så här:</em>
         <ul>
           <li>Betysätt den visuella desingen</li>
           <li>Basera på t.ex. färger och layout</li>

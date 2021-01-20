@@ -70,6 +70,11 @@ const Description = styled.div`
   margin-bottom: 16px;
   font-family: ${props => getFontFamily(props)};
 
+  & em {
+    display: block;
+    margin-bottom: 4px;
+  }
+
   & ul {
     margin-left: 16px;
   }

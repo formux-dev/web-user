@@ -20,8 +20,6 @@ function FormProvider({ children }) {
 
       if (!value || (value && value.toString().trim().length == 0)) {
         if (updateErrors) {
-          // Ugly i18n hack. I know
-
           setErrors(prev => ({
             ...prev,
             [block.key]: translations[language].validation.required,

@@ -19,11 +19,13 @@ export default function ParagraphInput({ block }) {
         id={block.key}
         name={block.key}
         rows={3}
+        maxRows={20}
         value={userData[block.key] || ""}
         required={block.data.required}
         onChange={({ target: { value } }) => setUserDataByKey(block, value)}
         onBlur={() => errorCheck(true, block)}
         error={errors[block.key]}
+        maxLength={1000}
       />
 
       <ErrorViewer error={errors[block.key]} />

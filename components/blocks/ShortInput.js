@@ -22,6 +22,7 @@ export default function ShortInput({ block }) {
         onChange={({ target: { value } }) => setUserDataByKey(block, value)}
         onBlur={() => errorCheck(true, block)}
         error={errors[block.key]}
+        maxLength={300}
       />
 
       <ErrorViewer error={errors[block.key]} />

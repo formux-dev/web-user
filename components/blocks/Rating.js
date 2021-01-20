@@ -16,30 +16,32 @@ export default function Rating({ block }) {
       <Description>{block.data.description}</Description>
 
       <StarContainer>
-        {[...Array(5)].map((_, i) => (
-          <div key={i}>
-            <HiddenInput
-              type="radio"
-              name={block.key}
-              aria-label={"Rate " + (i + 1)}
-              checked={userData[block.key] || ""}
-              required={block.data.required}
-              onChange={() => setUserDataByKey(block, i + 1)}
-              onFocus={() => setUserDataByKey(block, i + 1)}
-              onBlur={() => errorCheck(true, block)}
-            />
-
-            {userData[block.key] >= i + 1 ? (
-              <Star
-                aria-hidden
-                src="/star-filled.svg"
-                onClick={() => setUserDataByKey(block, i + 1)}
+        <HorizontalRow>
+          {[...Array(5)].map((_, i) => (
+            <div key={i}>
+              <HiddenInput
+                type="radio"
+                name={block.key}
+                aria-label={"Rate " + (i + 1)}
+                checked={userData[block.key] || ""}
+                required={block.data.required}
+                onChange={() => setUserDataByKey(block, i + 1)}
+                onFocus={() => setUserDataByKey(block, i + 1)}
+                onBlur={() => errorCheck(true, block)}
               />
-            ) : (
-              <Star aria-hidden src="/star.svg" onClick={() => setUserDataByKey(block, i + 1)} />
-            )}
-          </div>
-        ))}
+
+              {userData[block.key] >= i + 1 ? (
+                <Star
+                  aria-hidden
+                  src="/star-filled.svg"
+                  onClick={() => setUserDataByKey(block, i + 1)}
+                />
+              ) : (
+                <Star aria-hidden src="/star.svg" onClick={() => setUserDataByKey(block, i + 1)} />
+              )}
+            </div>
+          ))}
+        </HorizontalRow>
       </StarContainer>
 
       {userData[block.key] ? (
@@ -75,6 +77,11 @@ const Description = styled.p`
 `;
 
 const StarContainer = styled.fieldset`
+  border: none;
+  outline: none;
+`;
+
+const HorizontalRow = styled.div`
   display: flex;
   flex-direction: row;
   border: none;

@@ -64,7 +64,7 @@ export async function getStaticPaths() {
   return {
     paths: json.forms.map(form => ({
       params: {
-        formId: form.id,
+        formId: form.formId,
       },
     })),
     fallback: false,

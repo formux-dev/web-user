@@ -129,17 +129,27 @@ export default function Form({ formId }) {
             {!isSubmitLoading &&
               !isSubmitError &&
               (isFormComplete(false, blocksWithRating) || userDataChanged) && (
-                <SubmitButton onClick={e => handleSubmit(e, formData)}>
-                  {translations[language].submitButton.default}
-                </SubmitButton>
+                <SubmitButton
+                  type="submit"
+                  onClick={e => handleSubmit(e, formData)}
+                  value={translations[language].submitButton.default}
+                />
               )}
 
             {!isFormComplete(false, blocksWithRating) && !userDataChanged && (
-              <SubmitButton disabled>{translations[language].submitButton.fillOut}</SubmitButton>
+              <SubmitButton
+                type="submit"
+                disabled
+                value={translations[language].submitButton.fillOut}
+              />
             )}
 
             {isSubmitLoading && (
-              <SubmitButton disabled>{translations[language].submitButton.sending}</SubmitButton>
+              <SubmitButton
+                type="submit"
+                disabled
+                value={translations[language].submitButton.sending}
+              />
             )}
 
             {isSubmitError && (
@@ -162,7 +172,7 @@ export default function Form({ formId }) {
   );
 }
 
-const SubmitButton = styled.button`
+const SubmitButton = styled.input`
   margin-top: 64px;
   padding: 32px;
   font-size: 1.2em;

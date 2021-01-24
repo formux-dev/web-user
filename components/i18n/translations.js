@@ -65,7 +65,7 @@ export default {
       description: `
         <em>Gör så här:</em>
         <ul>
-          <li>Betysätt den visuella desingen</li>
+          <li>Betygsätt den visuella desingen</li>
           <li>Basera på t.ex. färger och layout</li>
           <li>Var kritisk om det är något du inte gillar</li>
         </ul>

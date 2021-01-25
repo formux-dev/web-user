@@ -45,10 +45,15 @@ export default function Home({ formId, title, description }) {
           data-domain="formux.web.app"
           src="https://plausible.io/js/plausible.js"
         ></script>
-        <script>
-          window.plausible = window.plausible || function(){" "}
-          {(window.plausible.q = window.plausible.q || []).push(arguments)}
-        </script>
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.plausible = window.plausible || function(){" "}
+              {(window.plausible.q = window.plausible.q || []).push(arguments)}
+          `,
+          }}
+        ></script>
       </Head>
 
       <FormProvider>

@@ -58,7 +58,7 @@ export default function Form({ formId }) {
     setUserDataChanged(false);
 
     if (isFormComplete(true, blocksWithRating)) {
-      if (typeof window !== "undefined") plausible("Submit", { props: { success: true } });
+      plausible("Submit", { props: { success: "Yes" } });
 
       const requestData = {
         formId,
@@ -76,7 +76,7 @@ export default function Form({ formId }) {
 
       mutate(requestData);
     } else {
-      if (typeof window !== "undefined") plausible("Submit", { props: { success: false } });
+      plausible("Submit", { props: { success: "No, error" } });
     }
   };
 

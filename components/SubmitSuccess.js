@@ -7,7 +7,7 @@ import { getBorderColor, getInputColors, getTextColor } from "./styles/themeValu
 
 export default function SubmitSuccess({ formId, lang }) {
   const handleClick = () => {
-    if (typeof window === "undefined") plausible("Copied link");
+    if (typeof window !== "undefined") plausible("Copied link");
     copy("https://formux.web.app/" + formId);
   };
 

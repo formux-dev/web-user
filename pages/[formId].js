@@ -38,6 +38,13 @@ export default function Home({ formId, title, description }) {
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png"></link>
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"></link>
         <meta name="theme-color" content="#3281fb"></meta>
+
+        <script
+          async
+          defer
+          data-domain="formux.web.app"
+          src="https://plausible.io/js/plausible.js"
+        ></script>
       </Head>
 
       <FormProvider>

@@ -58,6 +58,8 @@ export default function Form({ formId }) {
     setUserDataChanged(false);
 
     if (isFormComplete(true, blocksWithRating)) {
+      plausible("Submit");
+
       const requestData = {
         formId,
         rating: userData["__Formux__Rating"],
@@ -73,6 +75,8 @@ export default function Form({ formId }) {
       };
 
       mutate(requestData);
+    } else {
+      plausible("Failed submit");
     }
   };
 

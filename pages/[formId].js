@@ -49,9 +49,8 @@ export default function Home({ formId, title, description }) {
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              window.plausible = window.plausible || function(){" "}
-              {(window.plausible.q = window.plausible.q || []).push(arguments)}
-          `,
+              window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }
+            `,
           }}
         ></script>
       </Head>

@@ -33,6 +33,7 @@ export default function RangeInput({ block }) {
   useLayoutEffect(() => {
     if (!farLeft && !helpShown) {
       setHelpShown(true);
+      plausible("Scrolled RangeInput");
     }
   }, [farLeft, helpShown]);
 
